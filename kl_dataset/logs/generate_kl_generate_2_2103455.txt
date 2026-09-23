@@ -1,0 +1,44 @@
+Available CPUs:  40
+Running on host: dn059
+Time is:         Tue Jul 28 21:36:02 EDT 2026
+Directory is:    /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML
+Job name:        kl_generate
+Job ID:          2103458
+Array task ID:   2
+no change     /gpfs/projects/MirandaGroup/victoria/miniconda/condabin/conda
+no change     /gpfs/projects/MirandaGroup/victoria/miniconda/bin/conda
+no change     /gpfs/projects/MirandaGroup/victoria/miniconda/bin/conda-env
+no change     /gpfs/projects/MirandaGroup/victoria/miniconda/bin/activate
+no change     /gpfs/projects/MirandaGroup/victoria/miniconda/bin/deactivate
+no change     /gpfs/projects/MirandaGroup/victoria/miniconda/etc/profile.d/conda.sh
+no change     /gpfs/projects/MirandaGroup/victoria/miniconda/etc/fish/conf.d/conda.fish
+no change     /gpfs/projects/MirandaGroup/victoria/miniconda/shell/condabin/Conda.psm1
+no change     /gpfs/projects/MirandaGroup/victoria/miniconda/shell/condabin/conda-hook.ps1
+no change     /gpfs/projects/MirandaGroup/victoria/miniconda/lib/python3.8/site-packages/xontrib/conda.xsh
+no change     /gpfs/projects/MirandaGroup/victoria/miniconda/etc/profile.d/conda.csh
+no change     /gpfs/home/vlloyd/.bashrc
+No action taken.
+
+=== Array task 2: processing snapshot 50 ===
+Snap 50: 200 rows written to /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/data/task_snap50.csv
+Rows to process:
+201 /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/data/task_snap50.csv
+Testing TNG API connection (TNG50-1) …
+  Connection OK
+
+Snapshot 50: z = 0.9973, a = 0.5007, box = 25869.1 Mpc
+
+
+Processing subhalo 70415 (1/200) …
+  [70415] Fetching metadata …
+  [70415] Downloading stellar cutout …
+  [70415] Downloading gas cutout …
+  [70415] Saved 4 FITS files → /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/images/snap50/galaxy_70415
+
+Processing subhalo 79612 (2/200) …
+  [79612] Fetching metadata …
+  [79612] Downloading stellar cutout …
+  Request error (504 Server Error: Gateway Time-out for url: https://data-eu.tng-project.org/cutout/subhalo/L35n2160TNG/50/79612/0.0.0.0.131972.0/?token=e21a96898a65bb41d289); retry 1/5
+  [79612] Downloading gas cutout …
+Galaxies:   0%|          | 0/200 [00:00<?, ?it/s]Galaxies:   0%|          | 1/200 [10:25<34:33:25, 625.15s/it]slurmstepd: error: *** STEP 2103458.0 ON dn059 CANCELLED AT 2026-07-28T21:54:54 ***
+slurmstepd: error: *** JOB 2103458 ON dn059 CANCELLED AT 2026-07-28T21:54:54 ***

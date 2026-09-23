@@ -1,0 +1,41 @@
+Available CPUs:  8
+Running on host: a100-03
+Time is:         Thu Jul 30 03:28:35 PM EDT 2026
+Directory is:    /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML
+Job name:        kl_train
+Job ID:          2106190
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Device: cuda
+  GPU: NVIDIA A100 80GB PCIe
+
+Filtering to rows with existing FITS files …
+  [WARN] Dropping 2 rows with missing FITS files.
+Usable rows: 798
+
+Building train / val / test splits (stratified by subhalo_id) …
+Split sizes — train: 558  val: 122  test: 118
+Unique galaxies — train: 545  val: 117  test: 118
+
+Building model …
+Traceback (most recent call last):
+  File "/gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/train_kl_model.py", line 724, in <module>
+    main()
+  File "/gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/train_kl_model.py", line 586, in main
+    model = TwoStreamShearNet(
+            ^^^^^^^^^^^^^^^^^^
+  File "/gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/train_kl_model.py", line 191, in __init__
+    backbone.act1,
+    ^^^^^^^^^^^^^
+  File "/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic_kl/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1967, in __getattr__
+    raise AttributeError(
+AttributeError: 'EfficientNet' object has no attribute 'act1'
+srun: error: a100-03: task 0: Exited with exit code 1
+
+=== Training complete ===
+Time is: Thu Jul 30 03:28:51 PM EDT 2026
+Output files:
+total 0
+-rw-r--r-- 1 vlloyd MirandaGroup 7.8K Jul 30 15:28 split_test.csv
+-rw-r--r-- 1 vlloyd MirandaGroup  37K Jul 30 15:28 split_train.csv
+-rw-r--r-- 1 vlloyd MirandaGroup 8.0K Jul 30 15:28 split_val.csv

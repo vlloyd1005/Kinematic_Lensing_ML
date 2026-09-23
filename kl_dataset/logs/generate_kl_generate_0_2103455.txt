@@ -1,0 +1,231 @@
+Available CPUs:  40
+Running on host: rn005
+Time is:         Tue Jul 28 21:36:02 EDT 2026
+Directory is:    /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML
+Job name:        kl_generate
+Job ID:          2103456
+Array task ID:   0
+no change     /gpfs/projects/MirandaGroup/victoria/miniconda/condabin/conda
+no change     /gpfs/projects/MirandaGroup/victoria/miniconda/bin/conda
+no change     /gpfs/projects/MirandaGroup/victoria/miniconda/bin/conda-env
+no change     /gpfs/projects/MirandaGroup/victoria/miniconda/bin/activate
+no change     /gpfs/projects/MirandaGroup/victoria/miniconda/bin/deactivate
+no change     /gpfs/projects/MirandaGroup/victoria/miniconda/etc/profile.d/conda.sh
+no change     /gpfs/projects/MirandaGroup/victoria/miniconda/etc/fish/conf.d/conda.fish
+no change     /gpfs/projects/MirandaGroup/victoria/miniconda/shell/condabin/Conda.psm1
+no change     /gpfs/projects/MirandaGroup/victoria/miniconda/shell/condabin/conda-hook.ps1
+no change     /gpfs/projects/MirandaGroup/victoria/miniconda/lib/python3.8/site-packages/xontrib/conda.xsh
+no change     /gpfs/projects/MirandaGroup/victoria/miniconda/etc/profile.d/conda.csh
+modified      /gpfs/home/vlloyd/.bashrc
+
+==> For changes to take effect, close and re-open your current shell. <==
+
+
+=== Array task 0: processing snapshot 41 ===
+Snap 41: 200 rows written to /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/data/task_snap41.csv
+Rows to process:
+201 /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/data/task_snap41.csv
+Testing TNG API connection (TNG50-1) …
+  Connection OK
+
+Snapshot 41: z = 1.4141, a = 0.4142, box = 21402.7 Mpc
+
+
+Processing subhalo 15472 (1/200) …
+  [15472] Fetching metadata …
+  [15472] Downloading stellar cutout …
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/15472/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 1/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/15472/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 2/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/15472/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 3/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/15472/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 4/5
+  [ERROR] subhalo 15472: 400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/15472/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime
+
+Processing subhalo 39915 (2/200) …
+  [39915] Fetching metadata …
+  [39915] Downloading stellar cutout …
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/39915/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 1/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/39915/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 2/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/39915/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 3/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/39915/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 4/5
+  [ERROR] subhalo 39915: 400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/39915/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime
+
+Processing subhalo 48987 (3/200) …
+  [48987] Fetching metadata …
+  [48987] Downloading stellar cutout …
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/48987/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 1/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/48987/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 2/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/48987/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 3/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/48987/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 4/5
+  [ERROR] subhalo 48987: 400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/48987/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime
+
+Processing subhalo 98911 (4/200) …
+  [98911] Fetching metadata …
+  [98911] Downloading stellar cutout …
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/98911/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 1/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/98911/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 2/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/98911/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 3/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/98911/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 4/5
+  [ERROR] subhalo 98911: 400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/98911/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime
+
+Processing subhalo 87051 (5/200) …
+  [87051] Fetching metadata …
+  [87051] Downloading stellar cutout …
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/87051/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 1/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/87051/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 2/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/87051/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 3/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/87051/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 4/5
+  [ERROR] subhalo 87051: 400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/87051/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime
+
+Processing subhalo 69708 (6/200) …
+  [69708] Fetching metadata …
+  [69708] Downloading stellar cutout …
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/69708/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 1/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/69708/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 2/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/69708/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 3/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/69708/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 4/5
+  [ERROR] subhalo 69708: 400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/69708/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime
+
+Processing subhalo 1 (7/200) …
+  [1] Fetching metadata …
+  [1] Downloading stellar cutout …
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/1/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 1/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/1/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 2/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/1/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 3/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/1/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 4/5
+  [ERROR] subhalo 1: 400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/1/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime
+
+Processing subhalo 94935 (8/200) …
+  [94935] Fetching metadata …
+  [94935] Downloading stellar cutout …
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/94935/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 1/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/94935/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 2/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/94935/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 3/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/94935/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 4/5
+  [ERROR] subhalo 94935: 400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/94935/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime
+
+Processing subhalo 89454 (9/200) …
+  [89454] Fetching metadata …
+  [89454] Downloading stellar cutout …
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/89454/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 1/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/89454/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 2/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/89454/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 3/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/89454/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 4/5
+  [ERROR] subhalo 89454: 400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/89454/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime
+
+Processing subhalo 57361 (10/200) …
+  [57361] Fetching metadata …
+  [57361] Downloading stellar cutout …
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/57361/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 1/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/57361/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 2/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/57361/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 3/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/57361/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 4/5
+  [ERROR] subhalo 57361: 400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/57361/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime
+
+Processing subhalo 96791 (11/200) …
+  [96791] Fetching metadata …
+  [96791] Downloading stellar cutout …
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/96791/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 1/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/96791/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 2/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/96791/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 3/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/96791/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 4/5
+  [ERROR] subhalo 96791: 400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/96791/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime
+
+Processing subhalo 83734 (12/200) …
+  [83734] Fetching metadata …
+  [83734] Downloading stellar cutout …
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/83734/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 1/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/83734/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 2/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/83734/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 3/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/83734/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 4/5
+  [ERROR] subhalo 83734: 400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/83734/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime
+
+Processing subhalo 77360 (13/200) …
+  [77360] Fetching metadata …
+  [77360] Downloading stellar cutout …
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/77360/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 1/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/77360/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 2/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/77360/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 3/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/77360/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 4/5
+  [ERROR] subhalo 77360: 400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/77360/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime
+
+Processing subhalo 100595 (14/200) …
+  [100595] Fetching metadata …
+  [100595] Downloading stellar cutout …
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/100595/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 1/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/100595/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 2/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/100595/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 3/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/100595/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 4/5
+  [ERROR] subhalo 100595: 400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/100595/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime
+
+Processing subhalo 80386 (15/200) …
+  [80386] Fetching metadata …
+  [80386] Downloading stellar cutout …
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/80386/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 1/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/80386/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 2/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/80386/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 3/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/80386/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 4/5
+  [ERROR] subhalo 80386: 400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/80386/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime
+
+Processing subhalo 64388 (16/200) …
+  [64388] Fetching metadata …
+  [64388] Downloading stellar cutout …
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/64388/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 1/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/64388/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 2/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/64388/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 3/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/64388/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 4/5
+  [ERROR] subhalo 64388: 400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/64388/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime
+Galaxies:   0%|          | 0/200 [00:00<?, ?it/s]Galaxies:   0%|          | 1/200 [00:52<2:54:27, 52.60s/it]Galaxies:   1%|          | 2/200 [01:45<2:53:34, 52.60s/it]Galaxies:   2%|▏         | 3/200 [02:37<2:52:39, 52.59s/it]Galaxies:   2%|▏         | 4/200 [03:30<2:51:50, 52.61s/it]Galaxies:   2%|▎         | 5/200 [04:23<2:50:58, 52.61s/it]Galaxies:   3%|▎         | 6/200 [05:15<2:50:07, 52.62s/it]Galaxies:   4%|▎         | 7/200 [06:08<2:49:11, 52.60s/it]Galaxies:   4%|▍         | 8/200 [07:00<2:48:19, 52.60s/it]Galaxies:   4%|▍         | 9/200 [07:53<2:47:26, 52.60s/it]Galaxies:   5%|▌         | 10/200 [08:46<2:46:33, 52.60s/it]Galaxies:   6%|▌         | 11/200 [09:38<2:45:55, 52.68s/it]Galaxies:   6%|▌         | 12/200 [10:31<2:45:00, 52.66s/it]Galaxies:   6%|▋         | 13/200 [11:24<2:44:02, 52.63s/it]Galaxies:   7%|▋         | 14/200 [12:16<2:43:05, 52.61s/it]Galaxies:   8%|▊         | 15/200 [13:09<2:42:11, 52.61s/it]Galaxies:   8%|▊         | 16/200 [14:0
+Processing subhalo 64389 (17/200) …
+  [64389] Fetching metadata …
+  [64389] Downloading stellar cutout …
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/64389/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 1/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/64389/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 2/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/64389/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 3/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/64389/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 4/5
+  [ERROR] subhalo 64389: 400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/64389/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime
+
+Processing subhalo 92674 (18/200) …
+  [92674] Fetching metadata …
+  [92674] Downloading stellar cutout …
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/92674/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 1/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/92674/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 2/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/92674/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 3/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/92674/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 4/5
+  [ERROR] subhalo 92674: 400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/92674/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime
+
+Processing subhalo 131054 (19/200) …
+  [131054] Fetching metadata …
+  [131054] Downloading stellar cutout …
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/131054/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 1/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/131054/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 2/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/131054/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 3/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/131054/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 4/5
+  [ERROR] subhalo 131054: 400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/131054/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime
+
+Processing subhalo 74037 (20/200) …
+  [74037] Fetching metadata …
+  [74037] Downloading stellar cutout …
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/74037/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 1/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/74037/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 2/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/74037/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 3/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/74037/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 4/5
+  [ERROR] subhalo 74037: 400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/74037/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime
+
+Processing subhalo 107743 (21/200) …
+  [107743] Fetching metadata …
+  [107743] Downloading stellar cutout …
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/107743/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 1/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/107743/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 2/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/107743/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 3/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/107743/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 4/5
+  [ERROR] subhalo 107743: 400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/107743/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime
+
+Processing subhalo 109840 (22/200) …
+  [109840] Fetching metadata …
+  [109840] Downloading stellar cutout …
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/109840/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 1/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/109840/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 2/5
+  Request error (400 Client Error: Bad Request for url: https://www.tng-project.org/api/TNG50-1/snapshots/41/subhalos/109840/cutout.hdf5?stars=Coordinates%2CVelocities%2CMasses%2CGFM_StellarPhotometrics%2CGFM_StellarFormationTime); retry 3/5
+srun: Job step aborted: Waiting up to 62 seconds for job step to finish.
+1<2:41:18, 52.60s/it]Galaxies:   8%|▊         | 17/200 [14:54<2:40:25, 52.60s/it]Galaxies:   9%|▉         | 18/200 [15:46<2:39:31, 52.59s/it]Galaxies:  10%|▉         | 19/200 [16:39<2:38:46, 52.63s/it]Galaxies:  10%|█         | 20/200 [17:32<2:37:51, 52.62s/it]Galaxies:  10%|█         | 21/200 [18:24<2:36:57, 52.61s/it]slurmstepd: error: *** STEP 2103456.0 ON rn005 CANCELLED AT 2026-07-28T21:54:54 ***
+slurmstepd: error: *** JOB 2103456 ON rn005 CANCELLED AT 2026-07-28T21:54:54 ***

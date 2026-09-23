@@ -1,0 +1,71 @@
+Available CPUs:  8
+Running on host: a100-03
+Time is:         Thu Jul 30 03:26:04 PM EDT 2026
+Directory is:    /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML
+Job name:        kl_train
+Job ID:          2106188
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Device: cuda
+  GPU: NVIDIA A100 80GB PCIe
+
+Filtering to rows with existing FITS files …
+  [WARN] Dropping 2 rows with missing FITS files.
+Usable rows: 798
+
+Building train / val / test splits (stratified by subhalo_id) …
+Split sizes — train: 558  val: 122  test: 118
+Unique galaxies — train: 545  val: 117  test: 118
+
+Building model …
+Traceback (most recent call last):
+  File "/gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/train_kl_model.py", line 724, in <module>
+    main()
+  File "/gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/train_kl_model.py", line 586, in main
+    model = TwoStreamShearNet(
+            ^^^^^^^^^^^^^^^^^^
+  File "/gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/train_kl_model.py", line 172, in __init__
+    backbone = timm.create_model(
+               ^^^^^^^^^^^^^^^^^^
+  File "/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic_kl/lib/python3.11/site-packages/timm/models/_factory.py", line 138, in create_model
+    model = create_fn(
+            ^^^^^^^^^^
+  File "/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic_kl/lib/python3.11/site-packages/timm/models/efficientnet.py", line 2078, in efficientnet_b0
+    model = _gen_efficientnet(
+            ^^^^^^^^^^^^^^^^^^
+  File "/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic_kl/lib/python3.11/site-packages/timm/models/efficientnet.py", line 764, in _gen_efficientnet
+    model = _create_effnet(variant, pretrained, **model_kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic_kl/lib/python3.11/site-packages/timm/models/efficientnet.py", line 465, in _create_effnet
+    model = build_model_with_cfg(
+            ^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic_kl/lib/python3.11/site-packages/timm/models/_builder.py", line 457, in build_model_with_cfg
+    load_pretrained(
+  File "/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic_kl/lib/python3.11/site-packages/timm/models/_builder.py", line 226, in load_pretrained
+    state_dict = load_state_dict_from_hf(pretrained_loc, weights_only=True, cache_dir=cache_dir)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic_kl/lib/python3.11/site-packages/timm/models/_hub.py", line 227, in load_state_dict_from_hf
+    cached_safe_file = hf_hub_download(
+                       ^^^^^^^^^^^^^^^^
+  File "/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic_kl/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 88, in _inner_fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic_kl/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1019, in hf_hub_download
+    return _hf_hub_download_to_cache_dir(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic_kl/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1242, in _hf_hub_download_to_cache_dir
+    _download_to_tmp_and_move(
+  File "/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic_kl/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1932, in _download_to_tmp_and_move
+    xet_get(
+  File "/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic_kl/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 565, in xet_get
+    with session.new_file_download_group(
+RuntimeError: Task error: File reconstruction error: IO Error: Disk quota exceeded (os error 122)
+srun: error: a100-03: task 0: Exited with exit code 1
+
+=== Training complete ===
+Time is: Thu Jul 30 03:26:34 PM EDT 2026
+Output files:
+total 80K
+-rw-r--r-- 1 vlloyd MirandaGroup 7.8K Jul 30 15:26 split_test.csv
+-rw-r--r-- 1 vlloyd MirandaGroup  37K Jul 30 15:26 split_train.csv
+-rw-r--r-- 1 vlloyd MirandaGroup 8.0K Jul 30 15:26 split_val.csv
