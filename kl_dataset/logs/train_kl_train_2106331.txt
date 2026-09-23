@@ -1,0 +1,138 @@
+Available CPUs:  8
+Running on host: a100-03
+Time is:         Thu Jul 30 04:46:06 PM EDT 2026
+Directory is:    /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML
+Job name:        kl_train
+Job ID:          2106331
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+streamlit 1.48.1 requires packaging<26,>=20, but you have packaging 26.2 which is incompatible.
+tensorflow 2.17.0 requires numpy<2.0.0,>=1.23.5; python_version <= "3.11", but you have numpy 2.4.6 which is incompatible.
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Device: cuda
+  GPU: NVIDIA A100 80GB PCIe
+
+Filtering to rows with existing FITS files …
+  [WARN] Dropping 2 rows with missing FITS files.
+Usable rows: 798
+
+Building train / val / test splits (stratified by subhalo_id) …
+Split sizes — train: 558  val: 122  test: 118
+Unique galaxies — train: 545  val: 117  test: 118
+
+Building model …
+  Trainable parameters: 4,732,326
+
+Training for up to 60 epochs (patience=12) …
+
+Epoch   1/60 | loss  train=0.0016  val=0.0024 | MSE g+ train=3.0035e-03  val=4.8422e-03 | MSE g× train=3.2694e-03  val=4.8620e-03 | lr=3.00e-04
+Epoch   2/60 | loss  train=0.0007  val=0.0013 | MSE g+ train=1.3320e-03  val=2.3860e-03 | MSE g× train=1.3972e-03  val=2.7285e-03 | lr=2.99e-04
+Epoch   3/60 | loss  train=0.0004  val=0.0014 | MSE g+ train=7.0430e-04  val=2.5021e-03 | MSE g× train=7.3094e-04  val=3.0656e-03 | lr=2.98e-04
+Epoch   4/60 | loss  train=0.0003  val=0.0010 | MSE g+ train=5.3367e-04  val=1.0437e-03 | MSE g× train=6.3247e-04  val=2.9510e-03 | lr=2.97e-04
+Epoch   5/60 | loss  train=0.0002  val=0.0006 | MSE g+ train=3.0110e-04  val=5.9058e-04 | MSE g× train=4.5389e-04  val=1.7477e-03 | lr=2.95e-04
+Epoch   6/60 | loss  train=0.0002  val=0.0004 | MSE g+ train=4.4953e-04  val=4.8923e-04 | MSE g× train=3.2253e-04  val=1.2736e-03 | lr=2.93e-04
+Epoch   7/60 | loss  train=0.0002  val=0.0003 | MSE g+ train=3.5655e-04  val=2.9561e-04 | MSE g× train=3.6359e-04  val=9.7200e-04 | lr=2.90e-04
+Epoch   8/60 | loss  train=0.0001  val=0.0002 | MSE g+ train=2.3925e-04  val=2.8716e-04 | MSE g× train=2.6508e-04  val=6.4812e-04 | lr=2.87e-04
+Epoch   9/60 | loss  train=0.0001  val=0.0002 | MSE g+ train=2.6976e-04  val=3.0391e-04 | MSE g× train=2.2960e-04  val=6.5746e-04 | lr=2.84e-04
+Epoch  10/60 | loss  train=0.0001  val=0.0002 | MSE g+ train=2.2434e-04  val=2.8191e-04 | MSE g× train=2.3772e-04  val=6.0025e-04 | lr=2.80e-04
+Epoch  11/60 | loss  train=0.0001  val=0.0002 | MSE g+ train=2.1378e-04  val=2.3335e-04 | MSE g× train=1.6772e-04  val=5.1457e-04 | lr=2.76e-04
+Epoch  12/60 | loss  train=0.0001  val=0.0002 | MSE g+ train=1.7497e-04  val=2.5541e-04 | MSE g× train=2.3092e-04  val=5.7684e-04 | lr=2.72e-04
+Epoch  13/60 | loss  train=0.0001  val=0.0002 | MSE g+ train=1.6368e-04  val=2.7859e-04 | MSE g× train=1.7166e-04  val=6.0791e-04 | lr=2.67e-04
+Epoch  14/60 | loss  train=0.0001  val=0.0002 | MSE g+ train=1.7172e-04  val=2.9494e-04 | MSE g× train=1.9719e-04  val=4.9304e-04 | lr=2.62e-04
+Epoch  15/60 | loss  train=0.0001  val=0.0002 | MSE g+ train=1.6463e-04  val=2.1409e-04 | MSE g× train=1.6971e-04  val=5.4139e-04 | lr=2.57e-04
+Epoch  16/60 | loss  train=0.0001  val=0.0002 | MSE g+ train=1.3647e-04  val=2.5603e-04 | MSE g× train=2.4329e-04  val=5.3600e-04 | lr=2.51e-04
+Epoch  17/60 | loss  train=0.0001  val=0.0002 | MSE g+ train=1.8321e-04  val=1.9305e-04 | MSE g× train=1.5093e-04  val=5.3834e-04 | lr=2.45e-04
+Epoch  18/60 | loss  train=0.0001  val=0.0002 | MSE g+ train=1.7435e-04  val=1.9470e-04 | MSE g× train=1.4534e-04  val=5.0250e-04 | lr=2.39e-04
+Epoch  19/60 | loss  train=0.0001  val=0.0002 | MSE g+ train=1.4339e-04  val=2.0947e-04 | MSE g× train=1.6836e-04  val=4.4500e-04 | lr=2.32e-04
+Epoch  20/60 | loss  train=0.0001  val=0.0002 | MSE g+ train=1.6266e-04  val=1.7035e-04 | MSE g× train=1.7301e-04  val=4.6498e-04 | lr=2.26e-04
+Epoch  21/60 | loss  train=0.0001  val=0.0002 | MSE g+ train=1.4181e-04  val=1.9968e-04 | MSE g× train=1.7476e-04  val=4.8214e-04 | lr=2.19e-04
+Epoch  22/60 | loss  train=0.0001  val=0.0002 | MSE g+ train=1.1627e-04  val=1.9430e-04 | MSE g× train=1.2897e-04  val=5.3828e-04 | lr=2.12e-04
+Epoch  23/60 | loss  train=0.0001  val=0.0002 | MSE g+ train=1.2311e-04  val=1.7397e-04 | MSE g× train=1.8502e-04  val=4.4967e-04 | lr=2.05e-04
+Epoch  24/60 | loss  train=0.0001  val=0.0001 | MSE g+ train=1.1709e-04  val=1.7415e-04 | MSE g× train=1.9254e-04  val=3.8642e-04 | lr=1.97e-04
+Epoch  25/60 | loss  train=0.0001  val=0.0001 | MSE g+ train=1.3045e-04  val=1.5723e-04 | MSE g× train=1.4709e-04  val=4.0345e-04 | lr=1.90e-04
+Epoch  26/60 | loss  train=0.0001  val=0.0001 | MSE g+ train=9.4295e-05  val=1.5063e-04 | MSE g× train=1.3833e-04  val=4.1876e-04 | lr=1.82e-04
+Epoch  27/60 | loss  train=0.0001  val=0.0001 | MSE g+ train=1.1466e-04  val=1.6602e-04 | MSE g× train=1.0487e-04  val=4.1805e-04 | lr=1.75e-04
+Epoch  28/60 | loss  train=0.0001  val=0.0002 | MSE g+ train=1.3573e-04  val=1.8662e-04 | MSE g× train=1.5408e-04  val=4.3768e-04 | lr=1.67e-04
+Epoch  29/60 | loss  train=0.0001  val=0.0001 | MSE g+ train=1.1867e-04  val=1.5601e-04 | MSE g× train=9.5615e-05  val=4.2106e-04 | lr=1.59e-04
+Epoch  30/60 | loss  train=0.0001  val=0.0001 | MSE g+ train=1.5702e-04  val=1.8619e-04 | MSE g× train=1.2690e-04  val=3.9435e-04 | lr=1.52e-04
+Epoch  31/60 | loss  train=0.0001  val=0.0001 | MSE g+ train=1.0066e-04  val=1.7164e-04 | MSE g× train=1.0328e-04  val=3.6349e-04 | lr=1.44e-04
+Epoch  32/60 | loss  train=0.0001  val=0.0001 | MSE g+ train=1.3189e-04  val=1.6777e-04 | MSE g× train=1.1681e-04  val=3.6229e-04 | lr=1.36e-04
+Epoch  33/60 | loss  train=0.0000  val=0.0002 | MSE g+ train=8.3926e-05  val=1.5273e-04 | MSE g× train=9.8702e-05  val=4.5047e-04 | lr=1.28e-04
+Epoch  34/60 | loss  train=0.0000  val=0.0001 | MSE g+ train=7.3444e-05  val=1.6333e-04 | MSE g× train=1.0346e-04  val=3.7503e-04 | lr=1.21e-04
+Epoch  35/60 | loss  train=0.0001  val=0.0001 | MSE g+ train=1.1745e-04  val=1.5031e-04 | MSE g× train=9.0739e-05  val=3.8650e-04 | lr=1.13e-04
+Epoch  36/60 | loss  train=0.0001  val=0.0001 | MSE g+ train=1.0507e-04  val=1.3057e-04 | MSE g× train=9.9300e-05  val=4.1235e-04 | lr=1.06e-04
+Epoch  37/60 | loss  train=0.0000  val=0.0001 | MSE g+ train=9.7194e-05  val=1.3707e-04 | MSE g× train=8.3304e-05  val=3.8005e-04 | lr=9.83e-05
+Epoch  38/60 | loss  train=0.0000  val=0.0001 | MSE g+ train=7.1208e-05  val=1.5275e-04 | MSE g× train=8.3991e-05  val=3.4808e-04 | lr=9.11e-05
+Epoch  39/60 | loss  train=0.0000  val=0.0001 | MSE g+ train=6.5221e-05  val=1.4096e-04 | MSE g× train=6.7467e-05  val=3.5528e-04 | lr=8.41e-05
+Epoch  40/60 | loss  train=0.0000  val=0.0001 | MSE g+ train=7.9043e-05  val=1.6605e-04 | MSE g× train=8.7288e-05  val=3.6306e-04 | lr=7.73e-05
+Epoch  41/60 | loss  train=0.0000  val=0.0001 | MSE g+ train=9.1815e-05  val=1.4329e-04 | MSE g× train=7.6189e-05  val=3.4388e-04 | lr=7.06e-05
+Epoch  42/60 | loss  train=0.0000  val=0.0001 | MSE g+ train=7.0616e-05  val=1.5420e-04 | MSE g× train=7.3210e-05  val=3.5482e-04 | lr=6.42e-05
+Epoch  43/60 | loss  train=0.0000  val=0.0001 | MSE g+ train=7.0924e-05  val=1.3920e-04 | MSE g× train=8.3091e-05  val=3.6421e-04 | lr=5.80e-05
+Epoch  44/60 | loss  train=0.0000  val=0.0001 | MSE g+ train=6.3401e-05  val=1.5356e-04 | MSE g× train=1.0184e-04  val=3.1839e-04 | lr=5.21e-05
+Epoch  45/60 | loss  train=0.0000  val=0.0001 | MSE g+ train=6.5551e-05  val=1.4613e-04 | MSE g× train=7.4671e-05  val=3.9435e-04 | lr=4.65e-05
+Epoch  46/60 | loss  train=0.0000  val=0.0001 | MSE g+ train=8.0596e-05  val=1.4732e-04 | MSE g× train=6.7499e-05  val=3.4250e-04 | lr=4.11e-05
+Epoch  47/60 | loss  train=0.0000  val=0.0001 | MSE g+ train=9.0511e-05  val=1.4338e-04 | MSE g× train=6.6495e-05  val=3.3412e-04 | lr=3.61e-05
+Epoch  48/60 | loss  train=0.0000  val=0.0001 | MSE g+ train=6.6689e-05  val=1.4552e-04 | MSE g× train=5.8488e-05  val=3.5259e-04 | lr=3.14e-05
+Epoch  49/60 | loss  train=0.0000  val=0.0001 | MSE g+ train=5.9818e-05  val=1.3951e-04 | MSE g× train=7.9667e-05  val=3.3800e-04 | lr=2.70e-05
+Epoch  50/60 | loss  train=0.0000  val=0.0001 | MSE g+ train=6.8087e-05  val=1.4085e-04 | MSE g× train=6.1554e-05  val=3.5993e-04 | lr=2.29e-05
+Epoch  51/60 | loss  train=0.0000  val=0.0001 | MSE g+ train=8.0344e-05  val=1.3937e-04 | MSE g× train=8.2753e-05  val=3.2841e-04 | lr=1.92e-05
+Epoch  52/60 | loss  train=0.0000  val=0.0001 | MSE g+ train=7.6747e-05  val=1.3925e-04 | MSE g× train=6.5956e-05  val=3.4231e-04 | lr=1.58e-05
+Epoch  53/60 | loss  train=0.0000  val=0.0001 | MSE g+ train=5.3406e-05  val=1.3728e-04 | MSE g× train=5.8399e-05  val=3.3471e-04 | lr=1.29e-05
+Epoch  54/60 | loss  train=0.0000  val=0.0001 | MSE g+ train=5.6696e-05  val=1.4068e-04 | MSE g× train=8.0123e-05  val=3.2041e-04 | lr=1.03e-05
+Epoch  55/60 | loss  train=0.0000  val=0.0001 | MSE g+ train=4.2577e-05  val=1.3875e-04 | MSE g× train=5.5009e-05  val=3.5234e-04 | lr=8.06e-06
+Epoch  56/60 | loss  train=0.0000  val=0.0001 | MSE g+ train=7.8543e-05  val=1.3351e-04 | MSE g× train=6.4579e-05  val=3.4150e-04 | lr=6.25e-06
+Epoch  57/60 | loss  train=0.0000  val=0.0001 | MSE g+ train=6.8125e-05  val=1.4332e-04 | MSE g× train=8.0464e-05  val=3.3559e-04 | lr=4.83e-06
+Epoch  58/60 | loss  train=0.0000  val=0.0001 | MSE g+ train=6.6508e-05  val=1.3490e-04 | MSE g× train=5.6519e-05  val=3.4849e-04 | lr=3.81e-06
+Epoch  59/60 | loss  train=0.0000  val=0.0001 | MSE g+ train=5.6006e-05  val=1.4205e-04 | MSE g× train=8.3347e-05  val=3.3669e-04 | lr=3.20e-06
+Epoch  60/60 | loss  train=0.0000  val=0.0001 | MSE g+ train=6.7047e-05  val=1.4131e-04 | MSE g× train=5.7685e-05  val=3.4358e-04 | lr=3.00e-06
+
+Loading best checkpoint (val loss = 0.0001) …
+
+── Test set evaluation ──────────────────────────────────────
+  Test Smooth-L1 loss : 0.0001
+  Test MSE  g+        : 2.0124e-04
+  Test MSE  g×        : 3.8900e-04
+  Test RMSE g+        : 1.4186e-02
+  Test RMSE g×        : 1.9723e-02
+
+Generating diagnostic plots …
+  Saved: loss_curves.png
+  Saved: shear_scatter_val.png
+  Saved: pred_vs_true_val.png
+  Saved: residuals_val.png
+  Saved: shear_scatter_test.png
+  Saved: pred_vs_true_test.png
+  Saved: residuals_test.png
+
+All outputs saved to /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/model_output
+
+Output files:
+  best_model.pt
+  loss_curves.png
+  pred_vs_true_test.png
+  pred_vs_true_val.png
+  residuals_test.png
+  residuals_val.png
+  shear_scatter_test.png
+  shear_scatter_val.png
+  split_test.csv
+  split_train.csv
+  split_val.csv
+  test_summary.csv
+
+=== Training complete ===
+Time is: Thu Jul 30 04:49:18 PM EDT 2026
+Output files:
+total 55M
+-rw-r--r-- 1 vlloyd MirandaGroup  55M Jul 30 16:49 best_model.pt
+-rw-r--r-- 1 vlloyd MirandaGroup  95K Jul 30 16:49 loss_curves.png
+-rw-r--r-- 1 vlloyd MirandaGroup 109K Jul 30 16:49 pred_vs_true_test.png
+-rw-r--r-- 1 vlloyd MirandaGroup 104K Jul 30 16:49 pred_vs_true_val.png
+-rw-r--r-- 1 vlloyd MirandaGroup  51K Jul 30 16:49 residuals_test.png
+-rw-r--r-- 1 vlloyd MirandaGroup  47K Jul 30 16:49 residuals_val.png
+-rw-r--r-- 1 vlloyd MirandaGroup 100K Jul 30 16:49 shear_scatter_test.png
+-rw-r--r-- 1 vlloyd MirandaGroup 102K Jul 30 16:49 shear_scatter_val.png
+-rw-r--r-- 1 vlloyd MirandaGroup 7.8K Jul 30 16:47 split_test.csv
+-rw-r--r-- 1 vlloyd MirandaGroup  37K Jul 30 16:47 split_train.csv
+-rw-r--r-- 1 vlloyd MirandaGroup 8.0K Jul 30 16:47 split_val.csv
+-rw-r--r-- 1 vlloyd MirandaGroup  324 Jul 30 16:49 test_summary.csv

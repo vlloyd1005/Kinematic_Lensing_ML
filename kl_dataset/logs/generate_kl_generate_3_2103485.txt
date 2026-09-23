@@ -1,0 +1,32 @@
+Available CPUs:  40
+Running on host: rn005
+Time is:         Tue Jul 28 22:21:17 EDT 2026
+Directory is:    /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML
+Job name:        kl_generate
+Job ID:          2103486
+Array task ID:   3
+
+=== Array task 3: processing snapshot 67 ===
+Snap 67: 200 rows written to /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/data/task_snap67.csv
+Rows to process:
+201 /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/data/task_snap67.csv
+Testing TNG API connection (TNG50-1) …
+  Request error (403 Client Error: Forbidden for url: https://www.tng-project.org/api/TNG50-1/); retry 1/5
+  Request error (403 Client Error: Forbidden for url: https://www.tng-project.org/api/TNG50-1/); retry 2/5
+  Request error (403 Client Error: Forbidden for url: https://www.tng-project.org/api/TNG50-1/); retry 3/5
+  Request error (403 Client Error: Forbidden for url: https://www.tng-project.org/api/TNG50-1/); retry 4/5
+Traceback (most recent call last):
+  File "/gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/generate_kl_tng50.py", line 645, in <module>
+    main()
+  File "/gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/generate_kl_tng50.py", line 575, in main
+    tng_get(f"{BASE_URL}{args.sim}/", headers=headers)
+  File "/gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/generate_kl_tng50.py", line 92, in tng_get
+    r.raise_for_status()
+  File "/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic/lib/python3.11/site-packages/requests/models.py", line 1021, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 403 Client Error: Forbidden for url: https://www.tng-project.org/api/TNG50-1/
+srun: error: rn005: task 0: Exited with exit code 1
+
+=== Snapshot 67 finished with exit code 1 ===
+Time is: Tue Jul 28 22:22:14 EDT 2026
+Output directory not found.

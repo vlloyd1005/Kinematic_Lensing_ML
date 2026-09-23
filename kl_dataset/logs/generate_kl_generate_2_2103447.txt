@@ -1,0 +1,31 @@
+Available CPUs:  40
+Running on host: dn059
+Time is:         Tue Jul 28 21:32:54 EDT 2026
+Directory is:    /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML
+Job name:        kl_generate
+Job ID:          2103450
+Array task ID:   2
+no change     /gpfs/projects/MirandaGroup/vic/miniforge/condabin/conda
+no change     /gpfs/projects/MirandaGroup/vic/miniforge/bin/conda
+no change     /gpfs/projects/MirandaGroup/vic/miniforge/bin/conda-env
+no change     /gpfs/projects/MirandaGroup/vic/miniforge/bin/activate
+no change     /gpfs/projects/MirandaGroup/vic/miniforge/bin/deactivate
+no change     /gpfs/projects/MirandaGroup/vic/miniforge/etc/profile.d/conda.sh
+no change     /gpfs/projects/MirandaGroup/vic/miniforge/etc/fish/conf.d/conda.fish
+no change     /gpfs/projects/MirandaGroup/vic/miniforge/shell/condabin/Conda.psm1
+no change     /gpfs/projects/MirandaGroup/vic/miniforge/shell/condabin/conda-hook.ps1
+no change     /gpfs/projects/MirandaGroup/vic/miniforge/lib/python3.12/site-packages/xontrib/conda.xsh
+no change     /gpfs/projects/MirandaGroup/vic/miniforge/etc/profile.d/conda.csh
+no change     /gpfs/home/vlloyd/.bashrc
+No action taken.
+
+EnvironmentNameNotFound: Could not find conda environment: vic
+You can list all discoverable environments with `conda info --envs`.
+
+
+
+=== Array task 2: processing snapshot 50 ===
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ModuleNotFoundError: No module named 'pandas'
+ERROR: task CSV not created for snap 50. Exiting.

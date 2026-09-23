@@ -1,0 +1,13 @@
+Available CPUs:  8
+Running on host: a100-03
+Time is:         Thu Jul 30 03:01:23 PM EDT 2026
+Directory is:    /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML
+Job name:        kl_train
+Job ID:          2106173
+/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic/bin/python: can't open file '/gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/train_kl_model.py': [Errno 2] No such file or directory
+srun: error: a100-03: task 0: Exited with exit code 2
+
+=== Training complete ===
+Time is: Thu Jul 30 03:01:28 PM EDT 2026
+Output files:
+total 0

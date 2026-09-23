@@ -1,0 +1,23 @@
+Available CPUs:  8
+Running on host: a100-03
+Time is:         Thu Jul 30 03:02:54 PM EDT 2026
+Directory is:    /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML
+Job name:        kl_train
+Job ID:          2106175
+Traceback (most recent call last):
+  File "/gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/train_kl_model.py", line 65, in <module>
+    from sklearn.model_selection import GroupShuffleSplit
+  File "/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic/lib/python3.11/site-packages/sklearn/__init__.py", line 82, in <module>
+    from .base import clone
+  File "/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic/lib/python3.11/site-packages/sklearn/base.py", line 17, in <module>
+    from .utils import _IS_32BIT
+  File "/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic/lib/python3.11/site-packages/sklearn/utils/__init__.py", line 19, in <module>
+    from .murmurhash import murmurhash3_32
+  File "sklearn/utils/murmurhash.pyx", line 1, in init sklearn.utils.murmurhash
+ValueError: numpy.dtype size changed, may indicate binary incompatibility. Expected 96 from C header, got 88 from PyObject
+srun: error: a100-03: task 0: Exited with exit code 1
+
+=== Training complete ===
+Time is: Thu Jul 30 03:03:09 PM EDT 2026
+Output files:
+total 0

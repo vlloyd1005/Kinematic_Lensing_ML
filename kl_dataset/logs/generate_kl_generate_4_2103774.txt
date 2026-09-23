@@ -1,0 +1,14 @@
+Available CPUs:  40
+Running on host: dn057
+Time is:         Wed Jul 29 13:17:46 EDT 2026
+Directory is:    /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML
+Job name:        kl_generate
+Job ID:          2103774
+Array task ID:   4
+
+=== Array task 4: processing snapshot  ===
+  File "<stdin>", line 3
+    subset = plan[plan["snap"] == ]
+                                  ^
+SyntaxError: invalid syntax
+ERROR: task CSV not created for snap . Exiting.
