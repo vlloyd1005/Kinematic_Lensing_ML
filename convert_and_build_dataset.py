@@ -5,7 +5,7 @@ convert_and_build_dataset.py
 Two utilities in one file:
 
   1. convert_csv(input_csv, output_csv, subhalo_ids)
-     Converts the other student's CSV format to ours, merging in subhalo IDs
+     Converts Eason's CSV format to ours, merging in subhalo IDs
      from a separate list (since their CSV has row_id but not subhalo_id).
 
   2. build_dataset_plan(sims, snapshots_per_sim, n_shear_draws,
@@ -142,7 +142,7 @@ def draw_theta_int(n: int, rng: np.random.Generator) -> np.ndarray:
 
 def convert_csv(input_csv: str, subhalo_id_source: str, output_csv: str) -> None:
     """
-    Convert the other student's CSV to our format.
+    Convert Eason's CSV to our format.
 
     Their columns:
       row_id, g1, g2, theta_int, i, v0, vcirc, rscale, rmse
@@ -155,7 +155,7 @@ def convert_csv(input_csv: str, subhalo_id_source: str, output_csv: str) -> None
     * Their 'i' column is the inclination angle in radians — maps directly
       to our 'inclination'.
     * Their 'theta_int' is already our 'theta_int'.
-    * Their CSV has no subhalo_id; you must supply a separate file with one
+    * Their CSV has no subhalo_id; we supply a separate file with one
       integer (subhalo ID) per line, in the same order as the CSV rows.
     * 'v0' (systemic velocity offset) and 'rscale' are not needed by our
       image-generation pipeline, but we keep them as optional extra columns.
