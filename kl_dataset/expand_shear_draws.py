@@ -64,7 +64,8 @@ def draw_shear_batch(n: int, rng: np.random.Generator,
         remaining = np.sqrt(g1**2 + g2**2) >= 0.2
     return g1, g2
 
-
+### To Do: currently uses pixel mapping for shear, but I think switching 
+### to particle mapping would be more accurate
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--input",    required=True,
