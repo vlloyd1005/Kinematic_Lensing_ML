@@ -450,6 +450,8 @@ def process_galaxy(row: pd.Series, sim: str, snap: int,
         print(f"  [{subhalo_id}] No gas particles; velocity map will be empty.")
 
     # ---- 4. Centre and subtract bulk velocity (subhalo CoM) ---------------
+    ### To Do: might want to weight gas instead by SFR
+
     star_coords = center_particles(star_coords, pos_kpc, boxsize_kpc)
     # Bulk velocity: mass-weighted mean of stars
     v_bulk = np.average(star_vels, weights=star_mass, axis=0)
@@ -484,6 +486,9 @@ def process_galaxy(row: pd.Series, sim: str, snap: int,
                                              gas_mass, npix, fov_kpc)
     else:
         vmap_sheared = np.full((npix, npix), np.nan)
+
+    ### To Do: Add a gaussian filter of viarable width to smooth the images 
+    ### before saving
 
     # ---- 9. Save FITS files -----------------------------------------------
     pixel_scale_kpc = fov_kpc / npix
