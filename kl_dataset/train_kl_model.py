@@ -67,6 +67,7 @@ from astropy.io import fits
 from sklearn.model_selection import GroupShuffleSplit
 from torch.utils.data import DataLoader, Dataset
 from tqdm import tqdm
+import time
 
 warnings.filterwarnings("ignore")
 
@@ -360,6 +361,9 @@ def run_epoch(model, loader, criterion, optimizer, device, training: bool):
     total_loss = 0.0
     all_preds, all_labels = [], []
 
+    is_cuda = torch.device(device).type == "cuda"
+    total_eval_time = 0.0  # seconds spent in forward passes (eval only)
+
     ctx = torch.enable_grad() if training else torch.no_grad()
     with ctx:
         for photo, vel, labels in loader:
@@ -367,7 +371,18 @@ def run_epoch(model, loader, criterion, optimizer, device, training: bool):
             vel    = vel.to(device)
             labels = labels.to(device)          # (B, 2)
 
+            if not training:
+                if is_cuda:
+                    torch.cuda.synchronize(device)
+                t0 = time.perf_counter()
+
             g1_pred, g2_pred = model(photo, vel)
+
+            if not training:
+                if is_cuda:
+                    torch.cuda.synchronize(device)
+                total_eval_time += time.perf_counter() - t0
+
             preds = torch.stack([g1_pred, g2_pred], dim=1)  # (B, 2)
 
             loss = criterion(preds, labels)
@@ -389,7 +404,14 @@ def run_epoch(model, loader, criterion, optimizer, device, training: bool):
     mse_g1 = float(np.mean((all_preds[:, 0] - all_labels[:, 0]) ** 2))
     mse_g2 = float(np.mean((all_preds[:, 1] - all_labels[:, 1]) ** 2))
 
-    return total_loss / n, mse_g1, mse_g2, all_preds, all_labels
+    # Average forward-pass time per sample (seconds); None during training
+    avg_eval_time = None if training else total_eval_time / n
+
+    if not training:
+        print(f"Avg eval time: {avg_eval_time * 1e3:.3f} ms/sample "
+              f"({total_eval_time:.3f} s total over {n} samples)")
+
+    return total_loss / n, mse_g1, mse_g2, all_preds, all_labels, avg_eval_time
 
 
 # ═══════════════════════════════════════════════════════════════════════════════

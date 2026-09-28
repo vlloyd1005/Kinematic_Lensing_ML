@@ -33,7 +33,7 @@ conda activate vic_kl
 export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK}
 
 # Redirect HuggingFace + torch hub caches to project space.
-# The default ~/.cache/huggingface fills your home quota fast (timm weights,
+# The default ~/.cache/huggingface fills home quota fast (timm weights,
 # tokenizers, etc.).  Project space has much more headroom.
 export HF_HOME=/gpfs/projects/MirandaGroup/vic/.cache/huggingface
 export TORCH_HOME=/gpfs/projects/MirandaGroup/vic/.cache/torch
