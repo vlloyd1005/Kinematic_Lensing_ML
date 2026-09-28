@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH --job-name=kl_train
 #SBATCH --output=/gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/logs/train_%x_%j.txt
-#SBATCH --time=24:00:00
-#SBATCH --partition=a100-long
+#SBATCH --time=8:00:00
+#SBATCH --partition=a100
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=8

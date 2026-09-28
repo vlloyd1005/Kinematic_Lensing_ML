@@ -773,10 +773,10 @@ def main():
           f"(patience={args.patience}) …\n")
 
     for epoch in range(1, args.epochs + 1):
-        tr_loss, tr_mse1, tr_mse2, _, _ = run_epoch(
+        tr_loss, tr_mse1, tr_mse2, _, _, _ = run_epoch(
             model, train_loader, criterion, optimizer, device, training=True
         )
-        vl_loss, vl_mse1, vl_mse2, _, _ = run_epoch(
+        vl_loss, vl_mse1, vl_mse2, _, _, _ = run_epoch(
             model, val_loader,   criterion, optimizer, device, training=False
         )
         scheduler.step()
@@ -820,7 +820,7 @@ def main():
 
     # ── Test evaluation ──────────────────────────────────────────────────────
     print("\n── Test set evaluation ──────────────────────────────────────")
-    te_loss, te_mse1, te_mse2, te_preds, te_labels = run_epoch(
+    te_loss, te_mse1, te_mse2, te_preds, te_labels, te_time = run_epoch(
         model, test_loader, criterion, optimizer, device, training=False
     )
     print(f"  Test Smooth-L1 loss : {te_loss:.4f}")
@@ -881,7 +881,7 @@ def main():
           f"{gx50*100:.1f}% (g×) of the true shear value.")
 
     # ── Also run val set for diagnostic plots ────────────────────────────────
-    _, _, _, val_preds, val_labels = run_epoch(
+    _, _, _, val_preds, val_labels, _ = run_epoch(
         model, val_loader, criterion, optimizer, device, training=False
     )
 
