@@ -638,6 +638,38 @@ def filter_to_existing(df: pd.DataFrame, images_root: Path,
         print(f"  [WARN] Dropping {n_dropped} rows with missing FITS files.")
     return df[keep].reset_index(drop=True)
 
+def filter_by_vel_fill(df: pd.DataFrame, images_root: Path,
+                       min_fill: float) -> pd.DataFrame:
+    """
+    Drop galaxies whose velocity map is mostly empty (NaN = no gas pixels).
+
+    Gas-free / quenched galaxies have essentially empty velmaps, so the model
+    gets no kinematic information and g× is unconstrained.  They also would
+    not be in a Roman Hα KL sample.  Fill fraction is computed once per
+    galaxy from velmap_original.fits.  min_fill <= 0 disables the cut.
+    """
+    if min_fill <= 0:
+        return df
+
+    fills = {}
+    for sid, snap in df[["subhalo_id", "snap"]].drop_duplicates().itertuples(index=False):
+        path = (images_root / f"snap{int(snap)}" / f"galaxy_{int(sid)}" /
+                f"galaxy_{int(sid)}_velmap_original.fits")
+        with fits.open(str(path)) as hdul:
+            fills[(sid, snap)] = float(np.isfinite(hdul[0].data).mean())
+
+    fill = np.array([fills[(s, n)] for s, n in zip(df["subhalo_id"], df["snap"])])
+    keep = fill >= min_fill
+
+    gal_fill = np.array(list(fills.values()))
+    n_gal_cut = int((gal_fill < min_fill).sum())
+    print(f"  Velmap fill fraction per galaxy: "
+          f"<0.1: {(gal_fill < 0.1).sum()}  "
+          f"0.1–0.5: {((gal_fill >= 0.1) & (gal_fill < 0.5)).sum()}  "
+          f"≥0.5: {(gal_fill >= 0.5).sum()}")
+    print(f"  Dropping {n_gal_cut}/{len(gal_fill)} galaxies "
+          f"({int((~keep).sum())} rows) with vel_fill_frac < {min_fill}")
+    return df[keep].reset_index(drop=True)
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # Main
@@ -672,6 +704,10 @@ def parse_args():
                         "Required when using an expanded multi-draw CSV from "
                         "expand_shear_draws.py. Slower per epoch but enables "
                         "unlimited shear augmentation without new API calls.")
+    p.add_argument("--min_vel_fill", type=float, default=0.5,
+                   help="Drop galaxies whose velmap has fewer than this "
+                        "fraction of non-empty pixels (gas-free galaxies). "
+                        "0 disables the cut.")
     return p.parse_args()
 
 
@@ -699,6 +735,7 @@ def main():
     images_root = Path(args.images_root)
     print(f"\nFiltering to rows with existing FITS files …")
     df = filter_to_existing(df, images_root, args.use_original_image)
+    df = filter_by_vel_fill(df, images_root, args.min_vel_fill)
     print(f"Usable rows: {len(df)}")
 
     if len(df) < 10:

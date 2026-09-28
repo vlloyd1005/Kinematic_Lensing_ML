@@ -284,7 +284,29 @@ def fetch_tng_props(gals: pd.DataFrame, api_key: str,
     print(f"  TNG properties: {len(done)} cached, {len(todo)} to fetch "
           f"(cache: {cache_path})")
 
+    api_key = api_key.strip().strip('"').strip("'")
     headers, new_rows = {"api-key": api_key}, []
+
+    # Preflight: test the key once on the first galaxy instead of letting
+    # tng_get retry every galaxy against an auth error.
+    if todo:
+        import requests
+        g   = todo[0]
+        url = f"{BASE_URL}{g.sim}/snapshots/{g.snap}/subhalos/{g.subhalo_id}/"
+        try:
+            r = requests.get(url, headers=headers, timeout=30)
+        except requests.RequestException as exc:
+            print(f"  [ERROR] Cannot reach the TNG API ({exc}). "
+                  f"Skipping TNG properties.")
+            return cache
+        if r.status_code in (401, 403):
+            masked = f"{api_key[:4]}…({len(api_key)} chars)"
+            print(f"  [ERROR] TNG API rejected the key {masked} "
+                  f"with HTTP {r.status_code}: {r.text[:200].strip()}")
+            print("          Check the key on your TNG account page and pass it "
+                  "with --apikey. Skipping TNG properties.")
+            return cache
+
     for i, g in enumerate(todo, 1):
         url = f"{BASE_URL}{g.sim}/snapshots/{g.snap}/subhalos/{g.subhalo_id}/"
         try:
@@ -311,6 +333,11 @@ def fetch_tng_props(gals: pd.DataFrame, api_key: str,
 
 def add_derived(df: pd.DataFrame) -> None:
     """Physical-unit and derived columns (in place)."""
+    # TNG columns can arrive as object dtype (concat onto an empty cache
+    # frame), which numpy ufuncs like log10 reject, so force numeric.
+    for c in [c for c in df.columns if c.startswith("tng_")]:
+        df[c] = pd.to_numeric(df[c], errors="coerce")
+
     with np.errstate(divide="ignore", invalid="ignore"):
         if "tng_mass_stars" in df:
             a     = 1.0 / (1.0 + df["redshift"])
