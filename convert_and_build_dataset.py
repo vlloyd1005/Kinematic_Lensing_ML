@@ -5,7 +5,7 @@ convert_and_build_dataset.py
 Two utilities in one file:
 
   1. convert_csv(input_csv, output_csv, subhalo_ids)
-     Converts Eason's CSV format to ours, merging in subhalo IDs
+     Converts the other student's CSV format to ours, merging in subhalo IDs
      from a separate list (since their CSV has row_id but not subhalo_id).
 
   2. build_dataset_plan(sims, snapshots_per_sim, n_shear_draws,
@@ -142,7 +142,7 @@ def draw_theta_int(n: int, rng: np.random.Generator) -> np.ndarray:
 
 def convert_csv(input_csv: str, subhalo_id_source: str, output_csv: str) -> None:
     """
-    Convert Eason's CSV to our format.
+    Convert the other student's CSV to our format.
 
     Their columns:
       row_id, g1, g2, theta_int, i, v0, vcirc, rscale, rmse
@@ -155,7 +155,7 @@ def convert_csv(input_csv: str, subhalo_id_source: str, output_csv: str) -> None
     * Their 'i' column is the inclination angle in radians — maps directly
       to our 'inclination'.
     * Their 'theta_int' is already our 'theta_int'.
-    * Their CSV has no subhalo_id; we supply a separate file with one
+    * Their CSV has no subhalo_id; you must supply a separate file with one
       integer (subhalo ID) per line, in the same order as the CSV rows.
     * 'v0' (systemic velocity offset) and 'rscale' are not needed by our
       image-generation pipeline, but we keep them as optional extra columns.
@@ -313,21 +313,37 @@ QUERY_HELP = """
 
 import requests, pandas as pd
 
-API_KEY = "YOUR_KEY_HERE"
+API_KEY = "16a29db7f934e4d33640dcd47e7f80be"
 headers = {"api-key": API_KEY}
 
-def get_subhalos(sim, snap, mass_min_log=9.5, mass_max_log=11.5, limit=500):
+def get_subhalos(sim, snap, mass_min_log=9.5, mass_max_log=11.0,
+                 sfr_min=0.1, limit=500):
+    
+    # Query star-forming disc galaxies for the KL sample.
+
+    # Filters (matching Xu+2022 §3.2 KL selection):
+    #   mass range   : 10^9.5 – 10^11.0 Msun. Upper limit is 11.0 not 11.5
+    #                  because very massive galaxies at z~1 are predominantly
+    #                  quenched and would not be Hα emitters in the Roman KL sample.
+    #   sfr__gt=0.1  : FIX 3 — exclude quenched galaxies. Without this, ordering
+    #                  by mass picks up passive ellipticals first. The SFR cut
+    #                  ensures every selected galaxy has detectable Hα emission,
+    #                  matching the Roman grism detection criterion of the paper.
+    #   order_by=-sfr: prioritise the most actively star-forming discs so the
+    #                  first N results have the best-resolved velocity fields.
+   
+    h = 0.6774
     url = f"https://www.tng-project.org/api/{sim}/snapshots/{snap}/subhalos/"
     params = {
-        "limit":       limit,
-        "mass_stars__gt": 10**(mass_min_log - 10),   # API uses 1e10 Msun/h units
-        "mass_stars__lt": 10**(mass_max_log - 10),
-        "order_by":    "-mass_stars",
+        "limit":          limit,
+        "mass_stars__gt": 10**(mass_min_log - 10) / h,
+        "mass_stars__lt": 10**(mass_max_log - 10) / h,
+        "sfr__gt":        sfr_min,      # exclude quenched / passive galaxies
+        "order_by":       "-sfr",       # most actively star-forming first
     }
     r = requests.get(url, params=params, headers=headers)
     r.raise_for_status()
-    results = r.json()["results"]
-    return [entry["id"] for entry in results]
+    return [entry["id"] for entry in r.json().get("results", [])]
 
 # Fill IDs into the plan CSV:
 plan = pd.read_csv("dataset_plan.csv")

@@ -15,7 +15,10 @@ Evaluations (run in order, see EVALUATIONS)
   2. Absolute error percentiles
   3. Fractional error percentiles
   4. Diagnostic plots (scatter, pred vs true, residual histograms)
-  5. Error analysis: relates per-galaxy errors to galaxy properties
+  5. Saliency maps (SmoothGrad) for a few random galaxies, plus the share
+     of saliency in the image border and per velocity channel
+     → <outdir>/saliency/
+  6. Error analysis: relates per-galaxy errors to galaxy properties
        - from the TNG API (cached): log M*, log SFR, log sSFR, gas fraction,
          stellar half-mass radius, v_max, metallicity, N gas particles
        - from the FITS files: rendered inclination and θ_int (FITS header),
@@ -74,6 +77,7 @@ from torch.utils.data import DataLoader
 from train_kl_model import (
     KLShearDataset,
     TwoStreamShearNet,
+    filter_by_vel_fill,
     filter_to_existing,
     plot_pred_vs_true,
     plot_residual_hist,
@@ -181,12 +185,141 @@ def eval_error_analysis(preds, labels, ctx):
     return out
 
 
+def eval_saliency(preds, labels, ctx):
+    """
+    SmoothGrad saliency maps for a few random galaxies (one draw each):
+    |∂g_pred / ∂input| averaged over noisy copies of the input.
+
+    Also reports the fraction of saliency in the outer border of the image
+    versus the border's share of the area.  A ratio well above 1 means the
+    model is looking at the image edges (e.g. the padded region created by
+    shearing), not the galaxy.
+    """
+    args = ctx["args"]
+    if args.n_saliency <= 0:
+        return {}
+    model, ds, device, df = ctx["model"], ctx["dataset"], ctx["device"], ctx["df"]
+    out_dir = ctx["out_dir"] / "saliency"
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    # one random row per galaxy, n_saliency galaxies
+    rng  = np.random.default_rng(args.saliency_seed)
+    gals = df.drop_duplicates(["subhalo_id", "snap"])
+    idxs = rng.choice(gals.index.to_numpy(),
+                      size=min(args.n_saliency, len(gals)), replace=False)
+
+    model.eval()
+    n_s, noise = args.smoothgrad_samples, args.smoothgrad_noise
+    results = []
+    for i in idxs:
+        photo, vel, lab = ds[int(i)]
+        photo = photo.unsqueeze(0).contiguous().to(device)
+        vel   = vel.unsqueeze(0).contiguous().to(device)
+
+        sal = {t: [torch.zeros_like(photo), torch.zeros_like(vel)]
+               for t in ("g1", "g2")}
+        for _ in range(max(1, n_s)):
+            p_in = (photo + noise * torch.randn_like(photo)).requires_grad_(True)
+            v_in = (vel   + noise * torch.randn_like(vel)).requires_grad_(True)
+            g1p, g2p = model(p_in, v_in)
+            for tag, out in (("g1", g1p), ("g2", g2p)):
+                gp, gv = torch.autograd.grad(out.sum(), [p_in, v_in],
+                                             retain_graph=(tag == "g1"))
+                sal[tag][0] += gp.abs()
+                sal[tag][1] += gv.abs()
+        with torch.no_grad():
+            pred = torch.stack(model(photo, vel), dim=1)[0].cpu().numpy()
+
+        row = df.loc[int(i)]
+        results.append({
+            "sid": int(row["subhalo_id"]), "snap": int(row["snap"]),
+            "true": lab.numpy(), "pred": pred,
+            "photo": photo[0, 0].cpu().numpy(),
+            "vel":   vel[0].cpu().numpy(),                               # (3,H,W)
+            **{f"sal_photo_{t}": sal[t][0][0].sum(0).cpu().numpy() for t in sal},
+            **{f"sal_vel_{t}":   sal[t][1][0].cpu().numpy()        for t in sal},  # (3,H,W)
+        })
+
+    # ── Border-saliency statistic ───────────────────────────────────────────
+    H = results[0]["photo"].shape[0]
+    m = max(1, int(round(args.saliency_border * H)))
+    border = np.ones((H, H), bool); border[m:-m, m:-m] = False
+    area_frac = border.mean()
+
+    out = {"saliency_border_area_frac": float(area_frac)}
+    print(f"\n  Saliency in outer {args.saliency_border:.0%} border "
+          f"(border = {area_frac:.0%} of area; ratio > 1 means edge-focused)")
+    for t, sym in (("g1", "g+"), ("g2", "g×")):
+        for stream in ("photo", "vel"):
+            fr = np.mean([
+                (lambda s: s[border].sum() / s.sum())(
+                    r[f"sal_{stream}_{t}"] if stream == "photo"
+                    else r[f"sal_{stream}_{t}"].sum(0))
+                for r in results])
+            out[f"saliency_border_frac_{stream}_{t}"] = float(fr)
+            print(f"    {sym} {stream:<5}: {fr:.1%}  (ratio {fr / area_frac:.2f})")
+
+    # Share of velocity-stream saliency per channel
+    ch_names = ["v_obs", "v_asym", "v_sym"]
+    for t, sym in (("g1", "g+"), ("g2", "g×")):
+        tot = np.sum([r[f"sal_vel_{t}"].sum(axis=(1, 2)) for r in results], axis=0)
+        share = tot / tot.sum()
+        print(f"  {sym} velocity-channel share: " +
+              "  ".join(f"{n}={s:.0%}" for n, s in zip(ch_names, share)))
+        for n, s in zip(ch_names, share):
+            out[f"saliency_vel_share_{n}_{t}"] = float(s)
+
+    # ── Plots ───────────────────────────────────────────────────────────────
+    def show(ax, img, cmap, title, sal=False):
+        if sal:
+            vmax = np.percentile(img, 99.5) or 1.0
+            ax.imshow(img, origin="lower", cmap=cmap, vmin=0, vmax=vmax)
+            ax.add_patch(plt.Rectangle((m - 0.5, m - 0.5), H - 2 * m, H - 2 * m,
+                                       fill=False, ec="cyan", lw=0.6, ls="--"))
+        else:
+            ax.imshow(img, origin="lower", cmap=cmap)
+        ax.set_title(title, fontsize=8); ax.set_xticks([]); ax.set_yticks([])
+
+    n = len(results)
+    fig, axes = plt.subplots(n, 6, figsize=(16, 2.8 * n), squeeze=False)
+    for r_i, r in enumerate(results):
+        ax = axes[r_i]
+        show(ax[0], r["photo"], "gray",
+             f"id {r['sid']} (snap {r['snap']}) photo\n"
+             f"g+ {r['true'][0]:+.3f}→{r['pred'][0]:+.3f}  "
+             f"g× {r['true'][1]:+.3f}→{r['pred'][1]:+.3f}")
+        show(ax[1], r["vel"][0], "RdBu_r", "v_obs input")
+        show(ax[2], r["sal_photo_g1"],       "magma", "∂g+/∂photo", sal=True)
+        show(ax[3], r["sal_vel_g1"].sum(0),  "magma", "∂g+/∂vel",   sal=True)
+        show(ax[4], r["sal_photo_g2"],       "magma", "∂g×/∂photo", sal=True)
+        show(ax[5], r["sal_vel_g2"].sum(0),  "magma", "∂g×/∂vel",   sal=True)
+    fig.tight_layout()
+    fname = out_dir / f"saliency_{ctx['name']}.png"
+    fig.savefig(fname, dpi=130, bbox_inches="tight"); plt.close(fig)
+    print(f"  Saved: saliency/{fname.name}")
+
+    # g× saliency per velocity channel
+    fig, axes = plt.subplots(n, 6, figsize=(16, 2.8 * n), squeeze=False)
+    for r_i, r in enumerate(results):
+        for c, name_c in enumerate(ch_names):
+            show(axes[r_i, c], r["vel"][c], "RdBu_r",
+                 f"id {r['sid']}  {name_c} input" if c == 0 else f"{name_c} input")
+            show(axes[r_i, 3 + c], r["sal_vel_g2"][c], "magma",
+                 f"∂g×/∂{name_c}", sal=True)
+    fig.tight_layout()
+    fname = out_dir / f"saliency_gx_vel_channels_{ctx['name']}.png"
+    fig.savefig(fname, dpi=130, bbox_inches="tight"); plt.close(fig)
+    print(f"  Saved: saliency/{fname.name}")
+    return out
+
+
 # Add new evaluation functions here; they run in order.
 EVALUATIONS = [
     eval_basic_metrics,
     eval_abs_error_percentiles,
     eval_frac_error_percentiles,
     eval_plots,
+    eval_saliency,
     eval_error_analysis,
 ]
 
@@ -602,8 +735,22 @@ def parse_args():
                    help="Force on-the-fly shearing of image_original.fits "
                         "(default: whatever the checkpoint was trained with)")
     p.add_argument("--batch_size",  type=int, default=32)
+    p.add_argument("--min_vel_fill", type=float, default=None,
+                   help="Velmap fill-fraction cut (default: the value the "
+                        "checkpoint was trained with; 0 disables)")
     p.add_argument("--num_workers", type=int, default=4)
     p.add_argument("--skip_plots",  action="store_true")
+
+    sa = p.add_argument_group("saliency")
+    sa.add_argument("--n_saliency", type=int, default=5,
+                    help="Number of random galaxies for saliency maps (0 = off)")
+    sa.add_argument("--saliency_seed", type=int, default=0)
+    sa.add_argument("--smoothgrad_samples", type=int, default=16,
+                    help="Noisy copies averaged per map (1 = plain gradient)")
+    sa.add_argument("--smoothgrad_noise", type=float, default=0.05,
+                    help="Noise std added to the [0,1] inputs for SmoothGrad")
+    sa.add_argument("--saliency_border", type=float, default=0.10,
+                    help="Border width (fraction of image) for the edge statistic")
 
     ea = p.add_argument_group("error analysis")
     ea.add_argument("--error_components", nargs="*", default=["g2"],
@@ -642,8 +789,13 @@ def main():
 
     print(f"Checkpoint: {ckpt_path}  (epoch {ckpt.get('epoch')}, "
           f"val loss {ckpt.get('val_loss', float('nan')):.4f})")
+    smooth_sigma  = train_args.get("smooth_sigma", 0.0)
+    smooth_target = train_args.get("smooth_target", "both")
+    # Checkpoints trained before the border fix used no crop
+    crop_frac     = train_args.get("crop_frac", 1.0)
     print(f"images_root={images_root}  npix={npix}  "
-          f"use_original_image={use_orig}")
+          f"use_original_image={use_orig}  smooth_sigma={smooth_sigma} "
+          f"({smooth_target})  crop_frac={crop_frac}")
 
     # ── Data ─────────────────────────────────────────────────────────────────
     split_csv = Path(args.split_csv) if args.split_csv \
@@ -656,10 +808,17 @@ def main():
     df = pd.read_csv(split_csv)
     df = df[df["subhalo_id"] != -1].reset_index(drop=True)
     df = filter_to_existing(df, images_root, use_orig)
+    min_fill = (args.min_vel_fill if args.min_vel_fill is not None
+                else train_args.get("min_vel_fill", 0.0))
+    df = filter_by_vel_fill(df, images_root, min_fill)
     print(f"Evaluating on {split_csv} ({len(df)} rows) as '{name}'")
 
+    dataset = KLShearDataset(df, images_root, npix, use_orig,
+                             smooth_sigma=smooth_sigma,
+                             smooth_target=smooth_target,
+                             crop_frac=crop_frac)
     loader = DataLoader(
-        KLShearDataset(df, images_root, npix, use_orig),
+        dataset,
         batch_size=args.batch_size, shuffle=False,
         num_workers=args.num_workers, pin_memory=(device.type == "cuda"),
     )
@@ -686,7 +845,8 @@ def main():
                  else ckpt_path.parent / "tng_subhalo_props.csv")
     ctx = {"df": df, "out_dir": out_dir, "name": name, "loss": loss,
            "avg_eval_time": avg_eval_time, "images_root": images_root,
-           "tng_cache": tng_cache, "args": args}
+           "tng_cache": tng_cache, "args": args,
+           "model": model, "dataset": dataset, "device": device}
     summary = {"checkpoint": str(ckpt_path), "split_csv": str(split_csv),
                "best_epoch": ckpt.get("epoch")}
     for fn in EVALUATIONS:

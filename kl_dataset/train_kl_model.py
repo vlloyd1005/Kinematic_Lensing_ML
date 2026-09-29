@@ -34,6 +34,12 @@ Labels come from the plan CSV columns: subhalo_id, snap, g1, g2.
   g1 → g+  (tangential shear component)
   g2 → g×  (cross shear component)
 
+After shearing, only the central --crop_frac (default 0.75) of the field is
+kept, so no zero-padded border strip (which encodes the shear) reaches the
+model.  Optional Gaussian smoothing (--smooth_sigma, in pixels of the npix
+image) is applied to the observed (sheared) inputs, mimicking a PSF / beam.
+With the 30 kpc field of view, crop_frac=0.75 and npix=128, 1 px = 0.176 kpc.
+
 Usage
 -----
   python train_kl_model.py \
@@ -41,16 +47,18 @@ Usage
       --csv          /path/to/dataset_plan_with_ids.csv \
       --outdir       ./kl_model_output \
       --epochs       50 \
-      --batch_size   32
+      --batch_size   32 \
+      --smooth_sigma 2
 
 Dependencies
 ------------
   pip install torch torchvision timm astropy numpy pandas \
-              scikit-learn matplotlib tqdm
+              scikit-learn matplotlib tqdm scipy
 """
 
 import argparse
 import os
+import time
 import warnings
 from pathlib import Path
 
@@ -64,10 +72,10 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from astropy.io import fits
+from scipy.ndimage import gaussian_filter
 from sklearn.model_selection import GroupShuffleSplit
 from torch.utils.data import DataLoader, Dataset
 from tqdm import tqdm
-import time
 
 warnings.filterwarnings("ignore")
 
@@ -99,7 +107,8 @@ def load_fits_image(path: Path, npix: int) -> np.ndarray:
     return data
 
 
-def apply_shear_numpy(img: np.ndarray, g1: float, g2: float) -> np.ndarray:
+def apply_shear_numpy(img: np.ndarray, g1: float, g2: float,
+                      crop_frac: float = 1.0) -> np.ndarray:
     """
     Apply cosmic shear (g1, g2) to a source-plane image at the pixel level.
     Uses the lensing matrix A (Xu+2022 Eq. 1):
@@ -109,14 +118,24 @@ def apply_shear_numpy(img: np.ndarray, g1: float, g2: float) -> np.ndarray:
     This is identical to shear_image_remap() in generate_kl_tng50.py and
     lets us apply arbitrary shear values at training time without re-generating
     FITS files, enabling the multi-draw expansion strategy.
+
+    crop_frac < 1: the output grid covers only the central crop_frac of the
+    field (same npix, so a slight zoom).  Source coordinates then stay inside
+    the image for every |g1| + |g2| <= 1/crop_frac - 1, so no pixel is pulled
+    from outside and there is no padded border strip, which would otherwise
+    encode the shear directly.  crop_frac MUST be the same for every sample
+    (including g = 0), or the zoom level itself would leak the shear.
+    With |g| < 0.2, |g1| + |g2| <= 0.283, so crop_frac <= 0.779 is safe.
+
+    crop_frac = 1 reproduces the original behaviour (zero-padded edges).
     """
     from scipy.ndimage import map_coordinates
 
     npix   = img.shape[0]
     centre = (npix - 1) / 2.0
     col_o, row_o = np.meshgrid(np.arange(npix), np.arange(npix))
-    xo = (col_o - centre) / centre
-    yo = (row_o - centre) / centre
+    xo = (col_o - centre) / centre * crop_frac
+    yo = (row_o - centre) / centre * crop_frac
 
     xs = (1 - g1) * xo - g2       * yo
     ys = -g2      * xo + (1 + g1) * yo
@@ -124,8 +143,11 @@ def apply_shear_numpy(img: np.ndarray, g1: float, g2: float) -> np.ndarray:
     col_s = xs * centre + centre
     row_s = ys * centre + centre
 
+    # With cropping every sample is in bounds; "nearest" only affects the
+    # cubic-spline support at the very edge, so no artificial fill value.
+    mode = "constant" if crop_frac >= 1.0 else "nearest"
     return map_coordinates(img, [row_s.ravel(), col_s.ravel()],
-                           order=3, mode="constant", cval=0.0
+                           order=3, mode=mode, cval=0.0
                            ).reshape(npix, npix).astype(np.float32)
 
 
@@ -166,17 +188,38 @@ class KLShearDataset(Dataset):
         False: load pre-sheared stellar image FITS directly
         True : load original stellar image FITS, apply shear on-the-fly
                (required for multi-draw CSVs from expand_shear_draws.py)
+
+    Border crop (crop_frac < 1):
+        After shearing, only the central crop_frac of the field is kept (see
+        apply_shear_numpy).  This removes the padded strip at the image edge
+        whose shape would otherwise encode (g1, g2).  The same crop is
+        applied to every input, including pre-sheared images.
+
+    Smoothing (smooth_sigma > 0):
+        A Gaussian of width smooth_sigma pixels is applied to the observed
+        (sheared) photometric image and/or v_obs — after shearing, as a PSF
+        acts on the lensed image — and before v_asym / v_sym are computed.
+        smooth_target selects "both", "photo" or "vel".
     """
 
     def __init__(self, df: pd.DataFrame, images_root: Path,
-                 npix: int = 256, use_original_image: bool = False):
+                 npix: int = 256, use_original_image: bool = False,
+                 smooth_sigma: float = 0.0, smooth_target: str = "both",
+                 crop_frac: float = 1.0):
         self.df                 = df.reset_index(drop=True)
+        self.crop_frac          = float(crop_frac)
         self.images_root        = images_root
         self.npix               = npix
         self.use_original_image = use_original_image
+        self.smooth_sigma       = float(smooth_sigma)
+        self.smooth_target      = smooth_target
 
     def __len__(self):
         return len(self.df)
+
+    def _smooth(self, arr: np.ndarray) -> np.ndarray:
+        return gaussian_filter(arr, sigma=self.smooth_sigma,
+                               mode="nearest").astype(np.float32)
 
     def __getitem__(self, idx):
         row  = self.df.iloc[idx]
@@ -191,17 +234,26 @@ class KLShearDataset(Dataset):
         if self.use_original_image:
             photo_raw = load_fits_image(
                 gal_dir / f"galaxy_{sid}_image_original.fits", self.npix)
-            photo = apply_shear_numpy(photo_raw, g1, g2)
+            photo = apply_shear_numpy(photo_raw, g1, g2, self.crop_frac)
         else:
             photo = load_fits_image(
                 gal_dir / f"galaxy_{sid}_image_sheared.fits", self.npix)
+            if self.crop_frac < 1.0:          # same central crop, no shear
+                photo = apply_shear_numpy(photo, 0.0, 0.0, self.crop_frac)
 
         # ── Kinematic input: all derived from observed (sheared) velmap ───
         # Apply shear to the original velocity map to get what Roman observes
         # (Eq. 6: v'_LoS(θ_O) = v_LoS(A·θ_O))
         vel_orig_raw = load_fits_image(
             gal_dir / f"galaxy_{sid}_velmap_original.fits", self.npix)
-        v_obs = apply_shear_numpy(vel_orig_raw, g1, g2)
+        v_obs = apply_shear_numpy(vel_orig_raw, g1, g2, self.crop_frac)
+
+        # ── Optional PSF-like smoothing of the observed inputs ────────────
+        if self.smooth_sigma > 0:
+            if self.smooth_target in ("both", "photo"):
+                photo = self._smooth(photo)
+            if self.smooth_target in ("both", "vel"):
+                v_obs = self._smooth(v_obs)
 
         # Decompose v_obs into even and odd parts under 180° rotation
         v_rot180 = np.rot90(v_obs, 2)          # 180° rotation
@@ -220,11 +272,11 @@ class KLShearDataset(Dataset):
         v_sym  = norm(v_sym)
 
         # ── Tensors ───────────────────────────────────────────────────────
-        photo_t = torch.from_numpy(photo).unsqueeze(0).expand(3, -1, -1)
+        photo_t = torch.from_numpy(np.ascontiguousarray(photo)).unsqueeze(0).expand(3, -1, -1)
         vel_t   = torch.stack([
-            torch.from_numpy(v_obs),    # ch0: observed velocity (Eq. 6)
-            torch.from_numpy(v_asym),   # ch1: g× carrier (Eq. 7)
-            torch.from_numpy(v_sym),    # ch2: disc rotation / g+ carrier
+            torch.from_numpy(np.ascontiguousarray(v_obs)),    # ch0: observed velocity (Eq. 6)
+            torch.from_numpy(np.ascontiguousarray(v_asym)),   # ch1: g× carrier (Eq. 7)
+            torch.from_numpy(np.ascontiguousarray(v_sym)),    # ch2: disc rotation / g+ carrier
         ], dim=0)                        # (3, H, W)
 
         labels = torch.tensor([g1, g2], dtype=torch.float32)
@@ -335,7 +387,7 @@ class TwoStreamShearNet(nn.Module):
     def forward(self, photo, vel):
         """
         photo : (B, 3, H, W)   sheared stellar image
-        vel   : (B, 1, H, W)   original LoS velocity map
+        vel   : (B, 3, H, W)   v_obs, v_asym, v_sym
         """
         f_photo = self.photo_stem(photo)          # (B, 24, H/4, W/4)
         f_vel   = self.vel_stream(vel)            # (B, 24, H/4, W/4)
@@ -568,7 +620,8 @@ def plot_residual_hist(preds: np.ndarray, labels: np.ndarray,
 
 def build_splits(df: pd.DataFrame, images_root: Path, npix: int,
                  use_original_image: bool = False,
-                 train_frac=0.70, val_frac=0.15, seed=42):
+                 smooth_sigma: float = 0.0, smooth_target: str = "both",
+                 crop_frac: float = 1.0, train_frac=0.70, val_frac=0.15, seed=42):
     """
     Split df into train / val / test with no subhalo_id overlap between splits.
     GroupShuffleSplit groups by subhalo_id so each physical galaxy lands in
@@ -604,15 +657,18 @@ def build_splits(df: pd.DataFrame, images_root: Path, npix: int,
           f"val: {df_val['subhalo_id'].nunique()}  "
           f"test: {df_test['subhalo_id'].nunique()}")
 
-    train_ds = KLShearDataset(df_train, images_root, npix, use_original_image)
-    val_ds   = KLShearDataset(df_val,   images_root, npix, use_original_image)
-    test_ds  = KLShearDataset(df_test,  images_root, npix, use_original_image)
+    kw = dict(use_original_image=use_original_image,
+              smooth_sigma=smooth_sigma, smooth_target=smooth_target,
+              crop_frac=crop_frac)
+    train_ds = KLShearDataset(df_train, images_root, npix, **kw)
+    val_ds   = KLShearDataset(df_val,   images_root, npix, **kw)
+    test_ds  = KLShearDataset(df_test,  images_root, npix, **kw)
 
     return train_ds, val_ds, test_ds, df_train, df_val, df_test
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# File existence filter
+# Selection filters
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def filter_to_existing(df: pd.DataFrame, images_root: Path,
@@ -637,6 +693,7 @@ def filter_to_existing(df: pd.DataFrame, images_root: Path,
     if n_dropped:
         print(f"  [WARN] Dropping {n_dropped} rows with missing FITS files.")
     return df[keep].reset_index(drop=True)
+
 
 def filter_by_vel_fill(df: pd.DataFrame, images_root: Path,
                        min_fill: float) -> pd.DataFrame:
@@ -670,6 +727,7 @@ def filter_by_vel_fill(df: pd.DataFrame, images_root: Path,
     print(f"  Dropping {n_gal_cut}/{len(gal_fill)} galaxies "
           f"({int((~keep).sum())} rows) with vel_fill_frac < {min_fill}")
     return df[keep].reset_index(drop=True)
+
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # Main
@@ -708,6 +766,19 @@ def parse_args():
                    help="Drop galaxies whose velmap has fewer than this "
                         "fraction of non-empty pixels (gas-free galaxies). "
                         "0 disables the cut.")
+    p.add_argument("--crop_frac", type=float, default=0.75,
+                   help="Keep the central fraction of the field after "
+                        "shearing so no padded border strip appears "
+                        "(<= 0.779 is safe for |g| < 0.2). 1 = old behaviour. "
+                        "Effective FOV = 30 kpc * crop_frac.")
+    p.add_argument("--smooth_sigma", type=float, default=0.0,
+                   help="Gaussian smoothing sigma in pixels of the npix image, "
+                        "applied to the observed (sheared) inputs. With a "
+                        "30 kpc FOV, crop_frac=0.75 and npix=128, "
+                        "1 px = 0.176 kpc. 0 = off.")
+    p.add_argument("--smooth_target", choices=["both", "photo", "vel"],
+                   default="both",
+                   help="Which input(s) to smooth (default: both)")
     return p.parse_args()
 
 
@@ -723,6 +794,10 @@ def main():
     print(f"\nDevice: {device}")
     if device.type == "cuda":
         print(f"  GPU: {torch.cuda.get_device_name(0)}")
+    print(f"Border crop: central {args.crop_frac:.0%} of the field "
+          f"({30 * args.crop_frac:.1f} kpc)")
+    if args.smooth_sigma > 0:
+        print(f"Smoothing: sigma = {args.smooth_sigma} px on {args.smooth_target}")
 
     # ── Load and validate CSV ────────────────────────────────────────────────
     df = pd.read_csv(args.csv)
@@ -745,7 +820,9 @@ def main():
     # ── Splits ───────────────────────────────────────────────────────────────
     print("\nBuilding train / val / test splits (stratified by subhalo_id) …")
     train_ds, val_ds, test_ds, df_train, df_val, df_test = build_splits(
-        df, images_root, args.npix, args.use_original_image
+        df, images_root, args.npix, args.use_original_image,
+        smooth_sigma=args.smooth_sigma, smooth_target=args.smooth_target,
+        crop_frac=args.crop_frac,
     )
     df_train.to_csv(out_dir / "split_train.csv", index=False)
     df_val.to_csv(  out_dir / "split_val.csv",   index=False)
@@ -852,7 +929,7 @@ def main():
 
     # ── Load best checkpoint for evaluation ─────────────────────────────────
     print(f"\nLoading best checkpoint (val loss = {best_val_loss:.4f}) …")
-    ckpt = torch.load(best_ckpt_path, map_location=device)
+    ckpt = torch.load(best_ckpt_path, map_location=device, weights_only=False)
     model.load_state_dict(ckpt["model_state_dict"])
 
     # ── Test evaluation ──────────────────────────────────────────────────────
@@ -936,6 +1013,11 @@ def main():
 
     # ── Save summary ─────────────────────────────────────────────────────────
     summary = {
+        "smooth_sigma":      float(args.smooth_sigma),
+        "smooth_target":     args.smooth_target,
+        "min_vel_fill":      float(args.min_vel_fill),
+        "crop_frac":         float(args.crop_frac),
+        "kpc_per_pix":       30.0 * args.crop_frac / args.npix,
         "best_epoch":        int(ckpt["epoch"]),
         "best_val_loss":     float(best_val_loss),
         "test_smooth_l1":    float(te_loss),
@@ -943,6 +1025,7 @@ def main():
         "test_mse_g2":       float(te_mse2),
         "test_rmse_g1":      float(np.sqrt(te_mse1)),
         "test_rmse_g2":      float(np.sqrt(te_mse2)),
+        "avg_eval_time_ms":  float(te_time * 1e3),
         "n_train":           len(train_ds),
         "n_val":             len(val_ds),
         "n_test":            len(test_ds),

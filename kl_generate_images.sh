@@ -84,7 +84,7 @@ srun python ${SCRIPT_DIR}/generate_kl_tng50.py \
     --snap           ${SNAP} \
     --npix           256 \
     --fov_kpc        30 \
-    --skip_existing
+    # --skip_existing
 
 EXIT_CODE=$?
 

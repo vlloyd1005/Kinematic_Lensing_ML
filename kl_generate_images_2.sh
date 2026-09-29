@@ -2,7 +2,7 @@
 #SBATCH --job-name=kl_generate
 #SBATCH --output=/gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/logs/generate_%x_%a_%A.txt
 #SBATCH --time=48:00:00
-#SBATCH --partition=extended-40core
+#SBATCH --partition=extended-40core-shared
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=9
@@ -84,7 +84,7 @@ srun python ${SCRIPT_DIR}/generate_kl_tng50.py \
     --snap           ${SNAP} \
     --npix           256 \
     --fov_kpc        30 \
-    --skip_existing
+    # --skip_existing
 
 EXIT_CODE=$?
 

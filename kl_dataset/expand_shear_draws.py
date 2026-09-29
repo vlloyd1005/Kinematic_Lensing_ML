@@ -106,15 +106,15 @@ def main():
     rows = []
     for _, row in base.iterrows():
         g1_arr, g2_arr = draw_shear_batch(args.n_draws, rng)
-        inc_arr   = np.arccos(rng.uniform(np.cos(1.4), np.cos(0.2), args.n_draws))
-        theta_arr = rng.uniform(-np.pi / 2, np.pi / 2, args.n_draws)
+        # inc_arr   = np.arccos(rng.uniform(np.cos(1.4), np.cos(0.2), args.n_draws))
+        # theta_arr = rng.uniform(-np.pi / 2, np.pi / 2, args.n_draws)
 
         for k in range(args.n_draws):
             new_row = row.to_dict()
             new_row["g1"]          = round(float(g1_arr[k]),   8)
             new_row["g2"]          = round(float(g2_arr[k]),   8)
-            new_row["inclination"] = round(float(inc_arr[k]),  8)
-            new_row["theta_int"]   = round(float(theta_arr[k]),8)
+            # new_row["inclination"] = round(float(inc_arr[k]),  8)
+            # new_row["theta_int"]   = round(float(theta_arr[k]),8)
             new_row["draw_idx"]    = k
             rows.append(new_row)
 

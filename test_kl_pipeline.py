@@ -50,6 +50,9 @@ import requests
 from astropy.io import fits
 from scipy.ndimage import map_coordinates
 
+from kl_geometry import (face_on_rotation, angular_momentum_direction,
+                         rotate_to_los, realized_orientation, misalignment_deg)
+
 warnings.filterwarnings("ignore")
 
 # ── TNG cosmological constants ───────────────────────────────────────────────
@@ -153,12 +156,13 @@ def query_disc_galaxies(sim, snap, headers, n=5,
 
 
 def get_subhalo_pos(sim, snap, subhalo_id, headers, scale_factor):
-    """Return physical position (kpc) of the subhalo centre."""
+    """Return physical position (kpc) and stellar half-mass radius (kpc)."""
     url  = f"{BASE_URL}{sim}/snapshots/{snap}/subhalos/{subhalo_id}/"
     meta = tng_get(url, headers=headers).json()
     pos  = np.array([meta["pos_x"], meta["pos_y"], meta["pos_z"]],
-                    dtype=np.float64)
-    return pos * scale_factor / h   # comoving kpc/h → physical kpc
+                    dtype=np.float64) * scale_factor / h
+    r_half = float(meta["halfmassrad_stars"]) * scale_factor / h
+    return pos, r_half
 
 
 def download_cutout(sim, snap, subhalo_id, particle_type, fields, headers):
@@ -194,25 +198,6 @@ def to_solar_mass(code):
 def centre(coords, pos_kpc, boxsize_kpc):
     dx = coords - pos_kpc
     return dx - boxsize_kpc * np.round(dx / boxsize_kpc)
-
-def rotate_to_los(coords, vels, inclination, theta_int):
-    """
-    Rotate to image plane using R(phi=theta_int, i=inclination, psi=0).
-    Returns x_im, y_im (kpc) and v_los (km/s).
-    """
-    phi, i_ = theta_int, inclination
-    cp, sp   = np.cos(phi),  np.sin(phi)
-    ci, si   = np.cos(i_),   np.sin(i_)
-
-    R = np.array([
-        [ cp,        sp,       0  ],
-        [-ci*sp,     ci*cp,    si ],
-        [ si*sp,    -si*cp,    ci ],
-    ])
-
-    r_rot = coords @ R.T
-    v_rot = vels   @ R.T
-    return r_rot[:, 0], r_rot[:, 1], -v_rot[:, 2]
 
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -313,7 +298,7 @@ def process_one(subhalo_id, g1, g2, inclination, theta_int,
 
     # 1. Subhalo position
     try:
-        pos_kpc = get_subhalo_pos(sim, snap, subhalo_id, headers, scale_factor)
+        pos_kpc, r_half = get_subhalo_pos(sim, snap, subhalo_id, headers, scale_factor)
     except Exception as exc:
         print(f"    metadata error: {exc}", flush=True)
         return None
@@ -360,6 +345,20 @@ def process_one(subhalo_id, g1, g2, inclination, theta_int,
     if have_gas:
         g_pos  = centre(g_pos, pos_kpc, boxsize_kpc)
         g_vel -= v_bulk
+
+    # 4b. Face-on rotation from stellar angular momentum
+    rot_face, L_star = face_on_rotation(s_pos, s_vel, s_mass, r_max=2.0 * r_half)
+    misalign = -1.0
+    if have_gas:
+        try:
+            misalign = misalignment_deg(
+                L_star, angular_momentum_direction(g_pos, g_vel, g_mass,
+                                                   r_max=2.0 * r_half))
+        except ValueError:
+            pass
+    s_pos, s_vel = rot_face.apply(s_pos), rot_face.apply(s_vel)
+    if have_gas:
+        g_pos, g_vel = rot_face.apply(g_pos), rot_face.apply(g_vel)
 
     # 5. Project to image plane
     sx, sy, _     = rotate_to_los(s_pos, s_vel, inclination, theta_int)
@@ -408,7 +407,8 @@ def process_one(subhalo_id, g1, g2, inclination, theta_int,
                 n_stars=int(ok.sum()),
                 n_gas=int(len(gas["Coordinates"])) if have_gas else 0,
                 img_orig_peak=float(np.nanmax(img_orig)),
-                vmap_max_kms=float(np.nanmax(np.abs(vmap_orig))))
+                vmap_max_kms=float(np.nanmax(np.abs(vmap_orig))),
+                r_half=r_half, misalign_deg=misalign)
 
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -537,7 +537,7 @@ def main():
         return float(np.arccos(cos_i))
 
     def draw_theta():
-        return float(rng.uniform(-np.pi / 2, np.pi / 2))
+        return float(rng.uniform(-np.pi, np.pi))
 
     # ── run pipeline ─────────────────────────────────────────────────────
     results  = []
