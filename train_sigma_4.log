@@ -1,6 +1,7 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
 
 Device: cuda
-  GPU: Tesla T4
+  GPU: NVIDIA A100-SXM4-40GB
 Border crop: central 75% of the field (22.5 kpc)
 Smoothing: sigma = 4.0 px on both
 
@@ -18,55 +19,166 @@ Building model …
 
 Training for up to 60 epochs (patience=12) …
 
-[W929 14:26:27.911847275 CUDACachingAllocator.cpp:3934] memory allocation failed with OOM on device 0 while trying to allocate 79691776 bytes (free: 45875200, total: 15637086208).
-[W929 14:26:27.962560026 CUDACachingAllocator.cpp:3934] memory allocation failed with OOM on device 0 while trying to allocate 79691776 bytes (free: 45875200, total: 15637086208).
-Traceback (most recent call last):
-  File "/content/Kinematic_Lensing_ML/kl_dataset/train_kl_model.py", line 1057, in <module>
-    main()
-    ~~~~^^
-  File "/content/Kinematic_Lensing_ML/kl_dataset/train_kl_model.py", line 890, in main
-    tr_loss, tr_mse1, tr_mse2, _, _, _ = run_epoch(
-                                         ~~~~~~~~~^
-        model, train_loader, criterion, optimizer, device, training=True
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    )
-    ^
-  File "/content/Kinematic_Lensing_ML/kl_dataset/train_kl_model.py", line 431, in run_epoch
-    g1_pred, g2_pred = model(photo, vel)
-                       ~~~~~^^^^^^^^^^^^
-  File "/usr/local/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
-    return forward_call(*args, **kwargs)
-  File "/content/Kinematic_Lensing_ML/kl_dataset/train_kl_model.py", line 392, in forward
-    f_photo = self.photo_stem(photo)          # (B, 24, H/4, W/4)
-  File "/usr/local/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
-    return forward_call(*args, **kwargs)
-  File "/usr/local/lib/python3.13/site-packages/torch/nn/modules/container.py", line 259, in forward
-    input = module(input)
-  File "/usr/local/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
-    return forward_call(*args, **kwargs)
-  File "/usr/local/lib/python3.13/site-packages/timm/layers/norm_act.py", line 136, in forward
-    x = F.batch_norm(
-        x,
-    ...<7 lines>...
-        self.eps,
-    )
-  File "/usr/local/lib/python3.13/site-packages/torch/nn/functional.py", line 2904, in batch_norm
-    return torch.batch_norm(
-           ~~~~~~~~~~~~~~~~^
-        input,
-        ^^^^^^
-    ...<7 lines>...
-        torch.backends.cudnn.enabled,
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    )
-    ^
-torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 76.00 MiB. GPU 0 has a total capacity of 14.56 GiB of which 43.75 MiB is free. Process 31960 has 1.64 GiB memory in use. Process 31958 has 6.96 GiB memory in use. Including non-PyTorch memory, this process has 292.00 MiB memory in use. Process 31962 has 276.00 MiB memory in use. Process 31959 has 5.37 GiB memory in use. Of the allocated memory 150.55 MiB is allocated by PyTorch, and 19.45 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+Avg eval time: 0.344 ms/sample (0.181 s total over 525 samples)
+Epoch   1/60 | loss  train=0.0016  val=0.0020 | MSE g+ train=3.3441e-03  val=4.8591e-03 | MSE g× train=2.8902e-03  val=2.9666e-03 | lr=3.00e-04
+Avg eval time: 0.196 ms/sample (0.103 s total over 525 samples)
+Epoch   2/60 | loss  train=0.0009  val=0.0013 | MSE g+ train=1.6141e-03  val=2.6950e-03 | MSE g× train=1.8397e-03  val=2.4674e-03 | lr=2.99e-04
+Avg eval time: 0.335 ms/sample (0.176 s total over 525 samples)
+Epoch   3/60 | loss  train=0.0006  val=0.0012 | MSE g+ train=1.0176e-03  val=2.4563e-03 | MSE g× train=1.2476e-03  val=2.4305e-03 | lr=2.98e-04
+Avg eval time: 0.345 ms/sample (0.181 s total over 525 samples)
+Epoch   4/60 | loss  train=0.0004  val=0.0013 | MSE g+ train=7.4257e-04  val=2.7212e-03 | MSE g× train=8.4661e-04  val=2.5255e-03 | lr=2.97e-04
+Avg eval time: 0.344 ms/sample (0.181 s total over 525 samples)
+Epoch   5/60 | loss  train=0.0003  val=0.0013 | MSE g+ train=5.9637e-04  val=2.8008e-03 | MSE g× train=6.4649e-04  val=2.4921e-03 | lr=2.95e-04
+Avg eval time: 0.398 ms/sample (0.209 s total over 525 samples)
+Epoch   6/60 | loss  train=0.0003  val=0.0013 | MSE g+ train=5.6938e-04  val=2.6390e-03 | MSE g× train=5.0604e-04  val=2.6580e-03 | lr=2.93e-04
+Avg eval time: 0.392 ms/sample (0.206 s total over 525 samples)
+Epoch   7/60 | loss  train=0.0002  val=0.0013 | MSE g+ train=4.6829e-04  val=2.6056e-03 | MSE g× train=4.4381e-04  val=2.5681e-03 | lr=2.90e-04
+Avg eval time: 0.390 ms/sample (0.205 s total over 525 samples)
+Epoch   8/60 | loss  train=0.0002  val=0.0014 | MSE g+ train=4.0456e-04  val=3.0670e-03 | MSE g× train=4.2811e-04  val=2.4617e-03 | lr=2.87e-04
+Avg eval time: 0.434 ms/sample (0.228 s total over 525 samples)
+Epoch   9/60 | loss  train=0.0002  val=0.0013 | MSE g+ train=4.7668e-04  val=2.6742e-03 | MSE g× train=3.6366e-04  val=2.3748e-03 | lr=2.84e-04
+Avg eval time: 0.304 ms/sample (0.160 s total over 525 samples)
+Epoch  10/60 | loss  train=0.0002  val=0.0012 | MSE g+ train=4.2339e-04  val=2.5434e-03 | MSE g× train=3.1054e-04  val=2.2929e-03 | lr=2.80e-04
+Avg eval time: 0.462 ms/sample (0.242 s total over 525 samples)
+Epoch  11/60 | loss  train=0.0002  val=0.0013 | MSE g+ train=3.4676e-04  val=2.4540e-03 | MSE g× train=2.8582e-04  val=2.5597e-03 | lr=2.76e-04
+Avg eval time: 0.352 ms/sample (0.185 s total over 525 samples)
+Epoch  12/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=2.9705e-04  val=2.7814e-03 | MSE g× train=2.9904e-04  val=2.1726e-03 | lr=2.72e-04
+Avg eval time: 0.289 ms/sample (0.152 s total over 525 samples)
+Epoch  13/60 | loss  train=0.0001  val=0.0013 | MSE g+ train=2.6435e-04  val=2.6697e-03 | MSE g× train=2.8301e-04  val=2.3492e-03 | lr=2.67e-04
+Avg eval time: 0.458 ms/sample (0.240 s total over 525 samples)
+Epoch  14/60 | loss  train=0.0001  val=0.0013 | MSE g+ train=2.4557e-04  val=2.6606e-03 | MSE g× train=2.1136e-04  val=2.3554e-03 | lr=2.62e-04
+Avg eval time: 0.429 ms/sample (0.225 s total over 525 samples)
+Epoch  15/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=2.5559e-04  val=2.4139e-03 | MSE g× train=2.1163e-04  val=2.3371e-03 | lr=2.57e-04
+Avg eval time: 0.354 ms/sample (0.186 s total over 525 samples)
+Epoch  16/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=1.8834e-04  val=2.5391e-03 | MSE g× train=2.1195e-04  val=2.4580e-03 | lr=2.51e-04
+Avg eval time: 0.268 ms/sample (0.141 s total over 525 samples)
+Epoch  17/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=2.0237e-04  val=2.4636e-03 | MSE g× train=2.0275e-04  val=2.4607e-03 | lr=2.45e-04
+Avg eval time: 0.336 ms/sample (0.176 s total over 525 samples)
+Epoch  18/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=1.9834e-04  val=2.4344e-03 | MSE g× train=1.8802e-04  val=2.2364e-03 | lr=2.39e-04
+Avg eval time: 0.237 ms/sample (0.125 s total over 525 samples)
+Epoch  19/60 | loss  train=0.0001  val=0.0013 | MSE g+ train=2.0026e-04  val=2.5953e-03 | MSE g× train=2.1788e-04  val=2.4403e-03 | lr=2.32e-04
+Avg eval time: 0.417 ms/sample (0.219 s total over 525 samples)
+Epoch  20/60 | loss  train=0.0001  val=0.0013 | MSE g+ train=1.9991e-04  val=2.8117e-03 | MSE g× train=1.9474e-04  val=2.3298e-03 | lr=2.26e-04
+Avg eval time: 0.349 ms/sample (0.183 s total over 525 samples)
+Epoch  21/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=1.7378e-04  val=2.4690e-03 | MSE g× train=1.7075e-04  val=2.4209e-03 | lr=2.19e-04
+Avg eval time: 0.289 ms/sample (0.152 s total over 525 samples)
+Epoch  22/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=1.7024e-04  val=2.2819e-03 | MSE g× train=1.4746e-04  val=2.3730e-03 | lr=2.12e-04
+Avg eval time: 0.227 ms/sample (0.119 s total over 525 samples)
+Epoch  23/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=1.5919e-04  val=2.4292e-03 | MSE g× train=1.8129e-04  val=2.3792e-03 | lr=2.05e-04
+Avg eval time: 0.218 ms/sample (0.114 s total over 525 samples)
+Epoch  24/60 | loss  train=0.0001  val=0.0011 | MSE g+ train=1.6852e-04  val=2.3042e-03 | MSE g× train=1.4416e-04  val=2.2550e-03 | lr=1.97e-04
+Avg eval time: 0.314 ms/sample (0.165 s total over 525 samples)
+Epoch  25/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=1.6221e-04  val=2.4338e-03 | MSE g× train=1.3209e-04  val=2.4459e-03 | lr=1.90e-04
+Avg eval time: 0.237 ms/sample (0.124 s total over 525 samples)
+Epoch  26/60 | loss  train=0.0001  val=0.0013 | MSE g+ train=1.4840e-04  val=2.6018e-03 | MSE g× train=1.2722e-04  val=2.4049e-03 | lr=1.82e-04
+Avg eval time: 0.418 ms/sample (0.220 s total over 525 samples)
+Epoch  27/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=1.3680e-04  val=2.5716e-03 | MSE g× train=1.3940e-04  val=2.3030e-03 | lr=1.75e-04
+Avg eval time: 0.440 ms/sample (0.231 s total over 525 samples)
+Epoch  28/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=1.4707e-04  val=2.5551e-03 | MSE g× train=1.2817e-04  val=2.3219e-03 | lr=1.67e-04
+Avg eval time: 0.321 ms/sample (0.169 s total over 525 samples)
+Epoch  29/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=1.3257e-04  val=2.3896e-03 | MSE g× train=1.1641e-04  val=2.2691e-03 | lr=1.59e-04
+Avg eval time: 0.332 ms/sample (0.174 s total over 525 samples)
+Epoch  30/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=1.1959e-04  val=2.4424e-03 | MSE g× train=1.2015e-04  val=2.2970e-03 | lr=1.52e-04
+Avg eval time: 0.354 ms/sample (0.186 s total over 525 samples)
+Epoch  31/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=1.2845e-04  val=2.4165e-03 | MSE g× train=1.2505e-04  val=2.2432e-03 | lr=1.44e-04
+Avg eval time: 0.306 ms/sample (0.160 s total over 525 samples)
+Epoch  32/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=1.2912e-04  val=2.5714e-03 | MSE g× train=1.1742e-04  val=2.2473e-03 | lr=1.36e-04
+Avg eval time: 0.375 ms/sample (0.197 s total over 525 samples)
+Epoch  33/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=1.0649e-04  val=2.3323e-03 | MSE g× train=1.0620e-04  val=2.2961e-03 | lr=1.28e-04
+Avg eval time: 0.474 ms/sample (0.249 s total over 525 samples)
+Epoch  34/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=1.0123e-04  val=2.4058e-03 | MSE g× train=1.0972e-04  val=2.3305e-03 | lr=1.21e-04
+Avg eval time: 0.409 ms/sample (0.215 s total over 525 samples)
+Epoch  35/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=1.0570e-04  val=2.2606e-03 | MSE g× train=8.7787e-05  val=2.2249e-03 | lr=1.13e-04
+Avg eval time: 0.354 ms/sample (0.186 s total over 525 samples)
+Epoch  36/60 | loss  train=0.0001  val=0.0011 | MSE g+ train=1.1950e-04  val=2.2914e-03 | MSE g× train=9.8658e-05  val=2.2407e-03 | lr=1.06e-04
+Avg eval time: 0.387 ms/sample (0.203 s total over 525 samples)
+Epoch  37/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=1.0275e-04  val=2.4112e-03 | MSE g× train=1.0343e-04  val=2.2701e-03 | lr=9.83e-05
+Avg eval time: 0.370 ms/sample (0.194 s total over 525 samples)
+Epoch  38/60 | loss  train=0.0000  val=0.0012 | MSE g+ train=9.4464e-05  val=2.4720e-03 | MSE g× train=8.2229e-05  val=2.2648e-03 | lr=9.11e-05
+Avg eval time: 0.395 ms/sample (0.207 s total over 525 samples)
+Epoch  39/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=9.7848e-05  val=2.2937e-03 | MSE g× train=8.5348e-05  val=2.1359e-03 | lr=8.41e-05
+Avg eval time: 0.278 ms/sample (0.146 s total over 525 samples)
+Epoch  40/60 | loss  train=0.0000  val=0.0012 | MSE g+ train=8.3063e-05  val=2.4598e-03 | MSE g× train=9.1171e-05  val=2.2703e-03 | lr=7.73e-05
+Avg eval time: 0.331 ms/sample (0.174 s total over 525 samples)
+Epoch  41/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=8.7862e-05  val=2.3037e-03 | MSE g× train=1.0623e-04  val=2.2212e-03 | lr=7.06e-05
+Avg eval time: 0.322 ms/sample (0.169 s total over 525 samples)
+Epoch  42/60 | loss  train=0.0000  val=0.0012 | MSE g+ train=1.0129e-04  val=2.3958e-03 | MSE g× train=8.1974e-05  val=2.2881e-03 | lr=6.42e-05
+Avg eval time: 0.336 ms/sample (0.177 s total over 525 samples)
+Epoch  43/60 | loss  train=0.0000  val=0.0012 | MSE g+ train=8.3175e-05  val=2.3986e-03 | MSE g× train=7.8093e-05  val=2.2792e-03 | lr=5.80e-05
+Avg eval time: 0.343 ms/sample (0.180 s total over 525 samples)
+Epoch  44/60 | loss  train=0.0000  val=0.0012 | MSE g+ train=7.5793e-05  val=2.4229e-03 | MSE g× train=8.2673e-05  val=2.2231e-03 | lr=5.21e-05
+Avg eval time: 0.331 ms/sample (0.174 s total over 525 samples)
+Epoch  45/60 | loss  train=0.0000  val=0.0012 | MSE g+ train=7.7958e-05  val=2.4802e-03 | MSE g× train=7.8229e-05  val=2.2726e-03 | lr=4.65e-05
+Avg eval time: 0.254 ms/sample (0.134 s total over 525 samples)
+Epoch  46/60 | loss  train=0.0000  val=0.0012 | MSE g+ train=8.6332e-05  val=2.4256e-03 | MSE g× train=7.5960e-05  val=2.2052e-03 | lr=4.11e-05
+Avg eval time: 0.288 ms/sample (0.151 s total over 525 samples)
+Epoch  47/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=7.0658e-05  val=2.3608e-03 | MSE g× train=8.0465e-05  val=2.1896e-03 | lr=3.61e-05
+Avg eval time: 0.305 ms/sample (0.160 s total over 525 samples)
+Epoch  48/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=7.1379e-05  val=2.3396e-03 | MSE g× train=7.7088e-05  val=2.2276e-03 | lr=3.14e-05
+Avg eval time: 0.362 ms/sample (0.190 s total over 525 samples)
+Epoch  49/60 | loss  train=0.0000  val=0.0012 | MSE g+ train=7.5421e-05  val=2.4191e-03 | MSE g× train=6.4104e-05  val=2.2434e-03 | lr=2.70e-05
+Avg eval time: 0.455 ms/sample (0.239 s total over 525 samples)
+Epoch  50/60 | loss  train=0.0000  val=0.0012 | MSE g+ train=7.5600e-05  val=2.4327e-03 | MSE g× train=7.4006e-05  val=2.2840e-03 | lr=2.29e-05
+Avg eval time: 0.346 ms/sample (0.181 s total over 525 samples)
+Epoch  51/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=7.9343e-05  val=2.3367e-03 | MSE g× train=7.0130e-05  val=2.2418e-03 | lr=1.92e-05
+
+Early stopping at epoch 51 (no improvement for 12 epochs).
+
+Loading best checkpoint (val loss = 0.0011) …
+
+── Test set evaluation ──────────────────────────────────────
+Avg eval time: 0.496 ms/sample (0.268 s total over 540 samples)
+  Test Smooth-L1 loss : 0.0013
+  Test MSE  g+        : 2.6261e-03
+  Test MSE  g×        : 2.5032e-03
+  Test RMSE g+        : 5.1245e-02
+  Test RMSE g×        : 5.0032e-02
+
+  Absolute error percentiles  |pred − true|
+    Percentile          g+          g×
+  ────────────  ──────────  ──────────
+           50th      0.0323      0.0350
+           75th      0.0570      0.0556
+           90th      0.0845      0.0794
+           95th      0.1049      0.0960
+           99th      0.1414      0.1301
+
+  Fractional error percentiles  |pred − true| / |true|
+  (only galaxies with |g_true| ≥ 0.035 — the KL shape noise floor)
+    Percentile          g+          g×
+  ────────────  ──────────  ──────────
+  (261 galaxies excluded per component as |g_true| < 0.035)
+           50th       71.0%       72.2%
+           75th      104.3%      111.6%
+           90th      162.6%      157.3%
+           95th      205.8%      184.5%
+           99th      251.8%      222.0%
+
+  Interpretation: for galaxies with |g| ≥ 0.035, 50% of predictions are within 71.0% (g+) / 72.2% (g×) of the true shear value.
+Avg eval time: 0.339 ms/sample (0.178 s total over 525 samples)
+
+Generating diagnostic plots …
+  Saved: loss_curves.png
+  Saved: shear_scatter_val.png
+  Saved: pred_vs_true_val.png
+  Saved: residuals_val.png
+  Saved: shear_scatter_test.png
+  Saved: pred_vs_true_test.png
+  Saved: residuals_test.png
+
+All outputs saved to /content/Kinematic_Lensing_ML/kl_dataset/model_output_smooth/sigma_4
+
+Output files:
+  best_model.pt
+  inputs_sigma4.png
+  loss_curves.png
+  pred_vs_true_test.png
+  pred_vs_true_val.png
+  residuals_test.png
+  residuals_val.png
+  shear_scatter_test.png
+  shear_scatter_val.png
+  split_test.csv
+  split_train.csv
+  split_val.csv
+  test_summary.csv
