@@ -1,3 +1,4 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
 
 Device: cuda
   GPU: NVIDIA A100-SXM4-40GB
@@ -5,172 +6,112 @@ Border crop: central 75% of the field (22.5 kpc)
 Smoothing: sigma = 2.0 px on both
 
 Filtering to rows with existing FITS files …
-  Velmap fill fraction per galaxy: <0.1: 67  0.1–0.5: 350  ≥0.5: 381
-  Dropping 94/798 galaxies (470 rows) with vel_fill_frac < 0.15
-Usable rows: 3520
+  Velmap fill fraction per galaxy: <0.1: 67  0.1–0.5: 352  ≥0.5: 381
+  Dropping 94/800 galaxies (940 rows) with vel_fill_frac < 0.15
+Usable rows: 7060
 
 Building train / val / test splits (stratified by subhalo_id) …
-Split sizes — train: 2455  val: 525  test: 540
-Unique galaxies — train: 485  val: 105  test: 105
+Split sizes — train: 4930  val: 1050  test: 1080
+Unique galaxies — train: 487  val: 105  test: 105
 
 Building model …
   Trainable parameters: 4,732,326
 
 Training for up to 60 epochs (patience=12) …
 
-Avg eval time: 0.435 ms/sample (0.228 s total over 525 samples)
-Epoch   1/60 | loss  train=0.0016  val=0.0016 | MSE g+ train=3.4127e-03  val=3.9494e-03 | MSE g× train=2.9357e-03  val=2.2873e-03 | lr=3.00e-04
-Avg eval time: 0.374 ms/sample (0.197 s total over 525 samples)
-Epoch   2/60 | loss  train=0.0008  val=0.0013 | MSE g+ train=1.4974e-03  val=2.7213e-03 | MSE g× train=1.8499e-03  val=2.5054e-03 | lr=2.99e-04
-Avg eval time: 0.465 ms/sample (0.244 s total over 525 samples)
-Epoch   3/60 | loss  train=0.0005  val=0.0012 | MSE g+ train=9.2094e-04  val=2.6504e-03 | MSE g× train=1.1764e-03  val=2.2738e-03 | lr=2.98e-04
-Avg eval time: 0.208 ms/sample (0.109 s total over 525 samples)
-Epoch   4/60 | loss  train=0.0004  val=0.0014 | MSE g+ train=7.1161e-04  val=3.1308e-03 | MSE g× train=8.0671e-04  val=2.4030e-03 | lr=2.97e-04
-Avg eval time: 0.331 ms/sample (0.174 s total over 525 samples)
-Epoch   5/60 | loss  train=0.0003  val=0.0013 | MSE g+ train=5.1495e-04  val=2.9616e-03 | MSE g× train=5.8297e-04  val=2.3429e-03 | lr=2.95e-04
-Avg eval time: 0.332 ms/sample (0.174 s total over 525 samples)
-Epoch   6/60 | loss  train=0.0002  val=0.0014 | MSE g+ train=4.9768e-04  val=2.8211e-03 | MSE g× train=4.7068e-04  val=2.6157e-03 | lr=2.93e-04
-Avg eval time: 0.244 ms/sample (0.128 s total over 525 samples)
-Epoch   7/60 | loss  train=0.0002  val=0.0013 | MSE g+ train=3.9440e-04  val=2.8715e-03 | MSE g× train=4.1180e-04  val=2.3721e-03 | lr=2.90e-04
-Avg eval time: 0.305 ms/sample (0.160 s total over 525 samples)
-Epoch   8/60 | loss  train=0.0002  val=0.0013 | MSE g+ train=3.8908e-04  val=3.1540e-03 | MSE g× train=3.9574e-04  val=2.0818e-03 | lr=2.87e-04
-Avg eval time: 0.245 ms/sample (0.129 s total over 525 samples)
-Epoch   9/60 | loss  train=0.0002  val=0.0012 | MSE g+ train=4.1574e-04  val=2.7499e-03 | MSE g× train=3.1464e-04  val=2.1841e-03 | lr=2.84e-04
-Avg eval time: 0.352 ms/sample (0.185 s total over 525 samples)
-Epoch  10/60 | loss  train=0.0002  val=0.0012 | MSE g+ train=3.6758e-04  val=2.7328e-03 | MSE g× train=2.7860e-04  val=2.1450e-03 | lr=2.80e-04
-Avg eval time: 0.325 ms/sample (0.171 s total over 525 samples)
-Epoch  11/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=3.0057e-04  val=2.4984e-03 | MSE g× train=2.7740e-04  val=2.2955e-03 | lr=2.76e-04
-Avg eval time: 0.392 ms/sample (0.206 s total over 525 samples)
-Epoch  12/60 | loss  train=0.0001  val=0.0013 | MSE g+ train=2.4850e-04  val=2.9598e-03 | MSE g× train=2.5994e-04  val=2.1053e-03 | lr=2.72e-04
-Avg eval time: 0.359 ms/sample (0.189 s total over 525 samples)
-Epoch  13/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=2.2789e-04  val=2.5783e-03 | MSE g× train=2.5939e-04  val=2.1664e-03 | lr=2.67e-04
-Avg eval time: 0.423 ms/sample (0.222 s total over 525 samples)
-Epoch  14/60 | loss  train=0.0001  val=0.0013 | MSE g+ train=2.3760e-04  val=2.7248e-03 | MSE g× train=1.9990e-04  val=2.3907e-03 | lr=2.62e-04
-Avg eval time: 0.427 ms/sample (0.224 s total over 525 samples)
-Epoch  15/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=2.2507e-04  val=2.4714e-03 | MSE g× train=1.9211e-04  val=2.2559e-03 | lr=2.57e-04
-Avg eval time: 0.304 ms/sample (0.160 s total over 525 samples)
-Epoch  16/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=1.9076e-04  val=2.5922e-03 | MSE g× train=1.9723e-04  val=2.1666e-03 | lr=2.51e-04
-Avg eval time: 0.299 ms/sample (0.157 s total over 525 samples)
-Epoch  17/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=1.9237e-04  val=2.4963e-03 | MSE g× train=1.8458e-04  val=2.2928e-03 | lr=2.45e-04
-Avg eval time: 0.334 ms/sample (0.176 s total over 525 samples)
-Epoch  18/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=1.6447e-04  val=2.4069e-03 | MSE g× train=1.5778e-04  val=2.2041e-03 | lr=2.39e-04
-Avg eval time: 0.377 ms/sample (0.198 s total over 525 samples)
-Epoch  19/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=1.9257e-04  val=2.4693e-03 | MSE g× train=1.8904e-04  val=2.2402e-03 | lr=2.32e-04
-Avg eval time: 0.279 ms/sample (0.146 s total over 525 samples)
-Epoch  20/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=1.8080e-04  val=2.6217e-03 | MSE g× train=1.6879e-04  val=2.2208e-03 | lr=2.26e-04
-Avg eval time: 0.351 ms/sample (0.184 s total over 525 samples)
-Epoch  21/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=1.6387e-04  val=2.3637e-03 | MSE g× train=1.6888e-04  val=2.2462e-03 | lr=2.19e-04
-Avg eval time: 0.367 ms/sample (0.193 s total over 525 samples)
-Epoch  22/60 | loss  train=0.0001  val=0.0011 | MSE g+ train=1.4975e-04  val=2.3293e-03 | MSE g× train=1.3488e-04  val=2.1626e-03 | lr=2.12e-04
-Avg eval time: 0.314 ms/sample (0.165 s total over 525 samples)
-Epoch  23/60 | loss  train=0.0001  val=0.0011 | MSE g+ train=1.4358e-04  val=2.4424e-03 | MSE g× train=1.6732e-04  val=2.1529e-03 | lr=2.05e-04
-Avg eval time: 0.349 ms/sample (0.183 s total over 525 samples)
-Epoch  24/60 | loss  train=0.0001  val=0.0011 | MSE g+ train=1.4676e-04  val=2.3402e-03 | MSE g× train=1.2891e-04  val=2.1327e-03 | lr=1.97e-04
-Avg eval time: 0.413 ms/sample (0.217 s total over 525 samples)
-Epoch  25/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=1.4354e-04  val=2.5598e-03 | MSE g× train=1.1733e-04  val=2.1458e-03 | lr=1.90e-04
-Avg eval time: 0.362 ms/sample (0.190 s total over 525 samples)
-Epoch  26/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=1.3693e-04  val=2.5840e-03 | MSE g× train=1.1448e-04  val=2.1987e-03 | lr=1.82e-04
-Avg eval time: 0.307 ms/sample (0.161 s total over 525 samples)
-Epoch  27/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=1.1956e-04  val=2.4861e-03 | MSE g× train=1.2121e-04  val=2.1691e-03 | lr=1.75e-04
-Avg eval time: 0.392 ms/sample (0.206 s total over 525 samples)
-Epoch  28/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=1.2587e-04  val=2.5526e-03 | MSE g× train=1.1145e-04  val=2.1633e-03 | lr=1.67e-04
-Avg eval time: 0.316 ms/sample (0.166 s total over 525 samples)
-Epoch  29/60 | loss  train=0.0001  val=0.0011 | MSE g+ train=1.1484e-04  val=2.4112e-03 | MSE g× train=1.0927e-04  val=2.1079e-03 | lr=1.59e-04
-Avg eval time: 0.249 ms/sample (0.131 s total over 525 samples)
-Epoch  30/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=1.1323e-04  val=2.4582e-03 | MSE g× train=1.1006e-04  val=2.1717e-03 | lr=1.52e-04
-Avg eval time: 0.374 ms/sample (0.196 s total over 525 samples)
-Epoch  31/60 | loss  train=0.0001  val=0.0011 | MSE g+ train=1.2598e-04  val=2.4409e-03 | MSE g× train=1.1225e-04  val=2.0772e-03 | lr=1.44e-04
-Avg eval time: 0.306 ms/sample (0.161 s total over 525 samples)
-Epoch  32/60 | loss  train=0.0001  val=0.0012 | MSE g+ train=1.2956e-04  val=2.6869e-03 | MSE g× train=1.0843e-04  val=2.0585e-03 | lr=1.36e-04
-Avg eval time: 0.408 ms/sample (0.214 s total over 525 samples)
-Epoch  33/60 | loss  train=0.0001  val=0.0011 | MSE g+ train=1.0366e-04  val=2.3547e-03 | MSE g× train=1.0536e-04  val=2.1300e-03 | lr=1.28e-04
-Avg eval time: 0.246 ms/sample (0.129 s total over 525 samples)
-Epoch  34/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=9.5710e-05  val=2.4370e-03 | MSE g× train=9.8586e-05  val=2.1627e-03 | lr=1.21e-04
-Avg eval time: 0.325 ms/sample (0.171 s total over 525 samples)
-Epoch  35/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=9.2572e-05  val=2.3488e-03 | MSE g× train=8.5953e-05  val=2.1331e-03 | lr=1.13e-04
-Avg eval time: 0.265 ms/sample (0.139 s total over 525 samples)
-Epoch  36/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=1.0210e-04  val=2.3307e-03 | MSE g× train=8.5297e-05  val=2.1082e-03 | lr=1.06e-04
-Avg eval time: 0.436 ms/sample (0.229 s total over 525 samples)
-Epoch  37/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=9.5379e-05  val=2.4495e-03 | MSE g× train=9.1474e-05  val=2.1481e-03 | lr=9.83e-05
-Avg eval time: 0.443 ms/sample (0.233 s total over 525 samples)
-Epoch  38/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=8.5801e-05  val=2.4820e-03 | MSE g× train=7.7098e-05  val=2.1123e-03 | lr=9.11e-05
-Avg eval time: 0.399 ms/sample (0.209 s total over 525 samples)
-Epoch  39/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=9.1562e-05  val=2.3749e-03 | MSE g× train=7.9617e-05  val=2.0880e-03 | lr=8.41e-05
-Avg eval time: 0.307 ms/sample (0.161 s total over 525 samples)
-Epoch  40/60 | loss  train=0.0000  val=0.0012 | MSE g+ train=7.6571e-05  val=2.4755e-03 | MSE g× train=8.5497e-05  val=2.1398e-03 | lr=7.73e-05
-Avg eval time: 0.386 ms/sample (0.203 s total over 525 samples)
-Epoch  41/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=8.7149e-05  val=2.3236e-03 | MSE g× train=9.4762e-05  val=2.1404e-03 | lr=7.06e-05
-Avg eval time: 0.439 ms/sample (0.230 s total over 525 samples)
-Epoch  42/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=9.0588e-05  val=2.4203e-03 | MSE g× train=8.1783e-05  val=2.1236e-03 | lr=6.42e-05
-Avg eval time: 0.321 ms/sample (0.168 s total over 525 samples)
-Epoch  43/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=7.7604e-05  val=2.4028e-03 | MSE g× train=7.0096e-05  val=2.1254e-03 | lr=5.80e-05
-Avg eval time: 0.415 ms/sample (0.218 s total over 525 samples)
-Epoch  44/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=7.1301e-05  val=2.3759e-03 | MSE g× train=7.8113e-05  val=2.1218e-03 | lr=5.21e-05
-Avg eval time: 0.305 ms/sample (0.160 s total over 525 samples)
-Epoch  45/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=7.1717e-05  val=2.4237e-03 | MSE g× train=7.5338e-05  val=2.1118e-03 | lr=4.65e-05
-Avg eval time: 0.341 ms/sample (0.179 s total over 525 samples)
-Epoch  46/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=7.8467e-05  val=2.4283e-03 | MSE g× train=7.5054e-05  val=2.1139e-03 | lr=4.11e-05
-Avg eval time: 0.439 ms/sample (0.231 s total over 525 samples)
-Epoch  47/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=6.4942e-05  val=2.4129e-03 | MSE g× train=7.2439e-05  val=2.0615e-03 | lr=3.61e-05
-Avg eval time: 0.260 ms/sample (0.136 s total over 525 samples)
-Epoch  48/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=6.6367e-05  val=2.3358e-03 | MSE g× train=6.9609e-05  val=2.0912e-03 | lr=3.14e-05
-Avg eval time: 0.291 ms/sample (0.153 s total over 525 samples)
-Epoch  49/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=7.2624e-05  val=2.4284e-03 | MSE g× train=6.5279e-05  val=2.0923e-03 | lr=2.70e-05
-Avg eval time: 0.276 ms/sample (0.145 s total over 525 samples)
-Epoch  50/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=7.1502e-05  val=2.4593e-03 | MSE g× train=7.1254e-05  val=2.1109e-03 | lr=2.29e-05
-Avg eval time: 0.338 ms/sample (0.178 s total over 525 samples)
-Epoch  51/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=7.2992e-05  val=2.3986e-03 | MSE g× train=6.7194e-05  val=2.0877e-03 | lr=1.92e-05
-Avg eval time: 0.333 ms/sample (0.175 s total over 525 samples)
-Epoch  52/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=6.9795e-05  val=2.3722e-03 | MSE g× train=7.7032e-05  val=2.0871e-03 | lr=1.58e-05
-Avg eval time: 0.410 ms/sample (0.215 s total over 525 samples)
-Epoch  53/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=7.5077e-05  val=2.3770e-03 | MSE g× train=6.3040e-05  val=2.0583e-03 | lr=1.29e-05
-Avg eval time: 0.234 ms/sample (0.123 s total over 525 samples)
-Epoch  54/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=6.5280e-05  val=2.3557e-03 | MSE g× train=6.7892e-05  val=2.0680e-03 | lr=1.03e-05
-Avg eval time: 0.211 ms/sample (0.111 s total over 525 samples)
-Epoch  55/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=5.1764e-05  val=2.4293e-03 | MSE g× train=6.1634e-05  val=2.0755e-03 | lr=8.06e-06
-Avg eval time: 0.213 ms/sample (0.112 s total over 525 samples)
-Epoch  56/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=6.1919e-05  val=2.3719e-03 | MSE g× train=6.5931e-05  val=2.0865e-03 | lr=6.25e-06
-Avg eval time: 0.212 ms/sample (0.111 s total over 525 samples)
-Epoch  57/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=5.6553e-05  val=2.3801e-03 | MSE g× train=6.0087e-05  val=2.0610e-03 | lr=4.83e-06
-Avg eval time: 0.183 ms/sample (0.096 s total over 525 samples)
-Epoch  58/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=6.8236e-05  val=2.4171e-03 | MSE g× train=6.1846e-05  val=2.0695e-03 | lr=3.81e-06
-Avg eval time: 0.204 ms/sample (0.107 s total over 525 samples)
-Epoch  59/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=6.0619e-05  val=2.3790e-03 | MSE g× train=6.0236e-05  val=2.0769e-03 | lr=3.20e-06
-Avg eval time: 0.199 ms/sample (0.105 s total over 525 samples)
-Epoch  60/60 | loss  train=0.0000  val=0.0011 | MSE g+ train=6.3222e-05  val=2.4008e-03 | MSE g× train=5.3348e-05  val=2.0792e-03 | lr=3.00e-06
+Avg eval time: 0.465 ms/sample (0.488 s total over 1050 samples)
+Epoch   1/60 | loss  train=0.0013  val=0.0016 | MSE g+ train=2.7396e-03  val=3.7378e-03 | MSE g× train=2.5249e-03  val=2.7604e-03 | lr=3.00e-04
+Avg eval time: 0.389 ms/sample (0.408 s total over 1050 samples)
+Epoch   2/60 | loss  train=0.0007  val=0.0015 | MSE g+ train=1.2234e-03  val=3.3627e-03 | MSE g× train=1.4782e-03  val=2.6594e-03 | lr=2.99e-04
+Avg eval time: 0.305 ms/sample (0.320 s total over 1050 samples)
+Epoch   3/60 | loss  train=0.0004  val=0.0015 | MSE g+ train=8.0989e-04  val=3.2357e-03 | MSE g× train=9.0990e-04  val=2.8853e-03 | lr=2.98e-04
+Avg eval time: 0.394 ms/sample (0.413 s total over 1050 samples)
+Epoch   4/60 | loss  train=0.0003  val=0.0015 | MSE g+ train=6.3913e-04  val=2.7843e-03 | MSE g× train=6.5744e-04  val=3.0708e-03 | lr=2.97e-04
+Avg eval time: 0.460 ms/sample (0.483 s total over 1050 samples)
+Epoch   5/60 | loss  train=0.0003  val=0.0015 | MSE g+ train=5.1106e-04  val=3.2831e-03 | MSE g× train=4.9254e-04  val=2.7794e-03 | lr=2.95e-04
+Avg eval time: 0.414 ms/sample (0.435 s total over 1050 samples)
+Epoch   6/60 | loss  train=0.0002  val=0.0016 | MSE g+ train=3.7918e-04  val=3.0986e-03 | MSE g× train=4.3459e-04  val=3.2609e-03 | lr=2.93e-04
+Avg eval time: 0.345 ms/sample (0.363 s total over 1050 samples)
+Epoch   7/60 | loss  train=0.0002  val=0.0013 | MSE g+ train=3.8960e-04  val=2.7945e-03 | MSE g× train=4.5048e-04  val=2.4368e-03 | lr=2.90e-04
+Avg eval time: 0.432 ms/sample (0.453 s total over 1050 samples)
+Epoch   8/60 | loss  train=0.0002  val=0.0014 | MSE g+ train=3.3721e-04  val=2.9005e-03 | MSE g× train=3.8399e-04  val=2.6310e-03 | lr=2.87e-04
+Avg eval time: 0.428 ms/sample (0.449 s total over 1050 samples)
+Epoch   9/60 | loss  train=0.0002  val=0.0014 | MSE g+ train=3.1473e-04  val=3.0274e-03 | MSE g× train=3.1159e-04  val=2.5745e-03 | lr=2.84e-04
+Avg eval time: 0.436 ms/sample (0.458 s total over 1050 samples)
+Epoch  10/60 | loss  train=0.0002  val=0.0015 | MSE g+ train=3.0330e-04  val=2.9488e-03 | MSE g× train=3.6180e-04  val=3.0089e-03 | lr=2.80e-04
+Avg eval time: 0.445 ms/sample (0.468 s total over 1050 samples)
+Epoch  11/60 | loss  train=0.0001  val=0.0014 | MSE g+ train=2.7181e-04  val=2.7249e-03 | MSE g× train=3.2411e-04  val=2.7925e-03 | lr=2.76e-04
+Avg eval time: 0.442 ms/sample (0.465 s total over 1050 samples)
+Epoch  12/60 | loss  train=0.0001  val=0.0014 | MSE g+ train=2.6494e-04  val=2.7327e-03 | MSE g× train=2.6830e-04  val=2.9640e-03 | lr=2.72e-04
+Avg eval time: 0.354 ms/sample (0.372 s total over 1050 samples)
+Epoch  13/60 | loss  train=0.0001  val=0.0014 | MSE g+ train=2.4724e-04  val=2.8603e-03 | MSE g× train=2.9478e-04  val=2.7374e-03 | lr=2.67e-04
+Avg eval time: 0.377 ms/sample (0.396 s total over 1050 samples)
+Epoch  14/60 | loss  train=0.0001  val=0.0014 | MSE g+ train=2.1805e-04  val=2.7149e-03 | MSE g× train=2.5270e-04  val=2.9851e-03 | lr=2.62e-04
+Avg eval time: 0.468 ms/sample (0.491 s total over 1050 samples)
+Epoch  15/60 | loss  train=0.0001  val=0.0014 | MSE g+ train=2.6205e-04  val=2.9077e-03 | MSE g× train=2.4489e-04  val=2.7867e-03 | lr=2.57e-04
+Avg eval time: 0.569 ms/sample (0.597 s total over 1050 samples)
+Epoch  16/60 | loss  train=0.0001  val=0.0014 | MSE g+ train=2.5540e-04  val=2.7162e-03 | MSE g× train=2.4629e-04  val=2.8491e-03 | lr=2.51e-04
+Avg eval time: 0.453 ms/sample (0.475 s total over 1050 samples)
+Epoch  17/60 | loss  train=0.0001  val=0.0013 | MSE g+ train=2.4277e-04  val=2.6115e-03 | MSE g× train=1.8270e-04  val=2.4548e-03 | lr=2.45e-04
+Avg eval time: 0.526 ms/sample (0.552 s total over 1050 samples)
+Epoch  18/60 | loss  train=0.0002  val=0.0014 | MSE g+ train=3.6029e-04  val=2.8930e-03 | MSE g× train=3.0643e-04  val=2.6061e-03 | lr=2.39e-04
+Avg eval time: 0.435 ms/sample (0.457 s total over 1050 samples)
+Epoch  19/60 | loss  train=0.0001  val=0.0014 | MSE g+ train=2.3138e-04  val=2.8820e-03 | MSE g× train=1.8672e-04  val=2.6664e-03 | lr=2.32e-04
+Avg eval time: 0.403 ms/sample (0.423 s total over 1050 samples)
+Epoch  20/60 | loss  train=0.0001  val=0.0014 | MSE g+ train=2.3081e-04  val=2.7030e-03 | MSE g× train=2.1848e-04  val=3.0465e-03 | lr=2.26e-04
+Avg eval time: 0.401 ms/sample (0.421 s total over 1050 samples)
+Epoch  21/60 | loss  train=0.0001  val=0.0014 | MSE g+ train=1.6974e-04  val=2.7474e-03 | MSE g× train=1.6046e-04  val=2.6877e-03 | lr=2.19e-04
+Avg eval time: 0.417 ms/sample (0.438 s total over 1050 samples)
+Epoch  22/60 | loss  train=0.0001  val=0.0013 | MSE g+ train=2.1833e-04  val=2.4992e-03 | MSE g× train=1.8274e-04  val=2.7042e-03 | lr=2.12e-04
+Avg eval time: 0.477 ms/sample (0.501 s total over 1050 samples)
+Epoch  23/60 | loss  train=0.0001  val=0.0014 | MSE g+ train=2.4690e-04  val=2.8236e-03 | MSE g× train=1.9212e-04  val=2.6266e-03 | lr=2.05e-04
+Avg eval time: 0.312 ms/sample (0.327 s total over 1050 samples)
+Epoch  24/60 | loss  train=0.0001  val=0.0014 | MSE g+ train=1.6459e-04  val=2.7800e-03 | MSE g× train=1.7982e-04  val=2.9279e-03 | lr=1.97e-04
+Avg eval time: 0.437 ms/sample (0.459 s total over 1050 samples)
+Epoch  25/60 | loss  train=0.0001  val=0.0015 | MSE g+ train=1.8724e-04  val=3.0544e-03 | MSE g× train=2.0047e-04  val=2.8463e-03 | lr=1.90e-04
+Avg eval time: 0.459 ms/sample (0.482 s total over 1050 samples)
+Epoch  26/60 | loss  train=0.0001  val=0.0014 | MSE g+ train=1.3856e-04  val=2.6843e-03 | MSE g× train=1.2878e-04  val=2.7913e-03 | lr=1.82e-04
+Avg eval time: 0.309 ms/sample (0.324 s total over 1050 samples)
+Epoch  27/60 | loss  train=0.0001  val=0.0014 | MSE g+ train=1.4701e-04  val=2.6854e-03 | MSE g× train=1.6546e-04  val=3.0628e-03 | lr=1.75e-04
+Avg eval time: 0.315 ms/sample (0.331 s total over 1050 samples)
+Epoch  28/60 | loss  train=0.0001  val=0.0014 | MSE g+ train=1.6332e-04  val=2.8225e-03 | MSE g× train=1.8102e-04  val=2.7455e-03 | lr=1.67e-04
+Avg eval time: 0.527 ms/sample (0.554 s total over 1050 samples)
+Epoch  29/60 | loss  train=0.0001  val=0.0014 | MSE g+ train=1.1879e-04  val=2.8828e-03 | MSE g× train=1.2069e-04  val=2.8160e-03 | lr=1.59e-04
 
-Loading best checkpoint (val loss = 0.0011) …
+Early stopping at epoch 29 (no improvement for 12 epochs).
+
+Loading best checkpoint (val loss = 0.0013) …
 
 ── Test set evaluation ──────────────────────────────────────
-Avg eval time: 0.222 ms/sample (0.120 s total over 540 samples)
-  Test Smooth-L1 loss : 0.0013
-  Test MSE  g+        : 2.5339e-03
-  Test MSE  g×        : 2.6114e-03
-  Test RMSE g+        : 5.0338e-02
-  Test RMSE g×        : 5.1102e-02
+Avg eval time: 0.406 ms/sample (0.438 s total over 1080 samples)
+  Test Smooth-L1 loss : 0.0012
+  Test MSE  g+        : 2.1490e-03
+  Test MSE  g×        : 2.8338e-03
+  Test RMSE g+        : 4.6358e-02
+  Test RMSE g×        : 5.3233e-02
 
   Absolute error percentiles  |pred − true|
     Percentile          g+          g×
   ────────────  ──────────  ──────────
-           50th      0.0307      0.0357
-           75th      0.0580      0.0574
-           90th      0.0835      0.0814
-           95th      0.1005      0.0947
-           99th      0.1288      0.1313
+           50th      0.0304      0.0330
+           75th      0.0539      0.0582
+           90th      0.0768      0.0894
+           95th      0.0906      0.1059
+           99th      0.1238      0.1460
 
   Fractional error percentiles  |pred − true| / |true|
   (only galaxies with |g_true| ≥ 0.035 — the KL shape noise floor)
     Percentile          g+          g×
   ────────────  ──────────  ──────────
-  (261 galaxies excluded per component as |g_true| < 0.035)
-           50th       72.9%       79.8%
-           75th      110.2%      120.1%
-           90th      156.6%      155.9%
-           95th      174.3%      188.1%
-           99th      218.9%      264.4%
+  (577 galaxies excluded per component as |g_true| < 0.035)
+           50th       63.6%       69.1%
+           75th      100.2%      109.7%
+           90th      137.7%      166.5%
+           95th      158.2%      195.8%
+           99th      253.3%      235.4%
 
-  Interpretation: for galaxies with |g| ≥ 0.035, 50% of predictions are within 72.9% (g+) / 79.8% (g×) of the true shear value.
-Avg eval time: 0.187 ms/sample (0.098 s total over 525 samples)
+  Interpretation: for galaxies with |g| ≥ 0.035, 50% of predictions are within 63.6% (g+) / 69.1% (g×) of the true shear value.
+Avg eval time: 0.471 ms/sample (0.495 s total over 1050 samples)
 
 Generating diagnostic plots …
   Saved: loss_curves.png
@@ -185,7 +126,6 @@ All outputs saved to /content/Kinematic_Lensing_ML/kl_dataset/model_output_smoot
 
 Output files:
   best_model.pt
-  inputs_sigma2.png
   loss_curves.png
   pred_vs_true_test.png
   pred_vs_true_val.png
