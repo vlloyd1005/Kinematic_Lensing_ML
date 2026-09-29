@@ -1,0 +1,74 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Device: cuda
+  GPU: Tesla T4
+Border crop: central 75% of the field (22.5 kpc)
+Smoothing: sigma = 2.0 px on both
+
+Filtering to rows with existing FITS files …
+  Velmap fill fraction per galaxy: <0.1: 67  0.1–0.5: 350  ≥0.5: 381
+  Dropping 94/798 galaxies (470 rows) with vel_fill_frac < 0.15
+Usable rows: 3520
+
+Building train / val / test splits (stratified by subhalo_id) …
+Split sizes — train: 2455  val: 525  test: 540
+Unique galaxies — train: 485  val: 105  test: 105
+
+Building model …
+  Trainable parameters: 4,732,326
+
+Training for up to 60 epochs (patience=12) …
+
+[W929 14:26:26.632167222 CUDACachingAllocator.cpp:3934] memory allocation failed with OOM on device 0 while trying to allocate 60817408 bytes (free: 35389440, total: 15637086208).
+[W929 14:26:26.667332924 CUDACachingAllocator.cpp:3934] memory allocation failed with OOM on device 0 while trying to allocate 60817408 bytes (free: 35389440, total: 15637086208).
+Traceback (most recent call last):
+  File "/content/Kinematic_Lensing_ML/kl_dataset/train_kl_model.py", line 1057, in <module>
+    main()
+    ~~~~^^
+  File "/content/Kinematic_Lensing_ML/kl_dataset/train_kl_model.py", line 890, in main
+    tr_loss, tr_mse1, tr_mse2, _, _, _ = run_epoch(
+                                         ~~~~~~~~~^
+        model, train_loader, criterion, optimizer, device, training=True
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/content/Kinematic_Lensing_ML/kl_dataset/train_kl_model.py", line 431, in run_epoch
+    g1_pred, g2_pred = model(photo, vel)
+                       ~~~~~^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/content/Kinematic_Lensing_ML/kl_dataset/train_kl_model.py", line 392, in forward
+    f_photo = self.photo_stem(photo)          # (B, 24, H/4, W/4)
+  File "/usr/local/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/usr/local/lib/python3.13/site-packages/torch/nn/modules/container.py", line 259, in forward
+    input = module(input)
+  File "/usr/local/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/usr/local/lib/python3.13/site-packages/torch/nn/modules/container.py", line 259, in forward
+    input = module(input)
+  File "/usr/local/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/usr/local/lib/python3.13/site-packages/timm/models/_efficientnet_blocks.py", line 334, in forward
+    x = self.se(x)
+  File "/usr/local/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/usr/local/lib/python3.13/site-packages/timm/models/_efficientnet_blocks.py", line 83, in forward
+    return x * self.gate(x_se)
+           ~~^~~~~~~~~~~~~~~~~
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 58.00 MiB. GPU 0 has a total capacity of 14.56 GiB of which 33.75 MiB is free. Including non-PyTorch memory, this process has 1.64 GiB memory in use. Process 31958 has 6.98 GiB memory in use. Process 31961 has 276.00 MiB memory in use. Process 31962 has 276.00 MiB memory in use. Process 31959 has 5.37 GiB memory in use. Of the allocated memory 1.49 GiB is allocated by PyTorch, and 24.47 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
