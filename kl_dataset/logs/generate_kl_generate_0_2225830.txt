@@ -1,0 +1,35 @@
+Available CPUs:  9
+Running on host: dn041
+Time is:         Tue Sep 29 06:14:19 PM EDT 2026
+Directory is:    /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML
+Job name:        kl_generate
+Job ID:          2225832
+Array task ID:   0
+
+=== Array task 0: processing snapshot 40 ===
+Snap 40: 3000 rows written to /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/data/task_snap40.csv
+Rows to process:
+3001 /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/data/task_snap40.csv
+Testing TNG API connection (TNG50-1) …
+  Connection OK
+
+Snapshot 40: z=1.4955  box=20.7 Mpc
+
+
+[1/300] Subhalo 102573  (10 draws) …
+  [102573] Fetching metadata …
+  [102573] Downloading stellar cutout …
+  [102573] Downloading gas cutout …
+  [102573] 817739/5166329 gas particles are star-forming
+  [102573] star-gas misalignment = 9.9°  (gas v_z zeroed in gas-disc frame)
+  draw 0000  i=0.67  θ=1.54  g=(+0.015,+0.044)  → galaxy_102573_draw0000
+  draw 0001  i=1.10  θ=2.94  g=(-0.052,+0.039)  → galaxy_102573_draw0001
+  draw 0002  i=0.30  θ=-1.09  g=(+0.038,+0.003)  → galaxy_102573_draw0002
+  draw 0003  i=0.47  θ=-0.81  g=(+0.047,+0.056)  → galaxy_102573_draw0003
+  draw 0004  i=0.64  θ=-0.19  g=(-0.098,+0.023)  → galaxy_102573_draw0004
+  draw 0005  i=1.24  θ=-1.95  g=(-0.065,-0.043)  → galaxy_102573_draw0005
+  draw 0006  i=0.99  θ=-2.33  g=(+0.006,+0.018)  → galaxy_102573_draw0006
+  draw 0007  i=1.36  θ=-0.15  g=(-0.016,-0.048)  → galaxy_102573_draw0007
+srun: Job step aborted: Waiting up to 62 seconds for job step to finish.
+Galaxies:   0%|          | 0/300 [00:00<?, ?it/s]slurmstepd: error: *** STEP 2225832.0 ON dn041 CANCELLED AT 2026-09-29T18:18:27 ***
+slurmstepd: error: *** JOB 2225832 ON dn041 CANCELLED AT 2026-09-29T18:18:27 ***

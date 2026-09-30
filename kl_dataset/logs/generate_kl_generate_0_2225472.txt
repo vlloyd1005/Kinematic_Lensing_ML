@@ -1,0 +1,42 @@
+Available CPUs:  9
+Running on host: dn025
+Time is:         Tue Sep 29 05:54:31 PM EDT 2026
+Directory is:    /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML
+Job name:        kl_generate
+Job ID:          2225781
+Array task ID:   0
+
+=== Array task 0: processing snapshot 40 ===
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+  File "/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 1026, in read_csv
+    return _read(filepath_or_buffer, kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 620, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 1620, in __init__
+    self._engine = self._make_engine(f, self.engine)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 1880, in _make_engine
+    self.handles = get_handle(
+                   ^^^^^^^^^^^
+  File "/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic/lib/python3.11/site-packages/pandas/io/common.py", line 873, in get_handle
+    handle = open(
+             ^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/data/dataset_plan_300_10draws.csv'
+Rows to process:
+301 /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/data/task_snap40.csv
+Testing TNG API connection (TNG50-1) …
+  Connection OK
+
+Snapshot 40: z=1.4955  box=20.7 Mpc
+
+
+Processing subhalo 102573 draw 0 (1/300) …
+  [102573] Fetching metadata …
+  [102573] Downloading stellar cutout …
+  [102573] Downloading gas cutout …
+srun: Job step aborted: Waiting up to 62 seconds for job step to finish.
+Galaxies:   0%|          | 0/300 [00:00<?, ?it/s]slurmstepd: error: *** STEP 2225781.0 ON dn025 CANCELLED AT 2026-09-29T17:56:27 ***
+slurmstepd: error: *** JOB 2225781 ON dn025 CANCELLED AT 2026-09-29T17:56:27 ***

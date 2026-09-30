@@ -1,0 +1,40 @@
+Available CPUs:  9
+Running on host: dn044
+Time is:         Tue Sep 29 06:03:41 PM EDT 2026
+Directory is:    /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML
+Job name:        kl_generate
+Job ID:          2225809
+Array task ID:   3
+
+=== Array task 3: processing snapshot 67 ===
+Snap 67: 3000 rows written to /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/data/task_snap67.csv
+Rows to process:
+3001 /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/data/task_snap67.csv
+Testing TNG API connection (TNG50-1) …
+  Connection OK
+
+Snapshot 67: z=0.5030  box=34.4 Mpc
+
+
+Processing subhalo 66 draw 0 (1/3000) …
+  [66] Fetching metadata …
+  [66] Downloading stellar cutout …
+  [66] Downloading gas cutout …
+  [66] 18899 / 18906 gas particles are star-forming
+  [66] Saved 4 FITS files → /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/images/snap67/galaxy_66_draw0000
+
+Processing subhalo 66 draw 1 (2/3000) …
+  [66] Fetching metadata …
+  [66] Downloading stellar cutout …
+  [66] Downloading gas cutout …
+  [66] 18899 / 18906 gas particles are star-forming
+  [66] Saved 4 FITS files → /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/images/snap67/galaxy_66_draw0001
+
+Processing subhalo 66 draw 2 (3/3000) …
+  [66] Fetching metadata …
+  [66] Downloading stellar cutout …
+  [66] Downloading gas cutout …
+  [66] 18899 / 18906 gas particles are star-forming
+srun: Job step aborted: Waiting up to 62 seconds for job step to finish.
+Galaxies:   0%|          | 0/3000 [00:00<?, ?it/s]Galaxies:   0%|          | 1/3000 [00:20<17:26:38, 20.94s/it]Galaxies:   0%|          | 2/3000 [00:46<19:29:46, 23.41s/it]slurmstepd: error: *** STEP 2225809.0 ON dn044 CANCELLED AT 2026-09-29T18:04:52 ***
+slurmstepd: error: *** JOB 2225809 ON dn044 CANCELLED AT 2026-09-29T18:04:52 ***

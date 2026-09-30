@@ -6,7 +6,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=9
-#SBATCH --array=3          # one array task per snapshot (4 snaps total)
+#SBATCH --array=2          # one array task per snapshot (4 snaps total)
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=victoria.lloyd@stonybrook.edu
 
@@ -59,7 +59,7 @@ echo "=== Array task ${SLURM_ARRAY_TASK_ID}: processing snapshot ${SNAP} ==="
 TASK_CSV=${DATA_DIR}/task_snap${SNAP}.csv
 python - <<PYEOF
 import pandas as pd
-plan = pd.read_csv("${DATA_DIR}/dataset_plan_with_ids.csv")
+plan = pd.read_csv("${DATA_DIR}/dataset_plan_expanded_300_10draws.csv")
 subset = plan[plan["snap"] == ${SNAP}]
 subset.to_csv("${TASK_CSV}", index=False)
 print(f"Snap ${SNAP}: {len(subset)} rows written to ${TASK_CSV}")

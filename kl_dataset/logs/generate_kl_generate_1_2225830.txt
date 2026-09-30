@@ -1,0 +1,45 @@
+Available CPUs:  9
+Running on host: dn041
+Time is:         Tue Sep 29 06:14:19 PM EDT 2026
+Directory is:    /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML
+Job name:        kl_generate
+Job ID:          2225833
+Array task ID:   1
+
+=== Array task 1: processing snapshot 50 ===
+Snap 50: 3000 rows written to /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/data/task_snap50.csv
+Rows to process:
+3001 /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/data/task_snap50.csv
+Testing TNG API connection (TNG50-1) …
+  Connection OK
+
+Snapshot 50: z=0.9973  box=25.9 Mpc
+
+
+[1/300] Subhalo 87127  (10 draws) …
+  [87127] Fetching metadata …
+  [87127] Downloading stellar cutout …
+  [87127] Downloading gas cutout …
+  [87127] 308996/541274 gas particles are star-forming
+  [87127] star-gas misalignment = 12.1°  (gas v_z zeroed in gas-disc frame)
+  draw 0000  i=1.17  θ=-1.05  g=(+0.052,-0.077)  → galaxy_87127_draw0000
+  draw 0001  i=0.84  θ=-0.75  g=(-0.015,-0.071)  → galaxy_87127_draw0001
+  draw 0002  i=0.94  θ=-1.23  g=(+0.012,-0.016)  → galaxy_87127_draw0002
+  draw 0003  i=0.55  θ=1.94  g=(-0.016,+0.002)  → galaxy_87127_draw0003
+  draw 0004  i=1.16  θ=2.70  g=(+0.023,-0.010)  → galaxy_87127_draw0004
+  draw 0005  i=0.90  θ=0.82  g=(-0.019,-0.082)  → galaxy_87127_draw0005
+  draw 0006  i=0.35  θ=0.78  g=(+0.082,+0.058)  → galaxy_87127_draw0006
+  draw 0007  i=1.12  θ=-0.69  g=(+0.101,+0.108)  → galaxy_87127_draw0007
+  draw 0008  i=1.02  θ=-3.06  g=(+0.044,+0.064)  → galaxy_87127_draw0008
+  draw 0009  i=0.47  θ=-2.05  g=(+0.077,+0.054)  → galaxy_87127_draw0009
+
+[2/300] Subhalo 169401  (10 draws) …
+  [169401] Fetching metadata …
+  [169401] Downloading stellar cutout …
+  [169401] Downloading gas cutout …
+  [169401] 741860/5127801 gas particles are star-forming
+  [169401] star-gas misalignment = 100.1°  (gas v_z zeroed in gas-disc frame)
+  draw 0000  i=1.12  θ=3.05  g=(-0.017,-0.021)  → galaxy_169401_draw0000
+  draw 0001  i=1.28  θ=1.20  g=(-0.090,-0.004)  → galaxy_169401_draw0001
+Galaxies:   0%|          | 0/300 [00:00<?, ?it/s]Galaxies:   0%|          | 1/300 [02:48<13:58:07, 168.19s/it]slurmstepd: error: *** STEP 2225833.0 ON dn041 CANCELLED AT 2026-09-29T18:18:27 ***
+slurmstepd: error: *** JOB 2225833 ON dn041 CANCELLED AT 2026-09-29T18:18:27 ***

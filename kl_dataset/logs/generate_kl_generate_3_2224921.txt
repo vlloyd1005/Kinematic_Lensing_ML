@@ -1,0 +1,42 @@
+Available CPUs:  9
+Running on host: dn044
+Time is:         Tue Sep 29 10:40:16 AM EDT 2026
+Directory is:    /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML
+Job name:        kl_generate
+Job ID:          2224921
+Array task ID:   3
+
+=== Array task 3: processing snapshot 67 ===
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+  File "/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 1026, in read_csv
+    return _read(filepath_or_buffer, kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 620, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 1620, in __init__
+    self._engine = self._make_engine(f, self.engine)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic/lib/python3.11/site-packages/pandas/io/parsers/readers.py", line 1880, in _make_engine
+    self.handles = get_handle(
+                   ^^^^^^^^^^^
+  File "/gpfs/projects/MirandaGroup/victoria/miniconda/envs/vic/lib/python3.11/site-packages/pandas/io/common.py", line 873, in get_handle
+    handle = open(
+             ^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/data/dataset_plan_200to300.csv'
+Rows to process:
+201 /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/data/task_snap67.csv
+Testing TNG API connection (TNG50-1) …
+  Connection OK
+
+Snapshot 67: z=0.5030  box=34.4 Mpc
+
+Galaxies:   0%|          | 0/200 [00:00<?, ?it/s]Galaxies:  20%|██        | 41/200 [00:00<00:00, 408.53it/s]Galaxies:  42%|████▏     | 84/200 [00:00<00:00, 416.01it/s]Galaxies:  63%|██████▎   | 126/200 [00:00<00:00, 416.66it/s]Galaxies:  85%|████████▌ | 170/200 [00:00<00:00, 422.68it/s]Galaxies: 100%|██████████| 200/200 [00:00<00:00, 417.92it/s]
+
+Done.  Success: 0  Skipped: 200  Failed: 0
+
+=== Snapshot 67 finished with exit code 0 ===
+Time is: Tue Sep 29 10:40:23 AM EDT 2026
+Snap 67: 200/200 galaxies complete
+Total FITS data: 214.3 MB  (1.07 MB/galaxy)

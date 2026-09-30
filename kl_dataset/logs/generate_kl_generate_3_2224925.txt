@@ -1,0 +1,34 @@
+Available CPUs:  9
+Running on host: dn044
+Time is:         Tue Sep 29 10:43:17 AM EDT 2026
+Directory is:    /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML
+Job name:        kl_generate
+Job ID:          2224925
+Array task ID:   3
+
+=== Array task 3: processing snapshot 67 ===
+Snap 67: 300 rows written to /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/data/task_snap67.csv
+Rows to process:
+301 /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/data/task_snap67.csv
+Testing TNG API connection (TNG50-1) …
+  Connection OK
+
+Snapshot 67: z=0.5030  box=34.4 Mpc
+
+
+Processing subhalo 66 (1/300) …
+  [66] Fetching metadata …
+  [66] Downloading stellar cutout …
+  [66] Downloading gas cutout …
+  [66] 18899 / 18906 gas particles are star-forming
+  [66] Saved 4 FITS files → /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/images/snap67/galaxy_66
+
+Processing subhalo 42 (4/300) …
+  [42] Fetching metadata …
+  [42] Downloading stellar cutout …
+  [42] Downloading gas cutout …
+  [42] 20694 / 20749 gas particles are star-forming
+  [42] Saved 4 FITS files → /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/images/snap67/galaxy_42
+srun: Job step aborted: Waiting up to 62 seconds for job step to finish.
+Galaxies:   0%|          | 0/300 [00:00<?, ?it/s]Galaxies:   0%|          | 1/300 [00:13<1:06:33, 13.35s/it]slurmstepd: error: *** STEP 2224925.0 ON dn044 CANCELLED AT 2026-09-29T10:43:55 ***
+slurmstepd: error: *** JOB 2224925 ON dn044 CANCELLED AT 2026-09-29T10:43:55 ***

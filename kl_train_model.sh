@@ -2,7 +2,7 @@
 #SBATCH --job-name=kl_train
 #SBATCH --output=/gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/logs/train_%x_%j.txt
 #SBATCH --time=8:00:00
-#SBATCH --partition=a100
+#SBATCH --partition=a100-long
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=8
@@ -43,7 +43,7 @@ mkdir -p ${HF_HOME} ${TORCH_HOME}
 SCRIPT_DIR=/gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset
 IMAGES_ROOT=${SCRIPT_DIR}/images
 CSV=${SCRIPT_DIR}/data/dataset_plan_with_ids.csv
-OUT_DIR=${SCRIPT_DIR}/model_output
+OUT_DIR=${SCRIPT_DIR}/model_output_new
 
 mkdir -p ${OUT_DIR}
 
@@ -58,7 +58,7 @@ pip install --quiet timm
 
 # ── train ─────────────────────────────────────────────────────────────────────
 srun python ${SCRIPT_DIR}/train_kl_model.py \
-    --csv              dataset_plan_expanded_50draws.csv \
+    --csv              dataset_plan_expanded_10draws.csv \
     --use_original_image \
     --images_root  ${IMAGES_ROOT} \
     --csv          ${CSV} \

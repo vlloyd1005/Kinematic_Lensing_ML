@@ -1,0 +1,25 @@
+Available CPUs:  9
+Running on host: dn004
+Time is:         Tue Sep 29 09:47:41 AM EDT 2026
+Directory is:    /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML
+Job name:        kl_generate
+Job ID:          2224863
+Array task ID:   2
+
+=== Array task 2: processing snapshot 59 ===
+Snap 59: 200 rows written to /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/data/task_snap59.csv
+Rows to process:
+201 /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/data/task_snap59.csv
+Testing TNG API connection (TNG50-1) …
+  Connection OK
+
+Snapshot 59: z=0.7001  box=30.4 Mpc
+
+Galaxies:   0%|          | 0/200 [00:00<?, ?it/s]Galaxies:  22%|██▏       | 44/200 [00:00<00:00, 438.79it/s]Galaxies:  51%|█████     | 102/200 [00:00<00:00, 517.97it/s]Galaxies:  78%|███████▊  | 156/200 [00:00<00:00, 526.51it/s]Galaxies: 100%|██████████| 200/200 [00:00<00:00, 507.40it/s]
+
+Done.  Success: 0  Skipped: 200  Failed: 0
+
+=== Snapshot 59 finished with exit code 0 ===
+Time is: Tue Sep 29 09:47:46 AM EDT 2026
+Snap 59: 200/200 galaxies complete
+Total FITS data: 214.3 MB  (1.07 MB/galaxy)

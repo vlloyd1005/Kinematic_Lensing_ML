@@ -1,0 +1,47 @@
+Available CPUs:  9
+Running on host: dn041
+Time is:         Tue Sep 29 07:04:07 PM EDT 2026
+Directory is:    /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML
+Job name:        kl_generate
+Job ID:          2225916
+Array task ID:   0
+
+=== Array task 0: processing snapshot 40 ===
+Snap 40: 1720 rows written to /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/data/task_snap40.csv
+Rows to process:
+1721 /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/data/task_snap40.csv
+Testing TNG API connection (TNG50-1) …
+  Connection OK
+
+Snapshot 40: z=1.4955  box=20.7 Mpc
+
+
+[1/172] Subhalo 102573  (10 draws) …
+  [102573] Fetching metadata …
+  [102573] Downloading stellar cutout …
+  [102573] Downloading gas cutout …
+  [102573] 817739/5166329 gas particles are star-forming
+  [102573] disc QC: κ_rot=0.525  V/σ=0.67  n=2719877  SKIP: vrot/sigma=0.669 < 1.0
+
+[2/172] Subhalo 36235  (10 draws) …
+  [36235] Fetching metadata …
+  [36235] Downloading stellar cutout …
+  [36235] Downloading gas cutout …
+  [36235] 1229204/4704659 gas particles are star-forming
+  [36235] disc QC: κ_rot=0.585  V/σ=0.78  n=2259194  SKIP: vrot/sigma=0.778 < 1.0
+
+[3/172] Subhalo 112196  (10 draws) …
+  [112196] Fetching metadata …
+  [112196] Downloading stellar cutout …
+  [112196] Downloading gas cutout …
+  [112196] 458349/3217222 gas particles are star-forming
+  [112196] disc QC: κ_rot=0.686  V/σ=1.05  n=1323743  PASS
+  [112196] star-gas misalignment = 3.2°  (gas v_z zeroed in gas-disc frame)
+  draw 0000  i=1.18  θ=-1.22  g=(+0.023,+0.033)  → galaxy_112196_draw0000
+  draw 0001  i=0.30  θ=0.50  g=(-0.033,-0.005)  → galaxy_112196_draw0001
+  draw 0002  i=0.64  θ=-2.03  g=(-0.018,-0.021)  → galaxy_112196_draw0002
+  draw 0003  i=0.72  θ=2.24  g=(-0.019,-0.004)  → galaxy_112196_draw0003
+  draw 0004  i=1.01  θ=1.62  g=(-0.060,-0.084)  → galaxy_112196_draw0004
+srun: Job step aborted: Waiting up to 62 seconds for job step to finish.
+Galaxies:   0%|          | 0/172 [00:00<?, ?it/s]Galaxies:   1%|          | 1/172 [01:29<4:15:02, 89.49s/it]Galaxies:   1%|          | 2/172 [03:20<4:48:52, 101.96s/it]slurmstepd: error: *** STEP 2225916.0 ON dn041 CANCELLED AT 2026-09-29T19:09:12 ***
+slurmstepd: error: *** JOB 2225916 ON dn041 CANCELLED AT 2026-09-29T19:09:12 ***

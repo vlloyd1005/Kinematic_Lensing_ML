@@ -1,0 +1,24 @@
+Available CPUs:  9
+Running on host: dn002
+Time is:         Tue Sep 29 10:43:17 AM EDT 2026
+Directory is:    /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML
+Job name:        kl_generate
+Job ID:          2224926
+Array task ID:   2
+
+=== Array task 2: processing snapshot 59 ===
+Snap 59: 300 rows written to /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/data/task_snap59.csv
+Rows to process:
+301 /gpfs/projects/MirandaGroup/vic/Kinematic_Lensing_ML/kl_dataset/data/task_snap59.csv
+Testing TNG API connection (TNG50-1) …
+  Connection OK
+
+Snapshot 59: z=0.7001  box=30.4 Mpc
+
+
+Processing subhalo 339442 (4/300) …
+  [339442] Fetching metadata …
+  [339442] Downloading stellar cutout …
+  [339442] Downloading gas cutout …
+Galaxies:   0%|          | 0/300 [00:00<?, ?it/s]slurmstepd: error: *** STEP 2224926.0 ON dn002 CANCELLED AT 2026-09-29T10:44:00 ***
+slurmstepd: error: *** JOB 2224926 ON dn002 CANCELLED AT 2026-09-29T10:44:00 ***

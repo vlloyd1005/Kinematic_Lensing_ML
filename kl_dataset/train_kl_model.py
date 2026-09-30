@@ -227,9 +227,9 @@ class KLShearDataset(Dataset):
         snap = int(row["snap"])
         g1   = float(row["g1"])
         g2   = float(row["g2"])
+        draw_idx = int(row["draw_idx"]) if "draw_idx" in self.df.columns else 0
 
-        gal_dir = self.images_root / f"snap{snap}" / f"galaxy_{sid}"
-
+        gal_dir  = _gal_dir(self.images_root, snap, sid, draw_idx)
         # ── Photometric input: sheared stellar image ──────────────────────
         if self.use_original_image:
             photo_raw = load_fits_image(
@@ -617,6 +617,11 @@ def plot_residual_hist(preds: np.ndarray, labels: np.ndarray,
 # ═══════════════════════════════════════════════════════════════════════════════
 # Data splitting  (stratified by galaxy ID to prevent leakage)
 # ═══════════════════════════════════════════════════════════════════════════════
+
+def _gal_dir(images_root: Path, snap: int, sid: int, draw_idx: int) -> Path:
+    """Return the galaxy output directory, accounting for draw_idx."""
+    return images_root / f"snap{snap}" / f"galaxy_{sid}_draw{draw_idx:04d}"
+
 
 def build_splits(df: pd.DataFrame, images_root: Path, npix: int,
                  use_original_image: bool = False,
