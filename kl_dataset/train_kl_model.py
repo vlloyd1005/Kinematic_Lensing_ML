@@ -618,9 +618,15 @@ def plot_residual_hist(preds: np.ndarray, labels: np.ndarray,
 # Data splitting  (stratified by galaxy ID to prevent leakage)
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def _gal_dir(images_root: Path, snap: int, sid: int, draw_idx: int) -> Path:
-    """Return the galaxy output directory, accounting for draw_idx."""
-    return images_root / f"snap{snap}" / f"galaxy_{sid}_draw{draw_idx:04d}"
+def _gal_dir(images_root: Path, snap: int, sid: int, draw_idx: int = 0) -> Path:
+    """
+    Galaxy folder: galaxy_<ID>_draw<NNNN>/ if it exists, else galaxy_<ID>/.
+    Multi-draw rows (expand_shear_draws.py) re-shear the original render on
+    the fly, so they can share the single galaxy_<ID>/ folder.
+    """
+    root = Path(images_root) / f"snap{snap}"
+    d = root / f"galaxy_{sid}_draw{draw_idx:04d}"
+    return d if d.exists() else root / f"galaxy_{sid}"
 
 
 def build_splits(df: pd.DataFrame, images_root: Path, npix: int,
@@ -678,25 +684,44 @@ def build_splits(df: pd.DataFrame, images_root: Path, npix: int,
 
 def filter_to_existing(df: pd.DataFrame, images_root: Path,
                        use_original_image: bool = False) -> pd.DataFrame:
-    """Drop rows where the required FITS files do not exist on disk."""
-    keep = []
-    for _, row in df.iterrows():
-        sid     = int(row["subhalo_id"])
-        snap    = int(row["snap"])
-        gal_dir = images_root / f"snap{snap}" / f"galaxy_{sid}"
-        photo_name = (f"galaxy_{sid}_image_original.fits" if use_original_image
-                      else f"galaxy_{sid}_image_sheared.fits")
-        if (
-            (gal_dir / photo_name).exists() and
-            (gal_dir / f"galaxy_{sid}_velmap_original.fits").exists()
-        ):
-            keep.append(True)
-        else:
-            keep.append(False)
+    """
+    Drop rows whose FITS files are missing or unreadable.
 
-    n_dropped = len(df) - sum(keep)
-    if n_dropped:
-        print(f"  [WARN] Dropping {n_dropped} rows with missing FITS files.")
+    Rows with draw_idx > 0 and no draw folder of their own can only be used
+    with --use_original_image: the pre-sheared image in galaxy_<ID>/ carries
+    the draw-0 shear, so it would not match that row's (g1, g2) labels.
+    """
+    has_draw   = "draw_idx" in df.columns
+    photo_tmpl = ("galaxy_{sid}_image_original.fits" if use_original_image
+                  else "galaxy_{sid}_image_sheared.fits")
+    keep, n_missing, n_corrupt, n_draw = [], 0, 0, 0
+
+    for _, row in df.iterrows():
+        sid, snap = int(row["subhalo_id"]), int(row["snap"])
+        draw      = int(row["draw_idx"]) if has_draw else 0
+        gal_dir   = _gal_dir(images_root, snap, sid, draw)
+
+        if draw > 0 and not use_original_image and gal_dir.name == f"galaxy_{sid}":
+            n_draw += 1; keep.append(False); continue
+
+        files = [gal_dir / photo_tmpl.format(sid=sid),
+                 gal_dir / f"galaxy_{sid}_velmap_original.fits"]
+        if not all(f.exists() for f in files):
+            n_missing += 1; keep.append(False); continue
+        try:
+            for f in files:
+                fits.getheader(str(f))
+        except Exception:
+            n_corrupt += 1; keep.append(False); continue
+        keep.append(True)
+
+    if n_missing:
+        print(f"  [WARN] Dropping {n_missing} rows with missing FITS files.")
+    if n_corrupt:
+        print(f"  [WARN] Dropping {n_corrupt} rows with unreadable FITS files.")
+    if n_draw:
+        print(f"  [WARN] Dropping {n_draw} multi-draw rows without their own "
+              f"draw folder (rerun with --use_original_image to use them).")
     return df[keep].reset_index(drop=True)
 
 
@@ -715,10 +740,14 @@ def filter_by_vel_fill(df: pd.DataFrame, images_root: Path,
 
     fills = {}
     for sid, snap in df[["subhalo_id", "snap"]].drop_duplicates().itertuples(index=False):
-        path = (images_root / f"snap{int(snap)}" / f"galaxy_{int(sid)}" /
+        path = (_gal_dir(images_root, int(snap), int(sid)) /
                 f"galaxy_{int(sid)}_velmap_original.fits")
-        with fits.open(str(path)) as hdul:
-            fills[(sid, snap)] = float(np.isfinite(hdul[0].data).mean())
+        try:
+            with fits.open(str(path)) as hdul:
+                fills[(sid, snap)] = float(np.isfinite(hdul[0].data).mean())
+        except Exception as exc:
+            print(f"  [WARN] {path.name}: {exc}; treating as empty")
+            fills[(sid, snap)] = 0.0
 
     fill = np.array([fills[(s, n)] for s, n in zip(df["subhalo_id"], df["snap"])])
     keep = fill >= min_fill
