@@ -15,9 +15,10 @@ Evaluations (run in order, see EVALUATIONS)
   2. Absolute error percentiles
   3. Fractional error percentiles
   4. Diagnostic plots (scatter, pred vs true, residual histograms)
-  5. Saliency maps (SmoothGrad) for a few random galaxies, plus the share
-     of saliency in the image border and per velocity channel
-     → <outdir>/saliency/
+  5. Saliency maps (SmoothGrad) for random galaxies drawn from bands of the
+     error distribution (default: g× error percentiles 0–25, 25–50, 50–75),
+     plus the share of saliency in the image border and per velocity
+     channel for each band → <outdir>/saliency/
   6. Error analysis: relates per-galaxy errors to galaxy properties
        - from the TNG API (cached): log M*, log SFR, log sSFR, gas fraction,
          stellar half-mass radius, v_max, metallicity, N gas particles
@@ -185,31 +186,26 @@ def eval_error_analysis(preds, labels, ctx):
     return out
 
 
-def eval_saliency(preds, labels, ctx):
+def _pick_rows_by_error(df, err, edges, n, rng):
     """
-    SmoothGrad saliency maps for a few random galaxies (one draw each):
-    |∂g_pred / ∂input| averaged over noisy copies of the input.
-
-    Also reports the fraction of saliency in the outer border of the image
-    versus the border's share of the area.  A ratio well above 1 means the
-    model is looking at the image edges (e.g. the padded region created by
-    shearing), not the galaxy.
+    For each percentile band [edges[k], edges[k+1]) of err, pick up to n rows
+    at random, at most one per galaxy.  Returns [(p_lo, p_hi, e_lo, e_hi, idxs)].
     """
-    args = ctx["args"]
-    if args.n_saliency <= 0:
-        return {}
-    model, ds, device, df = ctx["model"], ctx["dataset"], ctx["device"], ctx["df"]
-    out_dir = ctx["out_dir"] / "saliency"
-    out_dir.mkdir(parents=True, exist_ok=True)
+    cuts  = np.percentile(err, edges)
+    bands = []
+    for k in range(len(edges) - 1):
+        p_lo, p_hi = edges[k], edges[k + 1]
+        e_lo, e_hi = cuts[k], cuts[k + 1]
+        upper = (err <= e_hi) if p_hi >= 100 else (err < e_hi)
+        cand = df.loc[(err >= e_lo) & upper, ["subhalo_id", "snap"]].copy()
+        cand["_r"] = rng.random(len(cand))
+        cand = cand.sort_values("_r").drop_duplicates(["subhalo_id", "snap"])
+        bands.append((p_lo, p_hi, e_lo, e_hi, cand.index[:n].to_numpy()))
+    return bands
 
-    # one random row per galaxy, n_saliency galaxies
-    rng  = np.random.default_rng(args.saliency_seed)
-    gals = df.drop_duplicates(["subhalo_id", "snap"])
-    idxs = rng.choice(gals.index.to_numpy(),
-                      size=min(args.n_saliency, len(gals)), replace=False)
 
-    model.eval()
-    n_s, noise = args.smoothgrad_samples, args.smoothgrad_noise
+def _saliency_maps(model, ds, device, df, idxs, err, n_s, noise):
+    """SmoothGrad |∂g_pred/∂input| for the dataset rows in idxs."""
     results = []
     for i in idxs:
         photo, vel, lab = ds[int(i)]
@@ -233,43 +229,48 @@ def eval_saliency(preds, labels, ctx):
         row = df.loc[int(i)]
         results.append({
             "sid": int(row["subhalo_id"]), "snap": int(row["snap"]),
-            "true": lab.numpy(), "pred": pred,
+            "true": lab.numpy(), "pred": pred, "err": float(err[int(i)]),
             "photo": photo[0, 0].cpu().numpy(),
-            "vel":   vel[0].cpu().numpy(),                               # (3,H,W)
+            "vel":   vel[0].cpu().numpy(),                                    # (3,H,W)
             **{f"sal_photo_{t}": sal[t][0][0].sum(0).cpu().numpy() for t in sal},
             **{f"sal_vel_{t}":   sal[t][1][0].cpu().numpy()        for t in sal},  # (3,H,W)
         })
+    return results
 
-    # ── Border-saliency statistic ───────────────────────────────────────────
+
+def _saliency_stats(results, border_frac, suffix):
+    """Border share and velocity-channel share; prints and returns a dict."""
     H = results[0]["photo"].shape[0]
-    m = max(1, int(round(args.saliency_border * H)))
+    m = max(1, int(round(border_frac * H)))
     border = np.ones((H, H), bool); border[m:-m, m:-m] = False
     area_frac = border.mean()
 
     out = {"saliency_border_area_frac": float(area_frac)}
-    print(f"\n  Saliency in outer {args.saliency_border:.0%} border "
+    print(f"  Saliency in outer {border_frac:.0%} border "
           f"(border = {area_frac:.0%} of area; ratio > 1 means edge-focused)")
     for t, sym in (("g1", "g+"), ("g2", "g×")):
         for stream in ("photo", "vel"):
-            fr = np.mean([
-                (lambda s: s[border].sum() / s.sum())(
-                    r[f"sal_{stream}_{t}"] if stream == "photo"
-                    else r[f"sal_{stream}_{t}"].sum(0))
-                for r in results])
-            out[f"saliency_border_frac_{stream}_{t}"] = float(fr)
+            fracs = []
+            for r in results:
+                s_map = r[f"sal_{stream}_{t}"]
+                if stream == "vel":
+                    s_map = s_map.sum(0)
+                fracs.append(s_map[border].sum() / s_map.sum())
+            fr = float(np.mean(fracs))
+            out[f"saliency_border_frac_{stream}_{t}_{suffix}"] = fr
             print(f"    {sym} {stream:<5}: {fr:.1%}  (ratio {fr / area_frac:.2f})")
 
-    # Share of velocity-stream saliency per channel
-    ch_names = ["v_obs", "v_asym", "v_sym"]
     for t, sym in (("g1", "g+"), ("g2", "g×")):
         tot = np.sum([r[f"sal_vel_{t}"].sum(axis=(1, 2)) for r in results], axis=0)
         share = tot / tot.sum()
         print(f"  {sym} velocity-channel share: " +
-              "  ".join(f"{n}={s:.0%}" for n, s in zip(ch_names, share)))
-        for n, s in zip(ch_names, share):
-            out[f"saliency_vel_share_{n}_{t}"] = float(s)
+              "  ".join(f"{n}={s:.0%}" for n, s in zip(VEL_CHANNELS, share)))
+        for n, s in zip(VEL_CHANNELS, share):
+            out[f"saliency_vel_share_{n}_{t}_{suffix}"] = float(s)
+    return out, m, H
 
-    # ── Plots ───────────────────────────────────────────────────────────────
+
+def _saliency_plots(results, out_dir, stub, band_title, sym, m, H):
     def show(ax, img, cmap, title, sal=False):
         if sal:
             vmax = np.percentile(img, 99.5) or 1.0
@@ -281,11 +282,13 @@ def eval_saliency(preds, labels, ctx):
         ax.set_title(title, fontsize=8); ax.set_xticks([]); ax.set_yticks([])
 
     n = len(results)
-    fig, axes = plt.subplots(n, 6, figsize=(16, 2.8 * n), squeeze=False)
+
+    # Overview: inputs + saliency for both components and both streams
+    fig, axes = plt.subplots(n, 6, figsize=(16, 2.8 * n + 0.6), squeeze=False)
     for r_i, r in enumerate(results):
         ax = axes[r_i]
         show(ax[0], r["photo"], "gray",
-             f"id {r['sid']} (snap {r['snap']}) photo\n"
+             f"id {r['sid']} (snap {r['snap']})  |Δ{sym}|={r['err']:.4f}\n"
              f"g+ {r['true'][0]:+.3f}→{r['pred'][0]:+.3f}  "
              f"g× {r['true'][1]:+.3f}→{r['pred'][1]:+.3f}")
         show(ax[1], r["vel"][0], "RdBu_r", "v_obs input")
@@ -293,23 +296,86 @@ def eval_saliency(preds, labels, ctx):
         show(ax[3], r["sal_vel_g1"].sum(0),  "magma", "∂g+/∂vel",   sal=True)
         show(ax[4], r["sal_photo_g2"],       "magma", "∂g×/∂photo", sal=True)
         show(ax[5], r["sal_vel_g2"].sum(0),  "magma", "∂g×/∂vel",   sal=True)
+    fig.suptitle(band_title, fontsize=11)
     fig.tight_layout()
-    fname = out_dir / f"saliency_{ctx['name']}.png"
+    fname = out_dir / f"saliency_{stub}.png"
     fig.savefig(fname, dpi=130, bbox_inches="tight"); plt.close(fig)
     print(f"  Saved: saliency/{fname.name}")
 
     # g× saliency per velocity channel
-    fig, axes = plt.subplots(n, 6, figsize=(16, 2.8 * n), squeeze=False)
+    fig, axes = plt.subplots(n, 6, figsize=(16, 2.8 * n + 0.6), squeeze=False)
     for r_i, r in enumerate(results):
-        for c, name_c in enumerate(ch_names):
-            show(axes[r_i, c], r["vel"][c], "RdBu_r",
-                 f"id {r['sid']}  {name_c} input" if c == 0 else f"{name_c} input")
+        for c, name_c in enumerate(VEL_CHANNELS):
+            title = (f"id {r['sid']}  |Δ{sym}|={r['err']:.4f}\n{name_c} input"
+                     if c == 0 else f"{name_c} input")
+            show(axes[r_i, c], r["vel"][c], "RdBu_r", title)
             show(axes[r_i, 3 + c], r["sal_vel_g2"][c], "magma",
                  f"∂g×/∂{name_c}", sal=True)
+    fig.suptitle(band_title, fontsize=11)
     fig.tight_layout()
-    fname = out_dir / f"saliency_gx_vel_channels_{ctx['name']}.png"
+    fname = out_dir / f"saliency_gx_vel_channels_{stub}.png"
     fig.savefig(fname, dpi=130, bbox_inches="tight"); plt.close(fig)
     print(f"  Saved: saliency/{fname.name}")
+
+
+VEL_CHANNELS = ["v_obs", "v_asym", "v_sym"]
+
+
+def eval_saliency(preds, labels, ctx):
+    """
+    SmoothGrad saliency maps (|∂g_pred / ∂input| averaged over noisy copies
+    of the input), for galaxies drawn from bands of the error distribution.
+
+    Rows are ranked by |pred − true| on --saliency_component (default g×).
+    For each percentile band set by --saliency_bins (default 0–25, 25–50,
+    50–75), --n_saliency distinct galaxies are drawn at random and get their
+    own figures.  Comparing bands shows whether well- and poorly-predicted
+    galaxies are read differently by the model.
+
+    Each band also reports the share of saliency in the outer image border
+    versus the border's share of the area (ratio well above 1 = the model
+    looks at the edges, not the galaxy), and the share per velocity channel.
+
+    Each map is scaled to its own 99.5th percentile, so the figures show
+    WHERE the model looks, not how strongly; compare magnitudes via the
+    printed shares, not the colours.
+    """
+    args = ctx["args"]
+    if args.n_saliency <= 0:
+        return {}
+    model, ds, device, df = ctx["model"], ctx["dataset"], ctx["device"], ctx["df"]
+    out_dir = ctx["out_dir"] / "saliency"
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    comp = args.saliency_component
+    col  = 0 if comp == "g1" else 1
+    sym  = "g+" if comp == "g1" else "g×"
+    err  = np.abs(preds[:, col] - labels[:, col])
+    edges = sorted(set(float(e) for e in args.saliency_bins))
+    if len(edges) < 2 or edges[0] < 0 or edges[-1] > 100:
+        print("  [WARN] --saliency_bins needs ≥2 edges in [0, 100]; skipping saliency.")
+        return {}
+
+    rng   = np.random.default_rng(args.saliency_seed)
+    bands = _pick_rows_by_error(df, err, edges, args.n_saliency, rng)
+
+    model.eval()
+    out = {}
+    for p_lo, p_hi, e_lo, e_hi, idxs in bands:
+        tag = f"p{p_lo:g}-{p_hi:g}"
+        band_title = (f"{sym} error percentile {p_lo:g}–{p_hi:g}  "
+                      f"(|Δ{sym}| {e_lo:.4f}–{e_hi:.4f})")
+        print(f"\n── Saliency: {band_title}, {len(idxs)} galaxies ──")
+        if len(idxs) == 0:
+            print("  No galaxies in this band; skipping.")
+            continue
+
+        results = _saliency_maps(model, ds, device, df, idxs, err,
+                                 args.smoothgrad_samples, args.smoothgrad_noise)
+        stats, m, H = _saliency_stats(results, args.saliency_border, tag)
+        out.update(stats)
+        _saliency_plots(results, out_dir, f"{ctx['name']}_{comp}_{tag}",
+                        band_title, sym, m, H)
     return out
 
 
@@ -743,7 +809,13 @@ def parse_args():
 
     sa = p.add_argument_group("saliency")
     sa.add_argument("--n_saliency", type=int, default=5,
-                    help="Number of random galaxies for saliency maps (0 = off)")
+                    help="Galaxies per error band for saliency maps (0 = off)")
+    sa.add_argument("--saliency_component", choices=["g1", "g2"], default="g2",
+                    help="Component whose |error| defines the bands (default g×)")
+    sa.add_argument("--saliency_bins", type=float, nargs="+",
+                    default=[0, 25, 50, 75],
+                    help="Percentile edges of the error bands (default "
+                         "0 25 50 75 → three bands; add 100 for the worst quarter)")
     sa.add_argument("--saliency_seed", type=int, default=0)
     sa.add_argument("--smoothgrad_samples", type=int, default=16,
                     help="Noisy copies averaged per map (1 = plain gradient)")
