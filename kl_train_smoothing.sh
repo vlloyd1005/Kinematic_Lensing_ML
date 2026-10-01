@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=kl_smooth
-#SBATCH --partition=b40x4
+#SBATCH --partition=b40x4-long
 #SBATCH --nodes=1
 #SBATCH --gpus=1
 #SBATCH --cpus-per-task=8
@@ -12,12 +12,14 @@
 module load miniconda/3
 
 # If your environment is called something specific:
-source "$(conda info --base)/etc/profile.d/conda.sh"
+source ~/.bashrc
+source /lustre/nvwulf/projects/MirandaGroup-nvwulf/victoria/miniforge/etc/profile.d/conda.sh
+conda deactivate
 conda activate vic_kl
 
 cd "$SLURM_SUBMIT_DIR"
 
-sigmas=(0 1 1.5 2 4)
+sigmas=(0.5) #(0 1 1.5 2 4)
 sigma=${sigmas[$SLURM_ARRAY_TASK_ID]}
 
 outdir="kl_dataset/model_output_full/sigma_${sigma}"
