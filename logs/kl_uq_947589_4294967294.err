@@ -1,0 +1,17 @@
+usage: train_kl_model_uq.py [-h] --images_root IMAGES_ROOT --csv CSV
+                            [--outdir OUTDIR] [--npix NPIX] [--epochs EPOCHS]
+                            [--batch_size BATCH_SIZE] [--lr LR]
+                            [--weight_decay WEIGHT_DECAY]
+                            [--num_workers NUM_WORKERS] [--no_pretrain]
+                            [--freeze_stem] [--seed SEED]
+                            [--split_seed SPLIT_SEED] [--patience PATIENCE]
+                            [--use_original_image]
+                            [--min_vel_fill MIN_VEL_FILL]
+                            [--crop_frac CROP_FRAC]
+                            [--smooth_sigma SMOOTH_SIGMA]
+                            [--smooth_target {both,photo,vel}]
+                            [--n_members N_MEMBERS] [--member MEMBER]
+                            [--aggregate_only] [--beta BETA]
+                            [--mse_warmup MSE_WARMUP]
+                            [--mc_samples MC_SAMPLES]
+train_kl_model_uq.py: error: argument --member: expected one argument
