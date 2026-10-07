@@ -106,8 +106,16 @@ def wcs_from_offsets(dra, ddec, ra, dec):
     return w, float(resid)
 
 
-def read_pkl(path):
-    """Load one data_info pkl and attach WCS to its image and velocity map."""
+def read_pkl(path, strict_only=False):
+    """
+    Load one data_info pkl and attach WCS to its image and velocity map.
+
+    strict_only: restrict every velocity mask to the strict mask ('mask').
+    Use it for pkl files sheared by manga_shear.py: that script shears the
+    velocity only inside 'mask' and leaves the spaxels outside it with their
+    ORIGINAL, unsheared values (and 'default_mask' untouched), so the
+    coverage / DAP masks would mix sheared and unsheared velocities.
+    """
     d   = joblib.load(path)
     g   = d["galaxy"]
     im  = d["image"]
@@ -128,6 +136,8 @@ def read_pkl(path):
         "MASK_SNR":    np.asarray(gas["Halpha_snr_mask"]) > 0.5,
         "MASK_STRICT": np.asarray(gas["mask"]).astype(bool) & cover,
     }
+    if strict_only:
+        masks["MASK_COVER"] = masks["MASK_DAP"] = masks["MASK_STRICT"]
     meta = {
         "mangaid": str(g["mangaid"]).strip(), "plateifu": str(g["plateifu"]).strip(),
         "ra": ra, "dec": dec, "z": z, "src": os.path.basename(path),
@@ -136,7 +146,7 @@ def read_pkl(path):
         "img_psf": float(im["par_meta"].get("psfFWHM", 1.32)),
         "logmstar": (float(np.asarray(g["log10_Mstar"]).ravel()[0])
                      if "log10_Mstar" in g else None),
-        "img_off": img_off, "vel_resid": resid,
+        "img_off": img_off, "vel_resid": resid, "strict_only": bool(strict_only),
     }
     return {"meta": meta, "img": img, "img_wcs": iwcs,
             "contam": np.asarray(im["var"]) >= 1e13,
@@ -156,6 +166,8 @@ def _base_header(m):
     if m["logmstar"] is not None:
         h["LOGMSTAR"] = m["logmstar"]
     h["SRCFILE"]  = m["src"][:68]
+    if m.get("strict_only"):
+        h["VELMASKS"] = ("strict only", "VEL_DAP/VEL_ALL = strict (sheared input)")
     return h
 
 
@@ -212,7 +224,7 @@ def model_grid_wcs(ra, dec, z, fov_kpc, npix):
     return w, pix_as
 
 
-def save_grid(path, outdir, fov_kpc=30.0, npix=128, overwrite=False):
+def save_grid(path, outdir, fov_kpc=30.0, npix=128, overwrite=False, strict_only=False):
     """
     pkl -> <mangaid>_grid_image.fits + <mangaid>_grid_velmap.fits, both on
     the same npix x npix grid spanning fov_kpc: the field of the TNG training
@@ -224,15 +236,22 @@ def save_grid(path, outdir, fov_kpc=30.0, npix=128, overwrite=False):
     _grid_velmap.fits  PRIMARY: H-alpha velocity [km/s], strict mask (NaN = masked)
                        VEL_DAP: DAP quality mask only
                        VEL_ALL: every spaxel with a measurement (no quality cuts)
+    strict_only=True (sheared pkl from manga_shear.py): VEL_DAP and VEL_ALL
+    are the strict map too, see read_pkl.
     """
     from reproject import reproject_exact, reproject_interp
 
-    a = read_pkl(path)
+    a = read_pkl(path, strict_only)
     m = a["meta"]
     out_img = outdir / f"{m['mangaid']}_grid_image.fits"
     out_vel = outdir / f"{m['mangaid']}_grid_velmap.fits"
     if out_img.exists() and out_vel.exists() and not overwrite:
-        return _record(a, out_vel.name, "exists")
+        # already made: report its grid statistics from the header, so a
+        # rerun still writes a complete grid_manifest.csv
+        h = fits.getheader(out_vel, 0)
+        return {**_record(a, out_vel.name, "exists"), "arcsec_per_px": h.get("ARCS_PX"),
+                "img_coverage": h.get("IMGCOV"), "fill_strict": h.get("FILL_STR"),
+                "fill_dap": h.get("FILL_DAP"), "fill_all": h.get("FILL_ALL")}
 
     grid, pix_as = model_grid_wcs(m["ra"], m["dec"], m["z"], fov_kpc, npix)
     shape = (npix, npix)
@@ -274,7 +293,7 @@ def save_grid(path, outdir, fov_kpc=30.0, npix=128, overwrite=False):
 
 
 def save_grid_files(paths, outdir, fov_kpc=30.0, npix=None, checkpoint=None,
-                    overwrite=False):
+                    overwrite=False, strict_only=False, verbose=True):
     """
     Write aligned image + velocity files on the model grid for many pkl files.
 
@@ -290,19 +309,20 @@ def save_grid_files(paths, outdir, fov_kpc=30.0, npix=None, checkpoint=None,
             npix = int(ck.get("args", {}).get("npix", 128))
     outdir = Path(outdir); outdir.mkdir(parents=True, exist_ok=True)
     paths = sorted(paths)
-    print(f"{len(paths)} pkl files -> {outdir}  (grid {npix}x{npix}, {fov_kpc} kpc)")
+    print(f"{len(paths)} pkl files -> {outdir}  (grid {npix}x{npix}, {fov_kpc} kpc"
+          + (", strict mask only)" if strict_only else ")"))
 
     rows = []
     for i, f in enumerate(paths, 1):
         try:
-            r = save_grid(f, outdir, fov_kpc, npix, overwrite)
+            r = save_grid(f, outdir, fov_kpc, npix, overwrite, strict_only)
             if r["status"] == "ok":
                 _warn(r)
         except Exception as exc:
             r = {"src": os.path.basename(f), "status": f"error: {exc}"}
             print(f"  [ERROR] {os.path.basename(f)}: {exc}")
         rows.append(r)
-        if i % 50 == 0 or i == len(paths):
+        if verbose and (i % 50 == 0 or i == len(paths)):
             print(f"  {i}/{len(paths)} done")
     return _write_manifest(rows, outdir / "grid_manifest.csv")
 
@@ -340,6 +360,9 @@ def main():
     p.add_argument("--checkpoint", default=None)
     p.add_argument("--pattern", default="data_info-*.pkl")
     p.add_argument("--overwrite", action="store_true")
+    p.add_argument("--strict_only", action="store_true",
+                   help="pkl files sheared by manga_shear.py: use only the strict "
+                        "velocity mask (spaxels outside it are left unsheared)")
     a = p.parse_args()
     if not (a.outdir or a.grid_dir):
         p.error("give --outdir and/or --grid_dir")
@@ -364,7 +387,8 @@ def main():
         _write_manifest(rows, outdir / "manifest.csv")
 
     if a.grid_dir:
-        save_grid_files(files, a.grid_dir, a.fov_kpc, a.npix, a.checkpoint, a.overwrite)
+        save_grid_files(files, a.grid_dir, a.fov_kpc, a.npix, a.checkpoint, a.overwrite,
+                        a.strict_only)
 
 if __name__ == "__main__":
     main()
