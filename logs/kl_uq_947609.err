@@ -1,0 +1,1 @@
+ERROR: submit as an array job: sbatch --array=0-4 /cm/local/apps/slurm/var/spool/job947609/slurm_script

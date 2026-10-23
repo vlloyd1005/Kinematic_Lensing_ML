@@ -1,0 +1,21 @@
+{
+ "mode": "fixed",
+ "shear_dist": null,
+ "shear_seed": null,
+ "method": "imcom",
+ "psf_dilation_image": 1.2,
+ "psf_dilation_halpha": 1.15,
+ "imcom_rsearch": {
+  "image": 6.0,
+  "halpha": 8.0
+ },
+ "imcom_code": "InterpMatrix from PyIMCOM pyimcom.meta.ginterp (C. M. Hirata; MIT), commit 9ca33dd24aa87159ac9689faef49a1b7b49fcb22, unmodified copy in _vendor/",
+ "noise_seed": "crc32(mangaid)",
+ "noise_salt": 0,
+ "halpha_spikes": "dropped (K=10.0)",
+ "n_files": 40,
+ "inpaint": "gp",
+ "ell_scale": 1.0,
+ "erode": 1,
+ "convention": "u=+East (dRA cos dec), v=+North; g1>0 stretches E-W; g2>0 stretches along PA=45 deg (NE-SW); shear about galaxy centre. *_img_pix / *_vel_pix: same shear in each map's array axes (x=column, y=row)."
+}

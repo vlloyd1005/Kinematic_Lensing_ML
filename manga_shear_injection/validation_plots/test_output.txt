@@ -1,0 +1,59 @@
+test                                                                                                value      limit  result
+7  _vendor/pyimcom_ginterp.py unmodified (SHA-256 of body)                                          match      match  PASS   (PyIMCOM commit 9ca33dd, src/pyimcom/meta/ginterp.py)
+1a op(image) max |resid| / peak                                                                  3.26e-06   1.00e-05  PASS   (24 cases: 3 pixel orientations x shears x padding)
+1b op(image) max |resid| / max |shear signal|                                                    2.67e-04   1.00e-03  PASS   (error relative to the change the shear makes)
+1c op(velocity) max |v err| (km/s), untruncated maps                                              7.4e-07    1.0e-02  PASS   (off-centre galaxy (0.7, -0.45)")
+1d op(velocity) max |response err| / max |shear signal|, untruncated                              1.7e-07    1.0e-04  PASS   (signal up to 3.1 km/s)
+2a process: image max |resid| / peak, >= 6 px from the cutout edge                               5.51e-07   1.00e-05  PASS   (celestial TanWCS at Dec=30, sky=100 subtracted & restored)
+2a process: image max |resid| / peak, outer 6 px of the cutout                                   2.04e-05   1.00e-04  PASS   (galaxy light beyond the cutout is unknown (padding is zero-mean noise))
+2b process: intensity_map max |resid| / peak                                                     1.49e-09   1.00e-05  PASS
+2c process: velocity response error / signal, >= 3 spaxels from mask edge                          0.0064     0.0100  PASS   (shear signal up to 2.3 km/s; includes the small noise process() adds)
+2d process: velocity response error / signal, output spaxels <= 2 from mask edge                   0.0403     0.0500  PASS   (limited by how well the GP fill matches the gas just outside the mask (see 5a/5b))
+2e process: PSF FWHM updated by DIL_IMG / DIL_VEL                                                0.00e+00   1.00e-12  PASS
+3a sky frame: measured elongation angle - injected (deg)                                            0.000      0.500  PASS   (round source; g1>0 = E-W, g2>0 = NE-SW in true RA/Dec)
+3b image pixel frame: measured - shear_to_pixel (deg)                                               0.000      0.500  PASS   (moments in raw array axes (x=column, y=row))
+3c velocity grid, sky frame: measured - injected (deg)                                              0.000      0.500  PASS
+3d velocity grid, pixel frame: measured - shear_to_pixel (deg)                                      0.000      0.500  PASS
+4a image: median(empirical var / predicted var) - 1                                                0.0032     0.0350  PASS   (300 realisations; per-pixel scatter of ratio 0.085 (expect 0.082))
+4b velocity: median(empirical var / predicted var) - 1                                             0.0082     0.0500  PASS   (per-spaxel scatter 0.082 (expect 0.082))
+4b velocity: median ratio - 1, <=2 spaxels from mask edge                                          0.0076     0.1000  PASS   (86 spaxels)
+4c image: |median ratio - 1| in outer 3-pixel border                                               0.0099     0.1000  PASS   (edge padding: noise pad vs mode="edge" in noise_var)
+4d image: mean over realisations vs expected, rms z                                                 0.975      1.150  PASS   (z = (mean - analytic) / sem; one-sided: bias raises rms z; correlated noise often puts it below 1)
+4e velocity: mean over realisations vs expected, rms z                                              0.797      1.150  PASS
+4e velocity response (sheared - control): mean vs expected, rms z                                   0.948      1.250  PASS   (the shear signal itself; z uses the paired-difference scatter)
+4f symmetrised noise anisotropy, |z| of xi(1,0)-xi(0,1) and xi(1,1)-xi(1,-1)                         1.24       4.00  PASS   (without fixnoise the same statistic gives |z| = 33)
+4g sheared - control: residual noise rms / output noise rms                            img 0.487, vel 0.164     report  INFO   (metacal-style paired difference; smaller = less noise in the response)
+5a ellipse mask: response err / signal, >=2 spaxels from edge                                      0.0177     0.0200  PASS   (default erode=1 keeps these)
+5b ellipse mask: response err / signal, edge ring (erode=0)                                        0.0815     0.1000  PASS
+5a patchy mask: response err / signal, >=2 spaxels from edge                                       0.0108     0.0200  PASS   (default erode=1 keeps these (12% of mask knocked out as holes))
+5b patchy mask: response err / signal, edge ring (erode=0)                                         0.0549     0.1000  PASS
+5a [patchy] image: median(empirical var / predicted var) - 1                                       0.0006     0.0362  PASS   (200 realisations; per-pixel scatter of ratio 0.105 (expect 0.100))
+5b [patchy] velocity: median(empirical var / predicted var) - 1                                    0.0247     0.0500  PASS   (per-spaxel scatter 0.105 (expect 0.100))
+5b [patchy] velocity: median ratio - 1, <=2 spaxels from mask edge                                 0.0357     0.1000  PASS   (128 spaxels)
+5c [patchy] image: |median ratio - 1| in outer 3-pixel border                                      0.0203     0.1000  PASS   (edge padding: noise pad vs mode="edge" in noise_var)
+5d [patchy] image: mean over realisations vs expected, rms z                                        1.008      1.150  PASS   (z = (mean - analytic) / sem; one-sided: bias raises rms z; correlated noise often puts it below 1)
+5e [patchy] velocity: mean over realisations vs expected, rms z                                     0.619      1.150  PASS
+5e [patchy] velocity response (sheared - control): mean vs expected, rms z                          1.084      1.250  PASS   (the shear signal itself; z uses the paired-difference scatter)
+5f [patchy] symmetrised noise anisotropy, |z| of xi(1,0)-xi(0,1) and xi(1,1)-xi(1,-1)                0.48       4.00  PASS   (without fixnoise the same statistic gives |z| = 35)
+5g [patchy] sheared - control: residual noise rms / output noise rms                   img 0.486, vel 0.173     report  INFO   (metacal-style paired difference; smaller = less noise in the response)
+6a Halpha: |K - ideal| / peak beyond 3 px                                                         1.4e-04    2.0e-03  PASS   (DIL 1.15, Rsearch 8.0)
+6b Halpha: shear-dependent part |dK - dK_ideal| / peak beyond 3 px                                6.7e-04    3.0e-03  PASS   (the shear "tell"; physical shear signal is ~1e-2 of a pixel value)
+6c Halpha: max |K| beyond Rsearch + 3 px (finite support)                                         0.0e+00    0.0e+00  PASS
+L2 legacy galsim Halpha: shear-dependent part beyond 3 px                                         4.3e-02    3.0e-03  KNOWN   (DIL 1.0848528137423856: ringing of the original method)
+6a image: |K - ideal| / peak beyond 3 px                                                          4.0e-04    2.0e-03  PASS   (DIL 1.2, Rsearch 6.0)
+6b image: shear-dependent part |dK - dK_ideal| / peak beyond 3 px                                 1.1e-03    3.0e-03  PASS   (the shear "tell"; physical shear signal is ~1e-2 of a pixel value)
+6c image: max |K| beyond Rsearch + 3 px (finite support)                                          0.0e+00    0.0e+00  PASS
+L2 legacy galsim image: shear-dependent part beyond 3 px                                          1.9e-02    3.0e-03  KNOWN   (DIL 1.0848528137423856: ringing of the original method)
+8a spikes: false positives on a 1e4-bright PSF-convolved nucleus                                        0          0  PASS   (peak / disc median 1480)
+8b spikes: injected spikes found exactly (missed + spurious)                                            0          0  PASS   (amplitudes 1e4 and 30 x the local flux)
+8c spikes dropped: max |v - v(spike spaxels masked)| (km/s)                                       0.0e+00    1.0e-06  PASS   (2 spaxels dropped; output identical to masking them by hand)
+L3 legacy (spikes kept): max |v - v(spike masked)| > 2 spaxels from a spike (km/s)                57974.8        1.0  KNOWN   (what an unflagged spike does to its surroundings)
+L1 legacy (galsim, zero-fill): response error / signal, 2 spaxels from mask edge                    0.503     report  KNOWN   (first blind set: zero-fill + galsim ringing at the mask edge)
+L1 legacy (galsim, zero-fill): response error / signal, 3 spaxels from mask edge                    0.144     report  KNOWN
+L1 legacy (galsim, zero-fill): response error / signal, 4 spaxels from mask edge                    0.108     report  KNOWN
+L1 legacy (galsim, zero-fill): response error / signal, 5 spaxels from mask edge                    0.063     report  KNOWN
+L1 legacy (galsim, zero-fill): response error / signal, 6 spaxels from mask edge                    0.032     report  KNOWN
+L1 legacy (galsim, zero-fill): response error / signal, 7 spaxels from mask edge                    0.017     report  KNOWN
+L1 legacy (galsim, zero-fill): response error / signal, 8 spaxels from mask edge                    0.014     report  KNOWN
+
+0 failed, 10 known-limitation rows (see README)  (846 s)

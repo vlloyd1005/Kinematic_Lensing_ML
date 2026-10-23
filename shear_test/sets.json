@@ -1,0 +1,44 @@
+{
+ "n_galaxies": 40,
+ "g": 0.02,
+ "gmax": 0.03,
+ "seed": 0,
+ "frame": "g_grid = (g1_sky, -g2_sky); grid x = West, y = North",
+ "sets": {
+  "orig": {
+   "grid": "shear_test/grid_orig",
+   "g1_sky": 0.0,
+   "g2_sky": 0.0
+  },
+  "ctl": {
+   "grid": "shear_test/grid_ctl",
+   "g1_sky": 0.0,
+   "g2_sky": 0.0
+  },
+  "g1p": {
+   "grid": "shear_test/grid_g1p",
+   "g1_sky": 0.02,
+   "g2_sky": 0
+  },
+  "g1m": {
+   "grid": "shear_test/grid_g1m",
+   "g1_sky": -0.02,
+   "g2_sky": 0
+  },
+  "g2p": {
+   "grid": "shear_test/grid_g2p",
+   "g1_sky": 0,
+   "g2_sky": 0.02
+  },
+  "g2m": {
+   "grid": "shear_test/grid_g2m",
+   "g1_sky": 0,
+   "g2_sky": -0.02
+  },
+  "rnd": {
+   "grid": "shear_test/grid_rnd",
+   "g1_sky": null,
+   "g2_sky": null
+  }
+ }
+}

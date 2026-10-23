@@ -1,0 +1,73 @@
+======================================
+Ensemble member = 3
+Job ID          = 947605
+Node            = b40x4-04
+Start time      = Fri Oct  2 06:15:09 PM EDT 2026
+======================================
+Device: cuda
+  Velmap fill fraction per galaxy: <0.1: 7  0.1–0.5: 272  ≥0.5: 307
+  Dropping 7/586 galaxies (70 rows) with vel_fill_frac < 0.1
+Usable rows: 5790
+Split sizes — train: 4050  val: 870  test: 870
+Unique galaxies — train: 402  val: 87  test: 87
+
+══════════════════════════════════════════════════════════════════════
+  Ensemble member 3  (seed 45)
+══════════════════════════════════════════════════════════════════════
+[m3] Epoch   1/60 (MSE warm-up) | NLL train=-1.648 val=-1.495 | val RMSE g+=0.0552 g×=0.0526 | val median σ g+=0.0499 g×=0.0500
+[m3] Epoch   2/60 (MSE warm-up) | NLL train=-1.951 val=-1.937 | val RMSE g+=0.0196 g×=0.0320 | val median σ g+=0.0499 g×=0.0501
+[m3] Epoch   3/60 (MSE warm-up) | NLL train=-2.000 val=-1.977 | val RMSE g+=0.0174 g×=0.0265 | val median σ g+=0.0499 g×=0.0501
+[m3] Epoch   4/60 (MSE warm-up) | NLL train=-2.021 val=-1.979 | val RMSE g+=0.0168 g×=0.0264 | val median σ g+=0.0499 g×=0.0501
+[m3] Epoch   5/60 (MSE warm-up) | NLL train=-2.030 val=-1.991 | val RMSE g+=0.0160 g×=0.0246 | val median σ g+=0.0499 g×=0.0501
+[m3] Epoch   6/60 | NLL train=-2.045 val=-2.254 | val RMSE g+=0.0171 g×=0.0263 | val median σ g+=0.0323 g×=0.0363
+[m3] Epoch   7/60 | NLL train=-2.313 val=-2.311 | val RMSE g+=0.0264 g×=0.0214 | val median σ g+=0.0251 g×=0.0243
+[m3] Epoch   8/60 | NLL train=-2.504 val=-2.701 | val RMSE g+=0.0147 g×=0.0164 | val median σ g+=0.0193 g×=0.0185
+[m3] Epoch   9/60 | NLL train=-2.593 val=-2.771 | val RMSE g+=0.0144 g×=0.0152 | val median σ g+=0.0172 g×=0.0167
+[m3] Epoch  10/60 | NLL train=-2.758 val=-2.701 | val RMSE g+=0.0171 g×=0.0140 | val median σ g+=0.0131 g×=0.0147
+[m3] Epoch  11/60 | NLL train=-2.794 val=-2.670 | val RMSE g+=0.0169 g×=0.0157 | val median σ g+=0.0152 g×=0.0136
+[m3] Epoch  12/60 | NLL train=-2.703 val=-2.301 | val RMSE g+=0.0115 g×=0.0250 | val median σ g+=0.0141 g×=0.0135
+[m3] Epoch  13/60 | NLL train=-2.801 val=-2.965 | val RMSE g+=0.0106 g×=0.0142 | val median σ g+=0.0131 g×=0.0143
+[m3] Epoch  14/60 | NLL train=-2.874 val=-2.556 | val RMSE g+=0.0181 g×=0.0150 | val median σ g+=0.0119 g×=0.0121
+[m3] Epoch  15/60 | NLL train=-2.887 val=-2.156 | val RMSE g+=0.0213 g×=0.0180 | val median σ g+=0.0114 g×=0.0123
+[m3] Epoch  16/60 | NLL train=-2.859 val=-2.754 | val RMSE g+=0.0155 g×=0.0136 | val median σ g+=0.0118 g×=0.0129
+[m3] Epoch  17/60 | NLL train=-2.932 val=-2.677 | val RMSE g+=0.0161 g×=0.0152 | val median σ g+=0.0121 g×=0.0129
+[m3] Epoch  18/60 | NLL train=-2.894 val=-2.869 | val RMSE g+=0.0134 g×=0.0140 | val median σ g+=0.0117 g×=0.0125
+[m3] Epoch  19/60 | NLL train=-2.964 val=-2.343 | val RMSE g+=0.0133 g×=0.0216 | val median σ g+=0.0108 g×=0.0114
+[m3] Epoch  20/60 | NLL train=-2.922 val=-2.816 | val RMSE g+=0.0145 g×=0.0133 | val median σ g+=0.0117 g×=0.0103
+[m3] Epoch  21/60 | NLL train=-2.999 val=-2.989 | val RMSE g+=0.0099 g×=0.0137 | val median σ g+=0.0110 g×=0.0101
+[m3] Epoch  22/60 | NLL train=-2.941 val=-2.865 | val RMSE g+=0.0123 g×=0.0141 | val median σ g+=0.0121 g×=0.0098
+[m3] Epoch  23/60 | NLL train=-3.039 val=-2.817 | val RMSE g+=0.0126 g×=0.0139 | val median σ g+=0.0106 g×=0.0093
+[m3] Epoch  24/60 | NLL train=-3.086 val=-2.752 | val RMSE g+=0.0127 g×=0.0150 | val median σ g+=0.0093 g×=0.0100
+[m3] Epoch  25/60 | NLL train=-3.092 val=-2.799 | val RMSE g+=0.0108 g×=0.0143 | val median σ g+=0.0091 g×=0.0085
+[m3] Epoch  26/60 | NLL train=-3.053 val=-2.892 | val RMSE g+=0.0119 g×=0.0132 | val median σ g+=0.0098 g×=0.0097
+[m3] Epoch  27/60 | NLL train=-3.170 val=-2.718 | val RMSE g+=0.0120 g×=0.0153 | val median σ g+=0.0093 g×=0.0094
+[m3] Epoch  28/60 | NLL train=-3.091 val=-2.024 | val RMSE g+=0.0185 g×=0.0154 | val median σ g+=0.0087 g×=0.0088
+[m3] Epoch  29/60 | NLL train=-3.069 val=-2.990 | val RMSE g+=0.0101 g×=0.0136 | val median σ g+=0.0097 g×=0.0096
+[m3] Epoch  30/60 | NLL train=-3.171 val=-2.838 | val RMSE g+=0.0097 g×=0.0152 | val median σ g+=0.0087 g×=0.0089
+[m3] Epoch  31/60 | NLL train=-3.160 val=-2.858 | val RMSE g+=0.0103 g×=0.0140 | val median σ g+=0.0089 g×=0.0083
+[m3] Epoch  32/60 | NLL train=-3.023 val=-2.152 | val RMSE g+=0.0112 g×=0.0213 | val median σ g+=0.0097 g×=0.0094
+[m3] Epoch  33/60 | NLL train=-3.025 val=-2.880 | val RMSE g+=0.0104 g×=0.0147 | val median σ g+=0.0097 g×=0.0098
+[m3] Epoch  34/60 | NLL train=-3.160 val=-2.759 | val RMSE g+=0.0128 g×=0.0133 | val median σ g+=0.0084 g×=0.0092
+[m3] Epoch  35/60 | NLL train=-3.039 val=-2.764 | val RMSE g+=0.0132 g×=0.0132 | val median σ g+=0.0096 g×=0.0092
+[m3] Epoch  36/60 | NLL train=-3.099 val=-2.782 | val RMSE g+=0.0113 g×=0.0144 | val median σ g+=0.0104 g×=0.0084
+[m3] Epoch  37/60 | NLL train=-3.229 val=-2.457 | val RMSE g+=0.0151 g×=0.0129 | val median σ g+=0.0083 g×=0.0075
+[m3] Epoch  38/60 | NLL train=-2.990 val=-3.007 | val RMSE g+=0.0103 g×=0.0128 | val median σ g+=0.0104 g×=0.0092
+[m3] Epoch  39/60 | NLL train=-3.231 val=-2.881 | val RMSE g+=0.0102 g×=0.0135 | val median σ g+=0.0090 g×=0.0081
+[m3] Epoch  40/60 | NLL train=-3.313 val=-2.663 | val RMSE g+=0.0097 g×=0.0149 | val median σ g+=0.0085 g×=0.0076
+[m3] Epoch  41/60 | NLL train=-3.272 val=-2.849 | val RMSE g+=0.0104 g×=0.0129 | val median σ g+=0.0082 g×=0.0075
+[m3] Epoch  42/60 | NLL train=-3.343 val=-2.803 | val RMSE g+=0.0100 g×=0.0129 | val median σ g+=0.0074 g×=0.0071
+[m3] Epoch  43/60 | NLL train=-3.250 val=-2.861 | val RMSE g+=0.0096 g×=0.0131 | val median σ g+=0.0078 g×=0.0074
+[m3] Epoch  44/60 | NLL train=-3.290 val=-2.651 | val RMSE g+=0.0121 g×=0.0129 | val median σ g+=0.0079 g×=0.0073
+[m3] Epoch  45/60 | NLL train=-3.390 val=-2.787 | val RMSE g+=0.0096 g×=0.0132 | val median σ g+=0.0076 g×=0.0070
+[m3] Epoch  46/60 | NLL train=-3.349 val=-2.715 | val RMSE g+=0.0094 g×=0.0142 | val median σ g+=0.0073 g×=0.0072
+[m3] Epoch  47/60 | NLL train=-3.257 val=-2.629 | val RMSE g+=0.0108 g×=0.0140 | val median σ g+=0.0073 g×=0.0075
+[m3] Epoch  48/60 | NLL train=-3.368 val=-2.842 | val RMSE g+=0.0099 g×=0.0127 | val median σ g+=0.0073 g×=0.0072
+[m3] Epoch  49/60 | NLL train=-3.487 val=-2.777 | val RMSE g+=0.0096 g×=0.0130 | val median σ g+=0.0071 g×=0.0069
+[m3] Epoch  50/60 | NLL train=-3.380 val=-2.682 | val RMSE g+=0.0095 g×=0.0133 | val median σ g+=0.0070 g×=0.0067
+[m3] Early stopping at epoch 50.
+[m3] Best val NLL -3.0072 → kl_dataset/model_output_uq/member_3/best_model.pt
+
+Single member trained; run with --aggregate_only once all members are done.
+======================================
+Member 3 finished, return code = 0, end time = Fri Oct  2 06:19:01 PM EDT 2026
+======================================

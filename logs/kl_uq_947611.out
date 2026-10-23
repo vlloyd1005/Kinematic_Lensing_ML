@@ -1,0 +1,38 @@
+======================================
+Ensemble member = 
+Job ID          = 947611
+Node            = b40x4-04
+Start time      = Fri Oct  2 06:25:34 PM EDT 2026
+======================================
+Device: cuda
+  Velmap fill fraction per galaxy: <0.1: 7  0.1–0.5: 272  ≥0.5: 307
+  Dropping 7/586 galaxies (70 rows) with vel_fill_frac < 0.1
+Usable rows: 5790
+Split sizes — train: 4050  val: 870  test: 870
+Unique galaxies — train: 402  val: 87  test: 87
+
+── Ensemble evaluation: 5 members ──
+
+                                        g+          g×
+  RMSE                              0.0071      0.0102
+  median σ_total (raw)              0.0108      0.0109
+  median σ_aleatoric                0.0093      0.0088
+  median σ_epistemic                0.0052      0.0061
+  epistemic share of variance         24%         32% 
+  calibration scale s (val)         0.6811      0.9094
+  NLL raw                           -3.387      -3.179
+  NLL calibrated                    -3.542      -3.191
+  1σ coverage raw (68.3%)           89.3%       74.8% 
+  1σ coverage calibrated            73.6%       71.5% 
+  2σ coverage raw (95.4%)           99.5%       96.9% 
+  2σ coverage calibrated            97.1%       94.9% 
+  conformal 68% coverage            71.3%       72.4% 
+  conformal 95% coverage            97.1%       94.8% 
+  Spearman(|error|, σ)               0.150       0.092
+  multiplicative bias m            -0.0545     -0.0801
+  additive bias c                 +0.00041    +0.00083
+
+Saved predictions, summary and plots to /lustre/nvwulf/projects/MirandaGroup-nvwulf/victoria/Kinematic_Lensing_ML/kl_dataset/model_output_uq
+======================================
+Member  finished, return code = 0, end time = Fri Oct  2 06:25:57 PM EDT 2026
+======================================
